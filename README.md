@@ -25,7 +25,7 @@ features:
 
 - rewrite in ESM and typing using JSDoc
 
-- class override by Cascading Filesystem
+- class file override by Cascading Filesystem
   - using ORM.import, models in @lionrockjs/mod-* can be override by using mjs file in application/classes/model.
 
 - controller.before and controller.after
