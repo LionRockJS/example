@@ -41,13 +41,16 @@ features:
   - ORM static method to manipulate create / read Model
   - ORM static methods to read, count, update, delete Models applies to "ALL", "BY" key and values, or "WITH" criteria
   - Model can CRUD with eagerLoad function
-  - EagerLoad use "with" object:
+  - Model eagerLoad use "with" object:
 ````
 student.eagerLoad{
   with: ["School", "Teacher"],
   school: {with: ["Location"]}
 );
  ````
+  - Fast and secure ORM Model by explict declare fields, belongsTo and hasMany related tables.
+  - ORMInput and ORMWrite mixin allow form data directly edit model database
+    - example: html form name ":name" can edit model.name field
 
 - Router
 
