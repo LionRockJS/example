@@ -11,8 +11,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/mvc": "^0.0.1",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.2",
+    "@lionrockjs/mvc": "^0.0.2",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.3",
     "@lionrockjs/adapter-auth-password": "^0.0.3",
     "@lionrockjs/central": "^0.0.11",
