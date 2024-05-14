@@ -12,7 +12,7 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/central": "^0.0.11",
-    "@lionrockjs/mvc": "^0.0.1",
+    "@lionrockjs/mvc": "^0.0.2",
     "@lionrockjs/platform-web-node-http": "^0.0.4",
     "dotenv": "^16.4.5"
   },
