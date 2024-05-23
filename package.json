@@ -12,8 +12,8 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
-    "@lionrockjs/central": "^0.0.11",
-    "@lionrockjs/mvc": "^0.0.2",
+    "@lionrockjs/central": "^0.0.12",
+    "@lionrockjs/mvc": "^0.0.3",
     "@lionrockjs/platform-web-express": "^0.0.2",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.3",
     "@lionrockjs/mixin-form": "^0.0.3",
