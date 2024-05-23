@@ -12,8 +12,8 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
-    "@lionrockjs/central": "^0.0.11",
-    "@lionrockjs/mvc": "^0.0.2",
+    "@lionrockjs/central": "^0.0.12",
+    "@lionrockjs/mvc": "^0.0.3",
     "@lionrockjs/platform-web-node-http": "^0.0.4",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
