@@ -8,5 +8,5 @@ RouteList.add('/pages/:slug', 'controller/Home', 'page');
 [...Central.nodePackages.values()].forEach( async x => {
   const filePath = path.normalize(`${x}/routes.mjs`);
   if (!fs.existsSync(filePath)) return;
-  await import(filePath);
+  await import('file://' + filePath);
 });
