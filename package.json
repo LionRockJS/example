@@ -15,7 +15,7 @@
     "@lionrockjs/mvc": "^0.0.3",
     "@lionrockjs/platform-web-fastify": "^0.0.1",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
-    "@lionrockjs/mixin-form": "^0.0.3",
+    "@lionrockjs/mixin-form": "^0.0.4",
     "dotenv": "^16.4.5"
   }
 }
