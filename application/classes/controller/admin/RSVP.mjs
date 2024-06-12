@@ -10,21 +10,31 @@ export default class ControllerAdminRSVP extends ControllerAdmin {
     super(request, Lead, {
       roles: new Set(['staff', 'moderator']),
       databases: new Map([
-        ['lead', Central.config.setup.databaseFolder+'/www/lead.sqlite'],
-        ['lead_info', Central.config.setup.databaseFolder+'/www/lead_info.sqlite'],
-        ['mail', Central.config.setup.databaseFolder+'/mail.sqlite']
+        ['lead', Central.APP_PATH+'/../database/www/lead.sqlite'],
+        ['lead_info', Central.APP_PATH+'/../database/www/lead_info.sqlite'],
+        ['mail', Central.APP_PATH+'/../database/mail.sqlite']
       ]),
       templates: new Map([
         ['index', 'templates/admin/guests/index'],
         ['read', 'templates/admin/guests/read'],
         ['edit', 'templates/admin/guests/read'],
       ]),
-      database: 'guest',
+      database: 'lead',
       pagesize: 50,
     });
   }
 
-  async action_index() {}
+  async action_index() {
+   const instances = this.state.get('instances');
+   const databases = this.state.get(ControllerMixinDatabase.DATABASES);
+   await Promise.all(
+     instances.map(async it => {
+       const info = await ORM.factory(LeadInfo, it.id, {database: databases.get('lead_info')});
+        Object.assign(it, info);
+     })
+   )
+
+  }
 
   async action_send_email(){
     const {id} = this.state.get(Controller.STATE_PARAMS)
@@ -33,13 +43,13 @@ export default class ControllerAdminRSVP extends ControllerAdmin {
     const instance = await ORM.factory(Lead, id, {database});
     const info = await ORM.factory(LeadInfo, id, {database: databases.get('lead_info')});
 
-    Object.assign(instance, ...info);
+    Object.assign(instance, {...info});
 
     const helperRegister = new HelperRSVP(
       database,
       databases.get('mail'),
-      this.clientIP,
-      this.request.hostname
+      this.state.get(Controller.STATE_CLIENT_IP),
+      this.state.get(Controller.STATE_HOSTNAME)
     )
 
     await helperRegister.sendRSVP(instance, Central.config.edm);
@@ -47,7 +57,7 @@ export default class ControllerAdminRSVP extends ControllerAdmin {
     info.rsvp_code = "111.111.111";
     await info.write();
 
-    await this.redirect(this.request.query.cp || '/admin/rsvp/');
+    await this.redirect(this.state.get(Controller.STATE_QUERY).cp || '/admin/rsvp/');
   }
 
 }

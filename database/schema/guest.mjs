@@ -1,15 +1,3 @@
-const list = [
-  ["John Doe","john@example.com",""],
-]
-
-const guests = list.map((x, i) => ({
-  id: 1000+i,
-  language: "en",
-  title: "",
-  name: x[0],
-  last_name: "",
-  contact: x[1],
-  cc:x[2]
-}));
-
-export default guests;
+export default [
+  ["#1100","Alice Lee","alice@example.com","Somewhere","Central","1"],
+];

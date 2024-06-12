@@ -1,6 +1,8 @@
 type LeadInfos{
-    last_name: String
-    cc: String
+    order_number: String
+    shipping:String
+    city:String
+    quantity:String
     rsvp_code: String
-    salutation : String
+    rsvp_send: Boolean
 }

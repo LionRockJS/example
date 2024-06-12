@@ -7,5 +7,5 @@ build(__dirname, 'session', 'session');
 build(__dirname, 'admin', 'admin', '', true);
 build(__dirname, 'lead_info', 'lead_info', 'www', true);
 build(__dirname, 'lead', 'lead', 'www', true);
-build(__dirname, 'lead_action', 'lead_action', 'www', true);
+build(__dirname, 'lead_action', 'lead_action', 'www');
 build(__dirname, 'mail', 'mail');

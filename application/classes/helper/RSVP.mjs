@@ -33,18 +33,16 @@ export default class HelperRSVP {
         email: userEmail.replaceAll('.', '<span>.</span>'),
       });
 
-    const result = await this.helperMail.send(subject, text, sender, userEmail, {
+    await this.helperMail.send(subject, text, sender, userEmail, {
       bcc: config.mail.bcc,
       html,
       tokens
     });
-
-    await this.addNotification('REMINDER', result, instance.id);
   }
 
   async sendRSVP(instance, config){
     const language = instance.language;
-    const userEmail = instance.email;
+    const userEmail = (instance.contact_type === 'email') ? instance.contact : instance.email;
     const sender  = config.mail.rsvp.sender;
     const subject = config.mail.rsvp.subject.get(language);
     const text    = config.mail.rsvp.text.get(language);
@@ -61,23 +59,11 @@ export default class HelperRSVP {
         email: userEmail.replaceAll('.', '<span>.</span>'),
       });
 
-    console.log(config.mail.bcc);
-    const result = await this.helperMail.send(subject, text, sender, userEmail, {
+    await this.helperMail.send(subject, text, sender, userEmail, {
       bcc: config.mail.bcc,
       html,
       tokens,
       attachments
     });
-
-    await this.addNotification('RSVP', result, instance.id);
-  }
-
-  async addNotification(name, result, leadID){
-    const note = ORM.create(Notification, {database: this.leadDB});
-    note.name = name;
-    note.status = JSON.stringify(result);
-    if(result.id) note.message_id = result.id.replace('<', '').replace('>', '');
-    note.lead_id = leadID;
-    await note.write();
   }
 }

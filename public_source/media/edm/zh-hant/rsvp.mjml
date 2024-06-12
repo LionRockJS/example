@@ -1,0 +1,36 @@
+<mjml>
+    <mj-head>
+        <mj-include path="../style.mjml" />
+        <mj-preview></mj-preview>
+    </mj-head>
+
+    <mj-body background-color="#eee">
+        <mj-include path="../header.mjml" />
+        <mj-section padding-top="40px">
+            <mj-column>
+                <mj-text>
+                    <p style="margin-bottom:2.5em;"><strong>親愛的 {{@name}}，</strong></p>
+                    <p style="margin-bottom:1em;">感謝您的耐心等待， x {{@quantity}} 現已可以取貨。</p>
+
+                    <p style="margin-bottom:1em;">
+訂單號碼：<strong>{{@order_number}}</strong><br/>
+顧客名稱：{{@name}}<br/>
+電郵地址：{{@email}}<br/>
+自取地點：香港中環<br/>
+開放自取時間：<br/>
+逄星期二 至 星期五, 早上11:30 至 下午6:30<br/>
+逄星期六, 下午2:00 至 5:00<br/>
+</p>
+
+                    <p style="margin-bottom:1em;">到達後向工作人員出示此電郵，確認訂單號碼無誤後，便可取貨。</p>
+
+
+                    <p style="margin-top:1em; margin-bottom: 5em;">此致，<br>某公司</p>
+
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-include path="../footer.mjml" />
+    </mj-body>
+
+</mjml>

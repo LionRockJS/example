@@ -1,0 +1,31 @@
+<mjml>
+    <mj-head>
+        <mj-include path="../style.mjml" />
+        <mj-preview></mj-preview>
+    </mj-head>
+
+    <mj-body background-color="#eee">
+        <mj-include path="../header.mjml" />
+        <mj-section padding-top="40px">
+            <mj-column>
+                <mj-text>
+                    <p style="margin-bottom:2.5em;"><strong>Dear {{@name}}，</strong></p>
+                    <p style="margin-bottom:1em;">Your Product x {{@quantity}} is ready for pickup</p>
+
+                    <p style="margin-bottom:1em;">
+Order Number：<strong>{{@order_number}}</strong><br/>
+Customer Name：{{@name}}<br/>
+Email：{{@email}}<br/>
+Pickup Location： Somewhere, HK<br/>
+Opening Hours：<br/>
+Monday to Friday, 11:30AM to 6:30PM<br/>
+Saturday, 2:00PM to 5:00PM<br/>
+</p>
+                    <p style="margin-top:2.5em; margin-bottom: 5em;">XXX Company</p>
+
+                </mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+
+</mjml>

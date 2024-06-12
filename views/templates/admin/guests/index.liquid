@@ -1,25 +1,31 @@
-<div class="container">
+<div>
     <h4>Guests</h4>
     {% render "pagination", maxPage: maxPage, current_url: '/admin/rsvp',  page: page %}
-    <table class="table table-hover">
+    <table class="w-full divide-y divide-gray-300">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>CC</th>
-            <th>Language</th>
-            <th>Name</th>
-            <th></th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ID</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Language</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Order Number</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Qty</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Shipping</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">City</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
         </tr>
         </thead>
         {% for item in items %}
             <tr>
-                <td>{{item.id}}</td>
-                <td>{{ item.contact | escape }}</td>
-                <td>{{ item.cc | truncate:20 }}</td>
-                <td>{{item.language}}</td>
-                <td>{{item.name}} {{ item.last_name }}</td>
-                <td><a class="btn btn-{% if item.rsvp_code == blank %}primary{% else %}secondary{% endif %}" href="/admin/rsvp/send/{{ item.id }}?cp=/admin/rsvp?page={{ page }}">{% if item.rsvp_code != blank %}Re-{% endif %}Send Email</a></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.id}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.language}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.contact | escape }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.order_number}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.name}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.quantity}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.shipping}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.city}}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><a class="rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 {% if item.rsvp_code == blank %}bg-indigo-600 focus-visible:outline-indigo-600{% else %}bg-gray-600 focus-visible:outline-gray-600{% endif %}" href="/admin/rsvp/send/{{ item.id }}?cp=/admin/rsvp?page={{ page }}">{% if item.rsvp_code != blank %}Re-{% endif %}Send Email</a></td>
             </tr>
         {% endfor %}
     </table>

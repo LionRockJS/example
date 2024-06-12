@@ -1,0 +1,8 @@
+    <mj-attributes>
+      <mj-text color="#555555" font-size="14px" line-height="1.5" padding="0 30px" font-family="Helvetica, Arial, sans-serif"/>
+      <mj-section padding="0" background-size="100% auto" background-color="#FFFFFF"/>
+      <mj-image padding="0"/>
+      <mj-button background-color="#C50E86" color="white" />
+      
+      <mj-class name="headline" align="center" color="#C30E84" font-size="25px" font-family="Helvetica, Arial, sans-serif" font-weight="bold" padding-bottom="28px" letter-spacing="0.1em"/>
+    </mj-attributes>
