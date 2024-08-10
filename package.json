@@ -15,7 +15,7 @@
     "@lionrockjs/adapter-view-liquidjs": "^0.0.5",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.3",
     "@lionrockjs/adapter-auth-password": "^0.0.3",
-    "@lionrockjs/adapter-session-database": "^0.0.1",
+    "@lionrockjs/adapter-session-jwt": "^0.0.1",
     "@lionrockjs/central": "^0.0.14",
     "@lionrockjs/mixin-orm": "^0.0.4",
     "@lionrockjs/mixin-form": "^0.0.4",

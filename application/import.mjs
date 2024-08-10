@@ -3,18 +3,18 @@ import { View } from '@lionrockjs/mvc';
 import AdapterViewLiquid, { LiquidView } from '@lionrockjs/adapter-view-liquidjs';
 import { ORMAdapterSQLite, DatabaseAdapterBetterSQLite3 } from "@lionrockjs/adapter-database-better-sqlite3";
 import MixinSession, {ControllerMixinSession} from '@lionrockjs/mixin-session';
-import AdapterSessionDatabase, { SessionDatabase } from "@lionrockjs/adapter-session-database";
+import AdapterSessionJWT, { SessionJWT } from "@lionrockjs/adapter-session-jwt";
 
 View.DefaultViewClass = LiquidView;
 Model.defaultAdapter = ORMAdapterSQLite;
 ControllerMixinDatabase.defaultAdapter = DatabaseAdapterBetterSQLite3;
-ControllerMixinSession.defaultAdapter = SessionDatabase;
+ControllerMixinSession.defaultAdapter = SessionJWT;
 
 await (async () => {
   Central.addModules([
     AdapterViewLiquid,
     MixinSession,
-    AdapterSessionDatabase,
+    AdapterSessionJWT,
     await import('@lionrockjs/mixin-form'),
     await import('@lionrockjs/mod-auth'),
     await import('@lionrockjs/adapter-auth-password'),
