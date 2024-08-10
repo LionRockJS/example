@@ -2,10 +2,18 @@ import path from 'node:path';
 import {Central} from '@lionrockjs/central';
 import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
 
+const databaseMapName = 'admin';
+const userDatabase = 'admin.sqlite';
+
 export default {
   databasePath: path.normalize(Central.EXE_PATH + '/../database'),
-  userDatabase: 'admin.sqlite',
-  databaseMapName : "admin",
+  userDatabase,
+  databaseMapName,
+  databaseMap: new Map([
+    [databaseMapName, `${Central.EXE_PATH}/../database/${userDatabase}`],
+    ['session', `${Central.EXE_PATH}/../database/session.sqlite`]
+  ]),
+
   identifiers: [IdentifierPassword],
   destination: 'admin',
 };
