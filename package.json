@@ -11,8 +11,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
-    "@lionrockjs/central": "^0.0.14",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.5",
+    "@lionrockjs/central": "^0.0.15",
     "@lionrockjs/mvc": "^0.0.3",
     "@lionrockjs/platform-web-node-http": "^0.0.4",
     "dotenv": "^16.4.5",
