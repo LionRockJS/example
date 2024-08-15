@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "header": {
+      "type": "page/list/header",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "page/list/main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header",
+    "main"
+  ]
+}

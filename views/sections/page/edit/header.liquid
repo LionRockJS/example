@@ -1,0 +1,29 @@
+<div class="container mx-auto px-4 flex flex-row bg-gray-400 rounded-lg text-white py-4 mb-8">
+  <div class="w-9/12">
+    <input form="main-form" class="inline-edit text-5xl" type="text" placeholder="{{ label }}" name=":name" value="{{ item.name }}" required>
+    <div>
+      <label class="inline" for="slug">https://{{ domain | default: "www.example.com" }}/{{ language }}/{{ page_type }}/</label><input form="main-form" class="inline-edit" type="text" name=":slug" value="{{ item.slug }}" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
+    </div>
+  </div>
+
+  <div class="w-3/12">
+    <div>
+      <h5 class="border-b border-white">Page Schedule</h5>
+      <div class="text-end">
+        {% if published %}
+          <a class="button-secondary" href="/admin/pages/un-publish/{{ item.id }}?language={{ language }}">Un-Publish</a>
+          {% if sync != true%}<button class="button-primary" type="submit" form="main-form" name="action" value="publish">Update Live Version</button>{% endif %}
+        {% else %}
+          {% capture untitled_name %}Untitled {{ page_type }}{% endcapture %}
+          {% if item.name != untitled_name %}
+            <button form="main-form" type="submit" name="action" value="publish" class="button-primary">Publish</button>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hidden">
+      {% render 'pagefield/date/range-tz', label: "From (+08:00)", selector:":start", value: item.start, label2: "To (+08:00)", selector2:":end", value2: item.end %}
+    </div>
+  </div>
+</div>

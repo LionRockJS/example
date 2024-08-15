@@ -1,6 +1,4 @@
-<div class="input-group mb-2">
-  <span class="form-control p-0">
-  <label for="{{ selector }}" class="fs-50 lh-1 bg-white" style="position: absolute; padding: 0 0.70rem; margin-top: -0.6em;">{{ label }}</label>
-  <input class="form-control border-0 page-field-upload-text" type="text" name="{{ selector }}" value="{{ value }}" id="field-{{ selector }}" placeholder="{{ placeholder | default: label }}"/>
-  </span>
+<div class="relative">
+  <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{{ label }}</label>
+  <input type="text" name="{{ selector }}" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder | default: label }}" value="{{ value }}">
 </div>

@@ -1,32 +1,3 @@
-"use strict";
-
-function setupNavMenu() {
-  //open navigation menu
-  const menuToggle = document.getElementById('nav-menu-toggle');
-  const menu = document.getElementById('nav-menu');
-  const menuClose = document.getElementById('nav-menu-close');
-  if (menuToggle && menu) {
-    const open = () => {
-      document.body.classList.add('modal-open', 'nav-menu-open');
-    };
-    const close = () => {
-      document.body.classList.remove('modal-open', 'nav-menu-open');
-      document.body.style.paddingRight = "";
-    };
-    if (menuClose) {
-      menuClose.addEventListener('click', ev => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        close();
-      });
-    }
-    menuToggle.addEventListener('click', ev => {
-      ev.preventDefault();
-      ev.stopPropagation();
-      document.body.classList.contains('nav-menu-open') ? close() : open();
-    });
-  }
-}
 function setupScrollHeader() {
   // header scroll
   const header = document.querySelector('body>header');
@@ -59,7 +30,5 @@ function setupScheduler() {
 }
 (fn => document.readyState !== 'loading' ? fn() : document.addEventListener('DOMContentLoaded', fn))(() => {
   setupScrollHeader();
-  setupNavMenu();
   setupScheduler();
 });
-//# sourceMappingURL=admin.js.map

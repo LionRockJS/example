@@ -1,3 +1,4 @@
-<div class="mb-2">
-  <textarea class="form-control" type="text" name="{{ selector }}" id="field-{{ selector }}" placeholder="{{ placeholder | default: label }}" rows="{{ rows | default : 4 }}">{{ value }}</textarea>
+<div class="relative">
+  <label for="field-{{ selector }}" class="hidden">{{ label }}</label>
+  <textarea type="text" name="{{ selector }}" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder | default: label | truncate: 200 }}" rows="{{ rows | default : 4 }}">{{ value }}</textarea>
 </div>

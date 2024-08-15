@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "assets-source",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind": "npx tailwindcss -i ./media/css/style.css -o ../public/media/css/style.css --watch",
+    "sass": "npx sass ./media/css:../public/media/css --source-map --watch",
+    "mjml1": "mjml --watch ./media/edm/en/rsvp.mjml -o ../public/media/edm/en/rsvp.html",
+    "mjml2": "mjml --watch ./media/edm/zh-hant/rsvp.mjml -o ../public/media/edm/zh-hant/rsvp.html",
+    "mjml3": "mjml --watch ./media/edm/zh-hans/rsvp.mjml -o ../public/media/edm/zh-hans/rsvp.html",
+    "mjml": "npx concurrently \"npm run mjml1\" \"npm run mjml2\" \"npm run mjml3\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "tailwindcss": "^3.4.3",
+    "mjml": "^4.7.0",
+    "concurrently": "^6.2.2",
+    "sass": "^1.49.8"
+  }
+}

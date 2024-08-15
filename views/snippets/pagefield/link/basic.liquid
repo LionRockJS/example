@@ -1,5 +1,7 @@
-<div class="input-group mb-2">
-    <span class="input-group-text input-group-icon"><i class="far fa-link"></i></span>
-    <input class="form-control" type="text" name="{{ selector }}__label" value="{{ value.label }}" id="field-{{ label }}-label" placeholder="{{ placeholder.label | default: label }}"/>
-    <input class="form-control" type="text" name="{{ selector }}__url" value="{{ value.url }}" id="field-{{ label }}-url" placeholder="{{ placeholder.url | default: "https://example.com" }}"/>
+<div class="relative">
+    <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{{ label }} <i class="far fa-link"></i></label>
+    <div class="grid grid-cols-2 gap-2">
+        <input type="text" name="{{ selector }}__label" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder.label | default: label }}" value="{{ value.label }}">
+        <input type="text" name="{{ selector }}__url" id="field-{{ selector }}-url" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder.url | default: "https://example.com" }}" value="{{ value.url }}">
+    </div>
 </div>

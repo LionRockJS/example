@@ -1,20 +1,20 @@
-<ul class="nav nav-pills flex-column mb-auto" data-controller="{{ controller }}" data-action="{{ action }}">
-    <li class="nav-item">
-        <a href="/admin" class="btn text-white w-100 text-start" aria-current="page">
+<ul role="list" class="-mx-2 space-y-1" data-controller="{{ controller }}" data-action="{{ action }}">
+    <li>
+        <a href="/admin" class="group flex items-center gap-x-3 rounded-md bg-indigo-700 py-2 px-4 text-sm font-semibold leading-6 text-white">
             <i class="fas fa-home-lg-alt"></i>
-            <span class="ms-2">Home</span>
+            <span>Dashboard</span>
         </a>
     </li>
     <li>
-        <a href="/admin/users" class="btn text-white w-100 text-start">
+        <a href="/admin/users" class="group flex items-center gap-x-3 rounded-md py-2 px-4 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
             <i class="fas fa-truck"></i>
-            <span class="ms-2">Users</span>
+            <span>Users</span>
         </a>
     </li>
     <li>
-        <a href="/admin/contents/list/general" class="btn text-white w-100 text-start">
+        <a href="/admin/contents/list/general" class="group flex items-center gap-x-3 rounded-md py-2 px-4 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
             <i class="fas fa-truck"></i>
-            <span class="ms-2">General Content</span>
+            <span>General Content</span>
         </a>
     </li>
 </ul>

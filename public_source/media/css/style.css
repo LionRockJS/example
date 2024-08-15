@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* heading */
+.container h1.text-xl{
+    font-size: 4.625rem;
+    margin-bottom: 1rem;
+}
+
+.container h1{
+    font-size: 3.125rem;
+    margin-bottom: 1rem;
+}
+
+.container h2{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.container h3{
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.container h4{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.container h5{
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.container h5.intro{
+    @apply font-sans;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+h1, h2, h3, h4, h5{
+    @apply font-serif
+}
+
+h6 {
+    @apply font-sans
+}
+
+/* button */
+
+.button-primary{
+    @apply inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500;
+}
+
+.button-secondary{
+    @apply inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
+}
+
+.button-danger{
+    @apply inline-flex items-center rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500;
+}
+
+/* table */
+
+.table-primary{
+    @apply min-w-full divide-y divide-gray-300;
+}
+
+.table-primary th{
+    @apply px-3 py-3.5;
+}
+
+.table-primary td{
+    @apply whitespace-nowrap px-3 py-4;
+}
+
+.table-primary tbody{
+    @apply divide-y divide-gray-200;
+}
+
+.table-primary thead tr{
+    @apply text-left font-semibold text-gray-900;
+}
+
+.table-primary tbody tr{
+    @apply text-gray-500;
+}
+
+/* input */
+
+input[type="text"].inline-edit{
+    @apply inline bg-transparent border-0 focus:border-0 p-0;
+}
+
+.rich-text-editor ol > li{
+    @apply list-decimal ms-4;
+}
+
+.rich-text-editor ul > li{
+    @apply list-disc ms-4;
+}
+
+.rich-text-editor p{
+    @apply mb-4;
+}
