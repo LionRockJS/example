@@ -11,37 +11,56 @@
 
         <div>
           <!-- values --->
-          {% for field in fields %}
-            {%- assign selector = "." | append : field -%}
-            {%- assign input_type = inputs[field] -%}
-            {{ input_type }}
-            {% render 'page/edit/field-row', type: "text/basic",     label: selector, selector: selector, value: tokens[field], placeholder: placeholder[field] %}
-          {% endfor %}
-
-          {% render 'page/edit/field-row', type: "text/basic",     label: "Name", selector: ".name", value: tokens['name'], placeholder: placeholder['name'] %}
-          {% render 'page/edit/field-row', type: "textarea/basic", label: "Body", selector: ".body", value: tokens['body'], placeholder: placeholder['body'] %}
-          {% render 'page/edit/field-row', type: "link/basic",     label: "Link", selector: ".link", value: tokens['link'], placeholder: placeholder['link'] %}
+{%- liquid
+for field in fields
+  assign selector = "." | append : field
+  assign input_type = inputs[field] | default: "text"
+  assign input_type = input_type | append : "/basic"
+  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder[field]
+endfor
+-%}
 
           <hr/>
           <!-- items -->
+          {% for item in items %}
           <div>
-            {% assign item_name = 'items' %}
-            {% assign item_label = 'Item' %}
+{%- liquid
+assign item_name = item.name
+assign item_label = item.name | capitalize
+assign default_items = " " |  split: ","
+assign page_items = tokens[item_name] | default: default_items
+assign page_items = page_items | sort : "_weight"
+-%}
             <div class="row mb-3 align-items-center"><div class="col-8"><h5><i class="far fa-copy me-2"></i>{{ item_label }}</h5></div><div class="col-4 text-end"></div></div>
 
-            {% for pageItem in tokens[item_name] %}
+            {% for page_item in page_items %}
               {% capture prefix %}.{{ item_name }}[{{ forloop.index0 }}]{% endcapture %}
-              <div class="d-flex flex-row mb-3">
-                {% render "page/edit/item/weight", prefix: prefix, weight: pageItem._weight %}
-                <div class="me-2 w-100">
-                  {% capture selector %}{{ prefix }}.name{% endcapture %}{% render 'pagefield/text/basic', label: "Name", value: pageItem.name, selector: selector %}
-                  {% capture selector %}{{ prefix }}.body{% endcapture %}{% render 'pagefield/text/basic', label: "Body", value: pageItem.body, selector: selector %}
+              <div class="flex flex-row mb-3">
+                {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
+                <div class="me-4 w-full">
+                  {%- liquid
+                    for attribute in item.attributes
+                      assign selector = prefix | append: "@" | append : attribute
+                      assign input_type = inputs[attribute] | default: "text"
+                      assign input_type = input_type | append : "/basic"
+                      render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder[attribute]
+                    endfor
+
+                    for field in item.fields
+                      assign selector = prefix | append: "." | append : field
+                      assign input_type = inputs[field] | default: "text"
+                      assign input_type = input_type | append : "/basic"
+                      render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: page_item[field], placeholder: placeholder[field]
+                    endfor
+                  -%}
                 </div>
                 {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name %}
               </div>
             {% endfor %}
           </div>
+          {% endfor %}
           <!-- end items -->
+
           <hr/>
           {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.blocks, block_names: block_names, blocks: blocks, limits: block_types %}
         </div>
@@ -49,7 +68,14 @@
 
       <div class="w-3/12">
         <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 mb-4">
-          {% render 'pagefield/text/basic', label: "date", selector: "@date", value: tokens.date %}
+          {%- liquid
+            for attribute in attributes
+              assign selector = "@" | append : attribute
+              assign input_type = inputs[attribute] | default: "text"
+              assign input_type = input_type | append : "/basic"
+              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute]
+            endfor
+          -%}
         </div>
 
         <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4">
