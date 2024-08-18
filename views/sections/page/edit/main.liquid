@@ -1,4 +1,4 @@
-{% assign block_types = "default" %}
+{% assign block_types = "default,logos,paragraphs" %}
 {% assign page_type_name = "Default" %}
 
 <div class="container mx-auto">
@@ -16,7 +16,8 @@ for field in fields
   assign selector = "." | append : field
   assign input_type = inputs[field] | default: "text"
   assign input_type = input_type | append : "/basic"
-  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder[field]
+  assign placeholder = placeholders.tokens[field] | strip_html
+  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder
 endfor
 -%}
 
@@ -43,14 +44,16 @@ assign page_items = page_items | sort : "_weight"
                       assign selector = prefix | append: "@" | append : attribute
                       assign input_type = inputs[attribute] | default: "text"
                       assign input_type = input_type | append : "/basic"
-                      render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder[attribute]
+                      assign placeholder = placeholders.tokens[item_name][forloop.index0][attribute] | strip_html
+                      render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder
                     endfor
 
                     for field in item.fields
                       assign selector = prefix | append: "." | append : field
                       assign input_type = inputs[field] | default: "text"
                       assign input_type = input_type | append : "/basic"
-                      render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: page_item[field], placeholder: placeholder[field]
+                      assign placeholder = placeholders.tokens[item_name][forloop.index0][field] | strip_html
+                      render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: page_item[field], placeholder: placeholder
                     endfor
                   -%}
                 </div>

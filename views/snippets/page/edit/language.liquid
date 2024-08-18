@@ -1,19 +1,7 @@
 <div class="flex flex-row">
     <div>
-    {% if autosave %}
         {% if language == "en"      %}<span>EN</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=en">EN</button>{% endif %}
         {% if language == "zh-hant" %}<span>繁</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
         {% if language == "zh-hans" %}<span>简</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=zh-hans">简</button>{% endif %}
-    {% else %}
-        {% if language == "en"      %}<span>EN</span>{% else %}<a href="/admin/pages/{{ item.id }}?language=en">EN</a>{% endif %}
-        {% if language == "zh-hant" %}<span>繁</span>{% else %}<a href="/admin/pages/{{ item.id }}?language=zh-hant">繁</a>{% endif %}
-        {% if language == "zh-hans" %}<span>简</span>{% else %}<a href="/admin/pages/{{ item.id }}?language=zh-hans">简</a>{% endif %}
-    {% endif %}
-    </div>
-    <div>
-        <div>
-            <input type="checkbox" role="switch" name="autosave" id="autosave" value="1" {% if autosave %}checked{% endif %}>
-            <label for="autosave">Auto-Save</label>
-        </div>
     </div>
 </div>
