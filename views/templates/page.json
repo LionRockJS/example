@@ -8,7 +8,7 @@
     "hero_6B3fHk": {
       "type": "hero",
       "settings": {
-        "heading": "{{ page.metafields.page.headline.value }}",
+        "heading": "中文 {{ page.metafields.page.headline.value }}",
         "subheading": "{{ page.metafields.page.subheadline.value }}",
         "image": "{{ page.metafields.custom.top_image.value }}",
         "body": "hello",

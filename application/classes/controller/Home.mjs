@@ -9,7 +9,10 @@ export default class ControllerHome extends Controller{
   async action_index() {
     const request = this.state.get(Controller.STATE_REQUEST);
     ControllerMixinView.setTemplate(this.state, 'templates/page', {
-      ipcountry: request.headers['cf-ipcountry'] || 'HK'
+      ipcountry: request.headers['cf-ipcountry'] || 'HK',
+      page: {
+        metafields:{page:{headline:{value: "Hello World"}}}
+      }
     });
   }
 
