@@ -5,7 +5,7 @@ import Server from './Server.mjs';
 Central.ENV = Central.ENV_PROD;
 
 (async () => {
-  const s = new Server(parseInt(process.env.PORT ?? '8000') + 6);
+  const s = new Server(parseInt(process?.env.PORT ?? '8000') + 6);
   await s.setup();
   await s.listen();
 })();
