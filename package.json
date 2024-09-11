@@ -12,9 +12,9 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^0.0.6",
-    "@lionrockjs/central": "^0.0.18",
+    "@lionrockjs/central": "^0.0.19",
     "@lionrockjs/mvc": "^0.0.4",
-    "@lionrockjs/platform-web-node-http": "^0.0.5",
+    "@lionrockjs/platform-web-node-http": "^0.0.6",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.3",
     "@lionrockjs/adapter-session-jwt": "^0.0.4",
     "@lionrockjs/mixin-form": "^0.0.5",
@@ -28,6 +28,6 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^1.15.0"
+    "serve-static": "^1.16.0"
   }
 }
