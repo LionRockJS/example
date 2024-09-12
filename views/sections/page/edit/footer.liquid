@@ -1,7 +1,0 @@
-<div class="container mx-auto px-4 sticky bottom-4">
-  <a class="button-danger" href="/admin/pages/delete/{{ item.id }}">Delete</a>
-  <button form="main-form" type="submit" class="{% if published %}button-secondary{% else %}button-primary{% endif %}">Save Draft</button>
-  {% if published %}
-    <button class="button-primary" type="submit" name="action" value="publish" form="main-form">Save</button>
-  {% endif %}
-</div>

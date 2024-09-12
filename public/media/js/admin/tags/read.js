@@ -1,4 +1,4 @@
-import HelperPage from "../../../classes/helper/Page.mjs";
+import HelperPage from "..//helper/Page.mjs";
 
 HelperPage.enableAutoSave();
 

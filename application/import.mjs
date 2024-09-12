@@ -12,7 +12,6 @@ ControllerMixinSession.defaultAdapter = SessionJWT;
 import AdapterPassword from '@lionrockjs/adapter-auth-password';
 
 
-
 await (async () => {
   Central.addModules([
     AdapterViewLiquid,
@@ -21,5 +20,6 @@ await (async () => {
     await import('@lionrockjs/mod-auth'),
     await import('@lionrockjs/mod-admin'),
     await import('@lionrockjs/mod-admin-cms'),
+    await import('@lionrockjs/view-admin-cms'),
   ]);
 })();

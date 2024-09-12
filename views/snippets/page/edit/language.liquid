@@ -1,7 +1,0 @@
-<div class="flex flex-row">
-    <div>
-        {% if language == "en"      %}<span>EN</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=en">EN</button>{% endif %}
-        {% if language == "zh-hant" %}<span>繁</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
-        {% if language == "zh-hans" %}<span>简</span>{% else %}<button type="submit" name="destination" value="/admin/pages/{{ item.id }}?language=zh-hans">简</button>{% endif %}
-    </div>
-</div>

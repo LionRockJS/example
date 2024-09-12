@@ -52,3 +52,27 @@ document.addEventListener("trix-before-initialize", (it) => {
     }
   };
 })
+
+Mousetrap.bind('ctrl+l', (e) => {
+  const active = document.activeElement;
+  if(!active?.value) return;
+  active.value = active.value.replaceAll(' ', '-').replaceAll('_', '-').toLowerCase();
+});
+
+[...document.querySelectorAll('input[data-state-store="true"]')].forEach((input) => {
+  const states = new Set(JSON.parse(localStorage.getItem('peer-checkbox-uncheck') || '[]'));
+  if(states.has(input.id)) {
+    input.checked = false;
+  }
+
+  input.addEventListener('change', (e) => {
+    const states = new Set(JSON.parse(localStorage.getItem('peer-checkbox-uncheck') || '[]'));
+    if(!input.checked) {
+      states.add(input.id);
+    } else {
+      states.delete(input.id);
+    }
+
+    localStorage.setItem('peer-checkbox-uncheck', JSON.stringify([...states.values()]));
+  })
+})
