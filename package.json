@@ -11,15 +11,16 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.14",
-    "@lionrockjs/mvc": "^0.0.3",
-    "@lionrockjs/platform-web-node-http": "^0.0.4",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.3",
-    "@lionrockjs/mixin-form": "^0.0.4",
+    "@lionrockjs/central": "^0.0.28",
+    "@lionrockjs/mvc": "^0.0.5",
+    "@lionrockjs/platform-web-node-http": "^0.0.9",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.12",
+    "@lionrockjs/mixin-form": "^0.0.6",
+    "@lionrockjs/router": "^0.0.1",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^1.15.0"
+    "serve-static": "^1.16.2"
   }
 }
