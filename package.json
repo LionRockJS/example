@@ -24,8 +24,8 @@
     "@lionrockjs/platform-web-fastify": "^0.0.3",
     "@lionrockjs/router": "^0.0.1",
     "@lionrockjs/adapter-mail-aws": "^0.0.1",
-    "@lionrockjs/mod-cold-leads": "^0.0.1",
-    "@lionrockjs/mod-admin-rsvp": "^0.0.1",
+    "@lionrockjs/mod-cold-leads": "^0.0.9",
+    "@lionrockjs/mod-admin-rsvp": "^0.0.3",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
   }
