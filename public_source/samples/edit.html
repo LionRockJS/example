@@ -1,0 +1,787 @@
+
+
+<!doctype html>
+<html lang="" class="h-full bg-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+  <title>LionRockJS Admin</title>
+
+  <link rel="stylesheet" href="/media/css/style.css?r=1"/>
+  <link rel="stylesheet" href="/media/css/site.css?r=1"/>
+
+
+
+  <script src="https://kit.fontawesome.com/24b15eca65.js" crossorigin="anonymous"></script>
+  <script type="application/javascript" src="/media/js/admin.js?r=1"></script>
+
+
+
+
+
+
+
+  <script type="module" src="/media/js/admin/pages/edit.mjs?r=1" defer></script>
+
+
+</head>
+<body class="controller-admin-page controller-admin-page-read role-root h-full">
+
+<div>
+  <input type="checkbox" id="sidebar-toggle" class="peer hidden"/>
+  <div class="hidden peer-checked:block fixed lg:inset-y-0 z-50 lg:flex lg:w-72 lg:flex-col">
+    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
+      <div class="flex h-16 shrink-0 items-center justify-between">
+        <span class="text-white">Lion Rock CMS</span>
+        <label for="sidebar-toggle" class="cursor-pointer text-white lg:hidden"><i class="fa-sharp fa-thin fa-xmark"></i></label>
+      </div>
+      <nav class="flex flex-1 flex-col">
+        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+          <li>
+            <ul role="list" class="-mx-2 space-y-1" data-controller="controller-admin-page" data-action="read">
+              <li>
+                <a href="/admin" class="group flex items-center gap-x-3 rounded-md bg-indigo-700 py-2 px-4 text-sm font-semibold leading-6 text-white">
+                  <i class="fas fa-home-lg-alt"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/users" class="group flex items-center gap-x-3 rounded-md py-2 px-4 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                  <i class="fas fa-truck"></i>
+                  <span>Users</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/contents/list/general" class="group flex items-center gap-x-3 rounded-md py-2 px-4 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                  <i class="fas fa-truck"></i>
+                  <span>General Content</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <div class="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
+            <ul role="list" class="-mx-2 mt-2 space-y-1">
+              <li>
+                <!-- Current: "bg-indigo-700 text-white", Default: "text-indigo-200 hover:text-white hover:bg-indigo-700" -->
+                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">H</span>
+                  <span class="truncate">Heroicons</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">T</span>
+                  <span class="truncate">Tailwind Labs</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">W</span>
+                  <span class="truncate">Workcation</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="mt-auto">
+            <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+              <svg class="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="lg:pl-72">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+      <label for="sidebar-toggle" class="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </label>
+
+      <!-- Separator -->
+      <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div>
+
+      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+        <form class="relative flex flex-1" action="#" method="GET">
+          <label for="search-field" class="sr-only">Search</label>
+          <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+          </svg>
+          <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." type="search" name="search">
+        </form>
+        <div class="flex items-center gap-x-4 lg:gap-x-6">
+          <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+            <span class="sr-only">View notifications</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+          </button>
+
+          <!-- Separator -->
+          <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"></div>
+
+          <!-- Profile dropdown -->
+          <div class="relative">
+            <input type="checkbox" id="user-menu-toggle" class="peer hidden"/>
+            <label for="user-menu-toggle" class="-m-1.5 flex items-center p-1.5">
+              <span class="sr-only">Open user menu</span>
+              <img class="h-8 w-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+              <span class="hidden lg:flex lg:items-center">
+                <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom Cook</span>
+                <svg class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </label>
+
+            <div class="hidden peer-checked:block absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+              <!-- Active: "bg-gray-50", Not Active: "" -->
+              <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem" tabindex="-1" id="user-menu-item-0">Your profile</a>
+              <a href="/logout" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem" tabindex="-1" id="user-menu-item-1">Sign out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="py-10">
+      <div class="px-4 sm:px-6 lg:px-8">
+
+
+
+        <div class="container mx-auto px-4 flex flex-row mb-8">
+          <nav class="w-2/3 hidden sm:flex" aria-label="breadcrumb">
+            <ol role="list" class="flex items-center space-x-4 text-sm font-medium">
+              <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="/admin"><i class="fa-solid fa-house"></i></a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
+
+              <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="/admin">Home</a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
+
+              <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="/admin/contents/list/general">general</a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
+
+
+
+              <li class="flex items-center" aria-current="page">Hello Alice</li>
+            </ol>
+          </nav>
+          <div class="w-1/3 text-end">
+            <a class="button-secondary" href="/admin/contents/create/general">New general</a>
+          </div>
+        </div>
+        <script>
+          function copySlug(url){
+            navigator.clipboard.writeText(url);
+            alert('copied: ' + url);
+          }
+        </script>
+        <div class="container mx-auto px-4 flex flex-row bg-gray-400 rounded-lg text-white py-4 mb-3">
+          <div class="w-9/12 pe-4">
+            <input form="main-form" class="inline-edit text-4xl w-full mb-3" type="text" placeholder="" name=":name" value="Hello Alice" required>
+            <div class="flex flex-row text-gray-900 text-sm">
+              <label class="inline text-nowrap" for="slug">https://localhost:8009/</label>
+              <input form="main-form" class="border-0 border-b border-gray-500 p-0 bg-transparent w-full text-sm leading-none" type="text" name=":slug" value="hello-alice" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
+              <!--click to copy to clipboard -->
+              <span class="text-xs rounded bg-white px-2 select-none cursor-pointer text-nowrap flex items-center ms-2" onclick="copySlug(`https://localhost:8009/${document.getElementById('slug').value}`)"><i class="fa-sharp fa-regular fa-copy me-2"></i> copy</span>
+            </div>
+          </div>
+
+          <div class="w-3/12">
+            <div>
+              <h5 class="border-b border-white">Page Schedule</h5>
+              <div class="text-end">
+
+
+
+                <button form="main-form" type="submit" name="action" value="publish" class="button-primary">Publish</button>
+
+
+              </div>
+            </div>
+
+            <div class="hidden">
+              <div class="input-group mb-2">
+    <span class="form-control p-0">
+        <span class="fs-50 lh-1 bg-white" style="position: absolute; padding: 0 0.70rem; margin-top: -0.6em;">From (+08:00)</span>
+        <label for=":start" class="visually-hidden">From (+08:00)</label>
+        <input class="form-control border-0 field-date-timezone-offset" id="field-:start" data-for=":start" type="datetime-local" value="" lang="en" max="2200-12-30T00:00"/>
+        <input class="field-date-utc" id="field-:start" name=":start" type="hidden" value="" placeholder=""/>
+    </span>
+
+                <span class="form-control p-0">
+        <span class="fs-50 lh-1 bg-white" style="position: absolute; padding: 0 0.70rem; margin-top: -0.6em;">To (+08:00)</span>
+        <label for="field-To (+08:00)" class="visually-hidden">To (+08:00)</label>
+        <input class="form-control border-0 field-date-timezone-offset" id="field-To (+08:00)" data-for=":end" type="datetime-local" value="" lang="en" max="2200-12-30T00:00"/>
+        <input class="field-date-utc" id="field-To (+08:00)" name=":end" type="hidden" value="" placeholder=""/>
+    </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="container mx-auto" data-section="sections/page/edit/main">
+          <form id="main-form" action="/admin/pages/16474325102892?language=en" method="post">
+            <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">
+              <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
+              <label class="cursor-pointer select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
+              <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
+              <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up" aria-hidden="true"></i></label>
+
+              <div class="hidden peer-checked:block mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- attributes -->
+                  <div class="mb-4">
+                    <div class="relative">
+                      <label for="field-@date" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"><i class="far fa-calendar-alt"></i> date</label>
+                      <input class="mousetrap block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 page-field-upload-text" type="date" name="@date" value="" id="field-@date" lang="en" max="2200-12-30T00:00" placeholder=""/>
+                    </div>
+                  </div></div>
+              </div>
+            </div>
+            <div class="flex lg:flex-row flex-col">
+              <div class="lg:w-9/12 px-4">
+                <div class="mb-4">
+                  <div class="flex flex-row">
+                    <div>
+                      <span class="font-bold">EN</span>
+                      <button form="main-form" type="submit" name="destination" value="/admin/pages/16474325102892?language=zh-hant">繁</button>
+                      <button form="main-form" type="submit" name="destination" value="/admin/pages/16474325102892?language=zh-hans">简</button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div>
+                  <!-- values --->
+                  <div class="mb-4">
+                    <div class="relative w-full">
+                      <label for="field-.name" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">name</label>
+                      <input type="text" name=".name" id="field-.name" class="mousetrap block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 " placeholder="name" value="">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <div class="relative">
+                      <label for="field-.body" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">body</label>
+                      <textarea type="text" name=".body" id="field-.body" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="body" rows="4"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <div class="relative">
+                      <label for="field-.link" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">link <i class="far fa-link"></i></label>
+                      <div class="grid grid-cols-2 gap-2">
+                        <input type="text" name=".link__label" id="field-.link" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="link" value="">
+                        <input type="text" name=".link__url" id="field-.link-url" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="https://example.com" value="">
+                      </div>
+                    </div>
+                  </div><!-- items -->
+
+                  <div class="border-b border-gray-300 pb-3 mb-3"><label class="text-xl font-serif me-2" for=".0items"><i class="far fa-copy me-2"></i>Items</label>
+                    <input type="checkbox" class="peer hidden" data-state-store="true" checked id=".0items">
+                    <label for=".0items" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
+                    <label for=".0items" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
+
+                    <div class="hidden peer-checked:block mt-3">
+
+
+
+                      <div class="flex flex-row mb-3">
+                        <div>
+                          <label for=".items[0]@_weight" class="hidden">weight</label>
+                          <input id=".items[0]@_weight" name=".items[0]@_weight" value="0" pattern="[0-9]+"
+                                 class="block w-10 me-2 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
+                        <div class="me-4 w-full">
+                          <div class="mb-4">
+                            <div class="relative w-full">
+                              <label for="field-.items[0].name" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">name</label>
+                              <input type="text" name=".items[0].name" id="field-.items[0].name" class="mousetrap block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 " placeholder="name" value="">
+                            </div>
+                          </div></div>
+
+
+
+                        <div>
+
+                          <button type="submit" class="btn btn-link" name="action" value="item-add:items"><i class="fas fa-plus-circle"></i></button>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- end items -->
+
+
+                  <h5><i class="fad fa-th me-2"></i>Content Blocks</h5>
+
+                  <div id="add-block" class="flex flex-row items-center mb-4">
+                    <div class="relative w-full">
+                      <label for="block-select"
+                             class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">Available Blocks</label>
+                      <select id="block-select" name="block-select" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <option value="">--Please choose a content block--</option>
+
+
+                        <option value="label">label</option>
+
+                        <option value="default">default</option>
+
+                        <option value="logos">logos</option>
+
+                        <option value="paragraphs">paragraphs</option>
+
+                        <option value="banner">banner</option>
+
+                        <option value="facts">facts</option>
+
+
+                      </select>
+                    </div>
+
+                    <div class="ps-4">
+                      <button type="submit" class="btn btn-primary" name="action" value="block-add">
+                        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <ul>
+
+
+
+                  </ul>
+                </div>
+              </div>
+
+              <div class="lg:w-3/12">
+                <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4">
+                  <h5>Tags</h5>
+                  <div class="page-tag-form my-2" data-page="16474325102892" data-tag-type="Years">
+                    <div class="flex flex-row items-center">
+                      <div class="relative w-full pe-2">
+                        <input id="Years_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
+                        <label for="input_tag_Years" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">Years</label>
+                        <input id="input_tag_Years" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="tag_Years_list" placeholder="Search"/>
+                        <datalist id="tag_Years_list">
+
+                        </datalist>
+                      </div>
+
+                      <div>
+                        <label for="Years_checkbox" class="cursor-pointer"><i class="fa-sharp fa-regular fa-pen-to-square"></i></label>
+                      </div>
+                    </div>
+
+                    <div class="page-tag-list relative mt-2">
+
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="page-tag-form my-2" data-page="16474325102892" data-tag-type="Categories">
+                    <div class="flex flex-row items-center">
+                      <div class="relative w-full pe-2">
+                        <input id="Categories_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
+                        <label for="input_tag_Categories" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">Categories</label>
+                        <input id="input_tag_Categories" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="tag_Categories_list" placeholder="Search"/>
+                        <datalist id="tag_Categories_list">
+
+                        </datalist>
+                      </div>
+
+                      <div>
+                        <label for="Categories_checkbox" class="cursor-pointer"><i class="fa-sharp fa-regular fa-pen-to-square"></i></label>
+                      </div>
+                    </div>
+
+                    <div class="page-tag-list relative mt-2">
+
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="page-tag-form my-2" data-page="16474325102892" data-tag-type="Topics">
+                    <div class="flex flex-row items-center">
+                      <div class="relative w-full pe-2">
+                        <input id="Topics_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
+                        <label for="input_tag_Topics" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">Topics</label>
+                        <input id="input_tag_Topics" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="tag_Topics_list" placeholder="Search"/>
+                        <datalist id="tag_Topics_list">
+
+                        </datalist>
+                      </div>
+
+                      <div>
+                        <label for="Topics_checkbox" class="cursor-pointer"><i class="fa-sharp fa-regular fa-pen-to-square"></i></label>
+                      </div>
+                    </div>
+
+                    <div class="page-tag-list relative mt-2">
+
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="page-tag-form my-2" data-page="16474325102892" data-tag-type="Collections">
+                    <div class="flex flex-row items-center">
+                      <div class="relative w-full pe-2">
+                        <input id="Collections_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
+                        <label for="input_tag_Collections" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">Collections</label>
+                        <input id="input_tag_Collections" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="tag_Collections_list" placeholder="Search"/>
+                        <datalist id="tag_Collections_list">
+
+                        </datalist>
+                      </div>
+
+                      <div>
+                        <label for="Collections_checkbox" class="cursor-pointer"><i class="fa-sharp fa-regular fa-pen-to-square"></i></label>
+                      </div>
+                    </div>
+
+                    <div class="page-tag-list relative mt-2">
+
+                    </div>
+                  </div>
+                  <hr/>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="container mx-auto px-4 sticky bottom-4 flex flex-row justify-between">
+          <div>
+            <a class="button-danger" href="/admin/pages/delete/16474325102892">Delete</a>
+            <button form="main-form" type="submit" class="button-primary">Save Draft</button>
+
+          </div>
+
+
+          <div class="inline-block bg-white">
+            <div class="flex flex-row">
+              <div>
+                <span class="font-bold">EN</span>
+                <button form="main-form" type="submit" name="destination" value="/admin/pages/16474325102892?language=zh-hant">繁</button>
+                <button form="main-form" type="submit" name="destination" value="/admin/pages/16474325102892?language=zh-hans">简</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<footer class="text-right text-xs px-4">
+
+  <span class="last_login_ip">Last Login IP: 0.0.0.0</span>
+
+  <span>Your IP: 0.0.0.0</span>
+</footer>
+</body>
+</html><div id="kohanajs-debug-panel" style="background-color: #000; color: #AAA; font-family: monospace; font-size: 12px; padding: 1em; position: relative; z-index: 9999;">[{"label":"start","ms":0},{"label":"init Controller","ms":0.3020840883255005},{"label":"exec Controller","ms":18.749040961265564}]<hr style="border-color:#666"/><details><summary>Node packages</summary><table style="color:#AAA"><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/adapter/view/liquid</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/adapter/view/liquid</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/mixins/session</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/mixins/session</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/mixins/form</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/mixins/form</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/auth</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/auth</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms</td></tr><tr><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms</td></tr></table></details><hr style="border-color:#666"/><details><summary>import files</summary><table style="color:#AAA"><tr><td>controller/admin/Page.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/controller/admin/Page.mjs</td></tr><tr><td>model/Page.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/model/Page.mjs</td></tr><tr><td>model/PageTag.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/model/PageTag.mjs</td></tr><tr><td>model/Tag.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/model/Tag.mjs</td></tr><tr><td>model/TagType.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/model/TagType.mjs</td></tr><tr><td>model/PageKeyword.mjs</td><td>:</td><td>/Users/colin/Documents/code/frameworks/lionrockjs/release/modules/admin-cms/classes/model/PageKeyword.mjs</td></tr></table></details><hr style="border-color:#666"/><details><summary>Views</summary><ul style="color:#AAA"><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/example/views/layout/admin/default.liquid</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/example/views/templates/admin/edit.json</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms/views/templates/admin/page/page_types/default/edit.json</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms/views/templates/admin/page/page_types/default/edit.json</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms/views/sections/page/edit/header.liquid</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms/views/sections/page/edit/footer.liquid</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/views/admin-cms/views/sections/page/edit/main.liquid</li><li>/Users/colin/Documents/code/frameworks/lionrockjs/release/example/views/sections/breadcrumb.liquid</li></ul></details><hr style="border-color:#666"/><details><summary>Core Config Values</summary><pre style="color:#777; display:inline; height: 5rem; overflow-y:scroll">{
+  "classes": {
+    "cache": false
+  },
+  "view": {
+    "cache": false
+  },
+  "system": {
+    "debug": true,
+    "serve_static_file": true
+  },
+  "database": {
+    "cache": false
+  },
+  "language": {
+    "route": "/:language(en|zh-hant|zh-hans)",
+    "default": "en",
+    "names": {}
+  },
+  "site": {
+    "platform": {}
+  },
+  "liquidjs": {
+    "tags": [
+      {
+        "name": "style",
+        "tag": {}
+      },
+      {
+        "name": "stylesheet",
+        "tag": {}
+      },
+      {
+        "name": "javascript",
+        "tag": {}
+      },
+      {
+        "name": "form",
+        "tag": {
+          "type": "block"
+        }
+      },
+      {
+        "name": "paginate",
+        "tag": {
+          "type": "block"
+        }
+      },
+      {
+        "name": "schema"
+      }
+    ],
+    "filters": [
+      {
+        "name": "asset_url"
+      },
+      {
+        "name": "shopify_asset_url"
+      },
+      {
+        "name": "stylesheet_tag"
+      },
+      {
+        "name": "script_tag"
+      },
+      {
+        "name": "camelcase"
+      },
+      {
+        "name": "money"
+      },
+      {
+        "name": "money_without_currency"
+      },
+      {
+        "name": "if"
+      },
+      {
+        "name": "plural"
+      },
+      {
+        "name": "singular"
+      },
+      {
+        "name": "within"
+      },
+      {
+        "name": "to_time"
+      },
+      {
+        "name": "parse_json"
+      },
+      {
+        "name": "map_get"
+      },
+      {
+        "name": "format_address"
+      },
+      {
+        "name": "console_log"
+      }
+    ],
+    "translates": {
+      "en": {
+        "general": {
+          "pagination": {
+            "label": "Pagination",
+            "page": "Page {{ number }}",
+            "next": "Next",
+            "previous": "Previous",
+            "per_page_1": "",
+            "per_page_2": " Products per page",
+            "showing_1": "Showing ",
+            "showing_2": " items of ",
+            "showing_3": ""
+          }
+        }
+      },
+      "zh-hant": {
+        "general": {
+          "pagination": {
+            "label": "分頁",
+            "page": "第 {{ number }} 頁",
+            "next": "下一頁",
+            "previous": "上一頁",
+            "per_page_1": "",
+            "per_page_2": " 項目每頁",
+            "showing_1": "第 ",
+            "showing_2": " 頁",
+            "showing_3": ""
+          }
+        }
+      },
+      "zh-hans": {
+        "general": {
+          "pagination": {
+            "label": "分页",
+            "page": "第 {{ number }} 页",
+            "next": "下一页",
+            "previous": "上一页",
+            "per_page_1": "",
+            "per_page_2": " 项目每页",
+            "showing_1": "第 ",
+            "showing_2": " 页",
+            "showing_3": ""
+          }
+        }
+      }
+    }
+  },
+  "cookie": {
+    "options": {
+      "secure": false,
+      "maxAge": 86400000,
+      "httpOnly": true,
+      "sameSite": "Strict",
+      "path": "/"
+    }
+  },
+  "session": {
+    "saveUninitialized": false,
+    "resave": false,
+    "name": "lionrock-session",
+    "algorithm": "RS256",
+    "expires": 7200
+  },
+  "form": {
+    "tempPath": "/Users/colin/Documents/code/frameworks/lionrockjs/release/example/server/../server/tmp",
+    "debug": false
+  },
+  "auth": {
+    "databasePath": "/Users/colin/Documents/code/frameworks/lionrockjs/release/example/database",
+    "databaseMap": {},
+    "userDatabase": "admin.sqlite",
+    "databaseMapName": "admin",
+    "identifiers": [
+      null
+    ],
+    "destination": "admin",
+    "defaultRoles": [
+      "user"
+    ],
+    "requireActivate": true,
+    "rootRole": "root",
+    "verified": {}
+  },
+  "register": {
+    "allowPostAssignRoleID": false,
+    "defaultRole": "member"
+  },
+  "admin": {
+    "logPath": "/Users/colin/Documents/code/frameworks/lionrockjs/release/example/logs",
+    "databaseMap": {}
+  },
+  "cms": {
+    "databasePath": "/Users/colin/Documents/code/frameworks/lionrockjs/release/example/application/../database",
+    "defaultLanguage": "en",
+    "blueprint": {
+      "default": [
+        "@date",
+        "name",
+        "body",
+        "link",
+        {
+          "items": [
+            "name"
+          ]
+        }
+      ],
+      "menu": [
+        "@date",
+        "@handle",
+        "name",
+        {
+          "links": [
+            "handle",
+            "title",
+            "url"
+          ]
+        }
+      ]
+    },
+    "blocks": {
+      "default": [
+        "@date",
+        "name",
+        "body",
+        "link",
+        {
+          "items": [
+            "name"
+          ]
+        }
+      ],
+      "logos": [
+        "label",
+        {
+          "pictures": [
+            "url"
+          ]
+        }
+      ],
+      "paragraphs": [
+        "subject",
+        "body",
+        "picture",
+        "caption",
+        "description"
+      ]
+    },
+    "pageTypeSlugs": {
+      "default": [
+        "pages",
+        "articles",
+        "posts"
+      ]
+    },
+    "inputs": {
+      "body": "textarea",
+      "name": "text",
+      "link": "link",
+      "picture": "picture",
+      "video": "video",
+      "subject": "text",
+      "caption": "text",
+      "handle": "text",
+      "title": "text",
+      "description": "textarea",
+      "date": "date",
+      "file": "file"
+    },
+    "languages": [
+      "en",
+      "zh-hant"
+    ]
+  }
+}</pre></details><hr style="border-color:#666"/><details><summary>Controller:Action</summary><pre style="color:#777; display:inline;">ControllerAdminPage : read</pre></details><hr style="border-color:#666"/><details><summary>Session</summary><pre style="color:#777; display:inline;">{
+  "id": "d9cd6be1-2ee1-4450-aa9e-6056054403b8",
+  "sid": "6b359c8c-c649-4417-afc1-89b40608c3e9",
+  "creator": "SessionJWT",
+  "logged_in": true,
+  "user_id": 16272936421567,
+  "roles": [
+    "root"
+  ],
+  "role_ids": [
+    1
+  ],
+  "user_meta": {
+    "full_name": "Root"
+  },
+  "exp": 1728491523,
+  "iat": 1728479475
+}</pre></details><hr style="border-color:#666"/></div>

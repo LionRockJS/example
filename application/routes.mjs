@@ -1,4 +1,5 @@
-import { RouteList, Central } from '@lionrockjs/central';
+import { Central } from '@lionrockjs/central';
+import { RouteList } from '@lionrockjs/router';
 import path from "node:path";
 import fs from "node:fs";
 

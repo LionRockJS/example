@@ -88,14 +88,6 @@ export default class HelperPage{
         }))
       }
 
-      el.querySelector('.toggle-input-tag').addEventListener('click', element => {
-        if(inputField.classList.contains('visually-hidden')){
-          inputField.classList.remove('visually-hidden');
-        }else{
-          inputField.classList.add('visually-hidden');
-        }
-      })
-
       el.querySelectorAll('.page-tag.badge').forEach(tagElement => {
         tagElement.addEventListener('click', removePageTag);
       })
@@ -112,7 +104,7 @@ export default class HelperPage{
           newTag.value = `${tag_value} ( ${tag_name} )`;
           newTag.setAttribute('data-id', payload.id);
           newTag.setAttribute('role', "button");
-          newTag.classList.add("badge", "bg-primary", "rounded-pill");
+          newTag.classList.add("page-tag","badge","bg-black","text-white","text-xs","px-2","py-1","rounded-full");
           newTag.innerHTML = `${tag_value} <i class="fas fa-times"></i>`;
           pageTagList.appendChild(newTag);
           pageTagList.appendChild(document.createTextNode(' '));

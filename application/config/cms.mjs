@@ -4,6 +4,7 @@ const links = ["handle", "title", "url"];
 links.links = links;
 
 export default {
+  landing: "",
   databasePath: `${Central.APP_PATH}/../database`,
   defaultLanguage: 'en',
   blueprint: {

@@ -1,8 +1,9 @@
-import * as url from 'node:url';
+import path from "node:path";
+import url from "node:url";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
-import path from 'node:path';
-import {Central, RouteList} from '@lionrockjs/central';
+import { Central } from '@lionrockjs/central';
+import { RouteList } from '@lionrockjs/router';
 
 export default class Server {
   constructor(port = 8001) {
