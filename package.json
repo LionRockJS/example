@@ -15,6 +15,7 @@
     "@lionrockjs/central": "^0.0.15",
     "@lionrockjs/mvc": "^0.0.3",
     "@lionrockjs/platform-web-node-http": "^0.0.4",
+    "@lionrockjs/router": "^0.0.1",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
   },
