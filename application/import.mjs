@@ -7,13 +7,18 @@ import { ORMAdapterSQLite, DatabaseAdapterBetterSQLite3 } from "@lionrockjs/adap
 Model.defaultAdapter = ORMAdapterSQLite;
 ControllerMixinDatabase.defaultAdapter = DatabaseAdapterBetterSQLite3;
 
+import MixinSession, {ControllerMixinSession} from '@lionrockjs/mixin-session';
+import {SessionJWT} from '@lionrockjs/adapter-session-jwt';
+ControllerMixinSession.defaultAdapter = SessionJWT;
+import AdapterPassword from '@lionrockjs/adapter-auth-password';
+
 await (async () => {
   Central.addModules([
     AdapterViewLiquid,
     await import('@lionrockjs/mixin-form'),
-    await import('@lionrockjs/mixin-session'),
+    MixinSession,
     await import('@lionrockjs/mod-auth'),
-    await import('@lionrockjs/adapter-auth-password'),
+    AdapterPassword,
     await import('@lionrockjs/mod-admin'),
   ]);
 })();
