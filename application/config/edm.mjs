@@ -1,11 +1,11 @@
 import {Central} from '@lionrockjs/central';
 
 function getAdmin(){
-  return "admin@example.com";
+  return process.env.EMAIL_ADMIN;
 }
 
 function getBCC(){
-  return "edm@example.com"
+  return process.env.EMAIL_BCC;
 }
 
 const templatePath = Central.EXE_PATH + '/../public/media/edm'
@@ -14,11 +14,11 @@ export default {
   mail: {
     admin: getAdmin(),
     bcc: getBCC(),
-    sender: 'rsvp@example.com',
+    sender: process.env.EMAIL_SENDER,
     templatePath,
 
     rsvp:{
-      sender: 'rsvp@example.com',
+      sender: process.env.EMAIL_SENDER,
       subject: new Map([
         ['en', "RSVP Confirmation"],
         ['zh-hans', 'RSVP 确认'],
