@@ -7,4 +7,3 @@ await Central.initConfig(new Map([
 ]));
 
 HelperTranslate.update();
-console.log(HelperTranslate.values);
