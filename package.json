@@ -11,7 +11,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.28",
+    "@lionrockjs/central": "^0.0.30",
     "@lionrockjs/mvc": "^0.0.5",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/router": "^0.0.1",
