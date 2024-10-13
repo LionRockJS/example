@@ -1,9 +1,5 @@
-import { Central, View } from '@lionrockjs/central';
-import AdapterViewLiquid, { LiquidView } from '@lionrockjs/adapter-view-liquidjs';
-View.DefaultViewClass = LiquidView;
+import { Central } from '@lionrockjs/central';
 
-await (async () => {
-  Central.addModules([
-    AdapterViewLiquid,
-  ]);
-})();
+await Central.addModules([
+await import('@lionrockjs/adapter-view-liquidjs'),
+]);
