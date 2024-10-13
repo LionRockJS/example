@@ -12,7 +12,7 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
-    "@lionrockjs/central": "^0.0.30",
+    "@lionrockjs/central": "^0.0.31",
     "@lionrockjs/mvc": "^0.0.5",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/router": "^0.0.1",
