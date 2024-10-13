@@ -11,11 +11,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.28",
+    "@lionrockjs/central": "^0.0.31",
     "@lionrockjs/mvc": "^0.0.5",
     "@lionrockjs/platform-web-express": "^0.0.3",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.12",
-    "@lionrockjs/mixin-form": "^0.0.6",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
+    "@lionrockjs/mixin-form": "^0.0.7",
     "@lionrockjs/router": "^0.0.1",
     "dotenv": "^16.4.5"
   }
