@@ -11,8 +11,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.12",
-    "@lionrockjs/central": "^0.0.28",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
+    "@lionrockjs/central": "^0.0.31",
     "@lionrockjs/mvc": "^0.0.5",
     "@lionrockjs/platform-web-fastify": "^0.0.3",
     "@lionrockjs/router": "^0.0.1",
