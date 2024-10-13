@@ -1,5 +1,4 @@
-import {Controller} from '@lionrockjs/mvc';
-import {ControllerMixinView, Central} from '@lionrockjs/central';
+import {Controller, ControllerMixinView, Central} from '@lionrockjs/central';
 import fs from 'node:fs';
 
 
