@@ -18,7 +18,6 @@ export default class Server {
       VIEW_PATH: path.normalize(`${__dirname}/../views`),
     });
 
-    await import('../application/import.mjs');
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
