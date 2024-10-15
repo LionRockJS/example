@@ -11,8 +11,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.31",
-    "@lionrockjs/mvc": "^0.0.5",
+    "@lionrockjs/central": "^0.0.33",
+    "@lionrockjs/mvc": "^0.0.6",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
     "@lionrockjs/mixin-form": "^0.0.7",
