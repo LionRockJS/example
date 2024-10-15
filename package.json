@@ -12,8 +12,8 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
-    "@lionrockjs/central": "^0.0.31",
-    "@lionrockjs/mvc": "^0.0.5",
+    "@lionrockjs/central": "^0.0.33",
+    "@lionrockjs/mvc": "^0.0.6",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.5",
     "@lionrockjs/mixin-form": "^0.0.7",
@@ -23,7 +23,7 @@
     "@lionrockjs/mixin-orm": "^0.0.11",
     "@lionrockjs/mod-admin": "^0.0.26",
     "@lionrockjs/mod-admin-cms": "^0.0.21",
-    "@lionrockjs/view-admin-cms": "^0.0.11",
+    "@lionrockjs/view-admin-cms": "^0.0.12",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
   },
