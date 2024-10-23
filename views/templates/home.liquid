@@ -1,12 +1,102 @@
-<h4>multipart/form-data</h4>
-<form action="/submit" method="post" enctype="multipart/form-data">
-  <input type="text" name="name" />
-  <input type="file" name="textfield">
-  <input type="submit" value="Submit" />
+<div class="container mx-auto px-4">
+
+<h4 class="mb-4 text-2xl">Form</h4>
+<form id="rsvp" action="/{{ language | default: "en" }}/registration/create" method="post" class="container mb-5">
+  <input type="hidden" name=":contact_type" value="email"/>
+  <div class="relative w-full mb-4">
+    <label for="input-name" class="absolute -top-2 left-2 inline-block bg-white rounded px-1 text-xs font-medium text-gray-900">Name</label>
+    <input type="text"
+           id="input-name"
+           name=":name"
+           class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
+
+  <div class="relative w-full mb-4">
+    <label for="input-last-name" class="absolute -top-2 left-2 inline-block bg-white rounded px-1 text-xs font-medium text-gray-900">Last Name</label>
+    <input type="text"
+           id="input-last-name"
+           name="attributes[last_name]"
+           class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
+
+  <div class="relative w-full mb-4">
+    <label for="input-email" class="absolute -top-2 left-2 inline-block bg-white rounded px-1 text-xs font-medium text-gray-900">Email</label>
+    <input type="email"
+           id="input-email"
+           name=":contact"
+           class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    />
+  </div>
+
+  <div class="relative w-full mb-4">
+    <label for="attributes[attending]" class="absolute -top-2 left-2 inline-block bg-white rounded px-1 text-xs font-medium text-gray-900">325<sup>th</sup>Anniversary Party</label>
+    <select
+           id="input-email"
+           name="attributes[attending]"
+           class="block w-full rounded-md border-0 px-3 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    >
+      <option>Please Select</option>
+      <option value="I_will_attend">I will attend</option>
+      <option value="I_am_unable_to_attend">I am unable to attend</option>
+    </select>
+  </div>
+
+  <div class="relative w-full mb-4">
+    <label for="attributes[diet]">Dietary requirements</label>
+
+    <div class="flex flex-col">
+      <div class="checkbox-group-item mt-1">
+        <input type="checkbox" id="dietary-0" name="attributes[diet]" value="None">
+        <label for="dietary-0" class="form-check-label">None</label>
+      </div>
+      <div data-option-hide-for="dietary-0">
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-1" name="attributes[diet]" value="Vegetarian">
+          <label for="dietary-1" class="form-check-label">Vegetarian</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-2" name="attributes[diet]" value="Vegan">
+          <label for="dietary-2" class="form-check-label">Vegan</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-3" name="attributes[diet]" value="No_gluten">
+          <label for="dietary-3" class="form-check-label">No gluten</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-4" name="attributes[diet]" value="No_dairy">
+          <label for="dietary-4" class="form-check-label">No dairy</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-5" name="attributes[diet]" value="No_nuts">
+          <label for="dietary-5" class="form-check-label">No nuts</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-6" name="attributes[diet]" value="No_shellfish">
+          <label for="dietary-6" class="form-check-label">No shellfish</label>
+        </div>
+        <div class="checkbox-group-item">
+          <input type="checkbox" id="dietary-7" name="attributes[diet]" value="Other" class="peer">
+          <label for="dietary-7" class="form-check-label">Other (please specify below)</label>
+          <div class="peer-checked:block hidden relative mt-4 pb-4">
+              <label for="input-other" class="absolute -top-2 left-2 inline-block bg-white rounded px-1 text-xs font-medium text-gray-900">Other</label>
+              <input type="text" id="input-other" name="attributes[diet_other]"
+                     class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-xs mb-4 text-center">
+    Fields marked with <span class="text-danger">*</span> must be filled in.
+  </div>
+
+  <div class="text-center">
+    <button class="bg-black rounded px-4 py-2 text-white" type="submit">Confirm</button>
+  </div>
 </form>
 
-<h4>application/x-www-form-urlencoded</h4>
-<form action="/submit" method="post" enctype="application/x-www-form-urlencoded">
-  <input type="text" name="name" />
-  <input type="submit" value="Submit" />
-</form>
+</div>

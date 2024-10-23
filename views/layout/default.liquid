@@ -1,3 +1,4 @@
+{% assign cacheId = 5 %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +6,21 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="icon" href="/media/favicon/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/media/favicon/favicon.png" type="image/x-icon"/>
+    <title>LionRockJS Cold Leads</title>
+    <!-- tailwind css development -->
+    <script src="https://kit.fontawesome.com/0f2a723132.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/media/css/style.css?r={{ cacheId }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+        }
+    }
+    </script>
 </head>
 <body>
 {{ main }}

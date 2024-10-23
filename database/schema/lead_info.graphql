@@ -1,0 +1,7 @@
+type LeadInfos{
+    last_name:String
+
+    attending:String
+    diet:String
+    diet_other:String
+}

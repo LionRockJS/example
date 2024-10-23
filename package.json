@@ -11,12 +11,15 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.33",
-    "@lionrockjs/mvc": "^0.0.6",
+    "@lionrockjs/adapter-form-captcha-recaptcha": "^0.0.4",
+    "@lionrockjs/adapter-mail-aws": "^0.0.2",
+    "@lionrockjs/central": "^0.0.35",
+    "@lionrockjs/mvc": "^0.0.8",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.14",
     "@lionrockjs/mixin-form": "^0.0.7",
     "@lionrockjs/router": "^0.0.1",
+    "@lionrockjs/mod-cold-leads": "^0.0.10",
     "dotenv": "^16.4.5",
     "pluralize": "^8.0.0"
   },
