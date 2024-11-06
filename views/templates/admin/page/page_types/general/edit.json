@@ -33,7 +33,7 @@
     "main": {
       "type": "page/edit/main",
       "settings": {
-        "block_types": "label,default,logos,paragraphs,banner,facts,feature,cta,feature_speaker"
+        "block_types": "label,default,logos,paragraphs,banner,facts"
       }
     },
     "footer": {

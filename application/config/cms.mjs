@@ -12,6 +12,7 @@ export default {
     logos : ['label', {pictures:["url"]}],
     paragraphs:["subject", "body", "picture", "caption", "description"],
     label: ["subject"],
+    facts : ['title', "subject", {items:["@picture", "title", "subject"]}],
   },
 
   pageTypeSlugs: {
