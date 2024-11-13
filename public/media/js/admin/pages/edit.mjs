@@ -110,8 +110,14 @@ btnClean.addEventListener('click', () => {
 
 const btnRun = document.getElementById('cmd-run');
 btnRun.addEventListener('click', () => {
-  if(inputMapping.value.split('\n').length === 0) return;
-  if(!inputSelector.value) return;
+  if(inputMapping.value.split('\n').length === 0) {
+    alert('mapping is empty');
+    return;
+  }
+  if(!inputSelector.value){
+    alert('selector is empty');
+    return;
+  }
 
   const keys = inputMapping.value.split('\n');
   const groups = JSON.parse(inputData.dataset.data);
