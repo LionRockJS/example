@@ -4,7 +4,7 @@ export default {
   databasePath: `${Central.APP_PATH}/../database`,
   defaultLanguage: 'en',
   blueprint: {
-    default: ['@date', 'name', 'body', 'link__label', 'link__url', {items: ["name"]}],
+    default: ['@date', 'name', 'body', 'link__label','link__url', {items: ["name"]}],
     vcard:["@picture", "name", "company", "title", "@email", "@mobile", "@work_phone", "address", "@zip", "region", "url", "note", {tel:["@type", "@number"]}, {sns:["provider","url"]}],
   },
 
