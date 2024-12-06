@@ -1,4 +1,3 @@
-/** dark mode */
 ul.box,
 ul.box li {
   margin: 0;
@@ -13,4 +12,7 @@ nav > ul li {
   list-style: none;
 }
 
-/*# sourceMappingURL=site.css.map */
+body, html{
+  font-size: 14px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}

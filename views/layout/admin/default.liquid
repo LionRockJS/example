@@ -1,0 +1,52 @@
+{% assign cacheId = 1 %}
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+  <title>Admin</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+
+  <link rel="stylesheet" href="/media/css/style.css?r={{ cacheId }}"/>
+  <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}"/>
+
+  {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" media="print" onload="this.media='all'"/>
+  {% endfor %}
+
+  <script src="https://kit.fontawesome.com/f2efffe288.js" crossorigin="anonymous"></script>
+  <script type="application/javascript" src="/media/js/admin.js?r={{ cacheId }}"></script>
+
+  {% for script in scripts %}
+    {% if script contains '.mjs' %}
+      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}"></script>
+    {% else %}
+      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" ></script>
+    {% endif %}
+  {% endfor %}
+
+  {% for script in external_scripts %}<script type="application/javascript" src="{{ script }}" async></script>
+  {% endfor %}
+
+  {% for script in defer_scripts %}
+    {% if script contains '.mjs' %}
+      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+    {% else %}
+      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+    {% endif %}
+  {% endfor %}
+</head>
+
+<body class="{{ controller }} {{ controller }}-{{ action }}">
+{{ main }}
+</body>
+</html>
