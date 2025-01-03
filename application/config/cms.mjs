@@ -34,7 +34,7 @@ export default {
     description: "richtext",
     date: "date",
     file: "file",
-    note: "richtext",
+    note: "textarea",
     address: "textarea",
   },
 

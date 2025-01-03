@@ -132,3 +132,21 @@ btnRun.addEventListener('click', () => {
     })
   })
 })
+
+/*
+* content editable replacement
+*/
+const turndownService = new TurndownService();
+turndownService.keep(['u']);
+
+document.querySelectorAll('.input-editable').forEach(container => {
+  const editor = container.querySelector('[contenteditable="true"]');
+  const input = container.querySelector('input, textarea');
+  editor.addEventListener('input', () => {
+    const source = editor.innerHTML;
+    const md = turndownService.turndown(source);
+    const html = marked.parse(md);
+
+    input.value = html.trim();
+  });
+});

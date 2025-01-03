@@ -12,41 +12,81 @@
   <title>Admin</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {  theme: {
+        screens:{
+          'sm': '414px',
+          'md': '718px',
+          'lg': '993px',
+          'xl': '1312px',
+          '2xl': '1552px',
+        },
+        fontFamily:{
+          'sans': ['"Work Sans"', '"Noto Sans JP"', '"Noto Sans TC"', "Helvetica", "Arial", "sans-serif"],
+          'serif': ["Noto Serif JP", "georgia", "serif"],
+          'mono': ['ui-monospace', 'SFMono-Regular', 'monospace'],
+        },
+        extend: {
+          animation: {
+            'spin-slow': 'spin 2s linear infinite',
+          },
+          fontSize: {
+            '2xs': ['0.5rem', 1.2]
+          }
+        },
+      }}
+  </script>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://unpkg.com/htmx.org@2.0.3"></script>
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css" blocking="render">
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js" blocking="render"></script>
 
+  <link rel="stylesheet" href="/media/css/style.css?r={{ cacheId }}" blocking="render"/>
+  <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}" blocking="render"/>
 
-  <link rel="stylesheet" href="/media/css/style.css?r={{ cacheId }}"/>
-  <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}"/>
-
-  {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" media="print" onload="this.media='all'"/>
+  {% for css in stylesheets %}
+    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" media="print" onload="this.media='all'"/>
   {% endfor %}
 
   <script src="https://kit.fontawesome.com/f2efffe288.js" crossorigin="anonymous"></script>
-  <script type="application/javascript" src="/media/js/admin.js?r={{ cacheId }}"></script>
+  <script type="application/javascript" src="/media/js/admin.js?r={{ cacheId }}" blocking="render"></script>
 
   {% for script in scripts %}
     {% if script contains '.mjs' %}
-      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}"></script>
+      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}" blocking="render"></script>
     {% else %}
-      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" ></script>
+      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" blocking="render"></script>
     {% endif %}
   {% endfor %}
 
-  {% for script in external_scripts %}<script type="application/javascript" src="{{ script }}" async></script>
+  {% for script in external_scripts %}
+    <script type="application/javascript" src="{{ script }}" async blocking="render"></script>
   {% endfor %}
 
   {% for script in defer_scripts %}
     {% if script contains '.mjs' %}
-      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+      <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}" defer blocking="render"></script>
     {% else %}
-      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+      <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer blocking="render"></script>
     {% endif %}
   {% endfor %}
 </head>
 
-<body class="{{ controller }} {{ controller }}-{{ action }}">
+<body id="body" class="{{ controller }} {{ controller }}-{{ action }} preload">
 {{ main }}
 </body>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.remove("preload");
+
+    window.scrollTo(0, parseInt(sessionStorage.getItem("scrollY") || '0'));
+    window.addEventListener("beforeunload", () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const scrollX = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+      sessionStorage.setItem("scrollY", scrollY.toString());
+      sessionStorage.setItem("scrollX", scrollY.toString());
+    });
+  });
+</script>
 </html>
