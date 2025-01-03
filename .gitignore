@@ -1,1 +1,3 @@
 coverage/
+/themes
+application/config/credentials
