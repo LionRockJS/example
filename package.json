@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/mvc": "^0.0.8",
+    "@lionrockjs/router": "^0.0.2",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.18",
     "@lionrockjs/adapter-database-better-sqlite3": "^0.0.7",
     "@lionrockjs/adapter-auth-password": "^0.0.8",
