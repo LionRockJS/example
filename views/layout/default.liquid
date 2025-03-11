@@ -8,13 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LionRockJS</title>
 
-    {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}"  media="print" onload="this.media='all'"/>
+    {% for css in meta.external_stylesheets %}    <link rel="stylesheet" href="{{ css }}"  media="print" onload="this.media='all'"/>
     {% endfor %}
 
-    {% for script in external_scripts %}    <script type="application/javascript" src="{{ script }}" async ></script>
+    {% for css in meta.stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}"  media="print" onload="this.media='all'"/>
     {% endfor %}
 
-    {% for script in defer_scripts %}    <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+    {% for script in meta.external_scripts %}    <script type="application/javascript" src="{{ script }}" async ></script>
+    {% endfor %}
+
+    {% for script in meta.defer_scripts %}    <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
     {% endfor %}
 
 </head>
