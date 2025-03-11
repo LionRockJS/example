@@ -27,7 +27,7 @@ export default class Server {
   }
 
   async listen() {
-    console.log(Central.ENV, Central.config);
+    console.log(Central.ENV, JSON.stringify(Central.config, null, 2));
     console.log(Array.from(RouteList.routeMap.values()).map(route => route.path + " " + route.method + ' => '+ route.controller + '::action_' + route.action).sort());
     await this.app.listen(this.port);
     console.log(`app listening at ${this.port}`);
