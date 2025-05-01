@@ -5,18 +5,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server/development.js",
+    "start": "node server/production.js"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.31",
-    "@lionrockjs/mvc": "^0.0.5",
+    "@lionrockjs/central": "^0.0.45",
+    "@lionrockjs/mvc": "^0.0.9",
     "@lionrockjs/platform-web-express": "^0.0.3",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
-    "@lionrockjs/mixin-form": "^0.0.7",
-    "@lionrockjs/router": "^0.0.1",
-    "dotenv": "^16.4.5"
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.32",
+    "@lionrockjs/mixin-form": "^0.0.8",
+    "@lionrockjs/router": "^0.0.2",
+    "dotenv": "^16.5.0"
   }
 }
