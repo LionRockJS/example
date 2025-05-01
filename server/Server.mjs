@@ -1,5 +1,7 @@
 import { ServerAdapterNodeHTTP } from "@lionrockjs/platform-web-node-http";
-const __dirname = path.dirname(import.meta.url).replace('file://', '');
+
+import * as url from 'node:url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
 import path from 'node:path';
 import {Central} from '@lionrockjs/central';
