@@ -5,25 +5,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/production.js",
+    "dev": "node server/development.js"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/mvc": "^0.0.5",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
-    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.5",
-    "@lionrockjs/adapter-auth-password": "^0.0.7",
-    "@lionrockjs/central": "^0.0.31",
-    "@lionrockjs/mixin-orm": "^0.0.11",
-    "@lionrockjs/mixin-form": "^0.0.7",
+    "@lionrockjs/mvc": "^0.0.9",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.32",
+    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.8",
+    "@lionrockjs/adapter-auth-password": "^0.0.8",
+    "@lionrockjs/adapter-session-jwt": "^0.0.6",
+    "@lionrockjs/central": "^0.0.45",
+    "@lionrockjs/mixin-orm": "^0.0.13",
+    "@lionrockjs/mixin-form": "^0.0.8",
     "@lionrockjs/mixin-session": "^0.0.12",
     "@lionrockjs/mod-auth": "^0.0.11",
-    "@lionrockjs/mod-admin": "^0.0.26",
+    "@lionrockjs/mod-admin": "^0.0.34",
     "@lionrockjs/platform-web-fastify": "^0.0.3",
-    "@lionrockjs/router": "^0.0.1",
-    "dotenv": "^16.4.5",
+    "@lionrockjs/router": "^0.0.2",
+    "dotenv": "^16.5.0",
     "pluralize": "^8.0.0"
   }
 }
