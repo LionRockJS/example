@@ -2,7 +2,7 @@ import 'dotenv/config';
 import {Central} from '@lionrockjs/central';
 import Server from './Server.mjs';
 
-Central.ENV = Central.ENV_DEVE;
+Central.ENV = Central.ENV_DEV;
 
 (async () => {
   const s = new Server(parseInt(process.env.PORT ?? '8000') + 9);
