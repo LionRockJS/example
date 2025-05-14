@@ -5,16 +5,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/production.js",
+    "dev": "node server/development.js"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/mvc": "^1.1.0",
-    "@lionrockjs/platform-web-fastify": "^1.0.0",
-    "dotenv": "^16.3.1",
-    "mime": "^3.0.0",
-    "sortablejs": "^1.15.2"
+    "@lionrockjs/central": "^0.0.45",
+    "@lionrockjs/mvc": "^0.0.9",
+    "@lionrockjs/platform-web-node-http": "^0.0.9",
+    "@lionrockjs/router": "^0.0.2",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "serve-static": "^2.2.0"
   }
 }
