@@ -1,5 +1,3 @@
-import { ServerAdapterNodeHTTP } from "@lionrockjs/platform-web-node-http";
-
 import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
@@ -24,7 +22,7 @@ export default class Server {
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
-    this.adapter = Central.config.site?.platform?.adapter || ServerAdapterNodeHTTP;
+    this.adapter = Central.config.site?.platform?.adapter || {setup: async ()=>({listen: port => console.log(`app listening at ${port}`)})};
     this.app = await this.adapter.setup();
   }
 
