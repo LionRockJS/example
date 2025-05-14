@@ -1,4 +1,6 @@
-{% assign cacheId = 1 %}
+{%- liquid
+  assign cacheId = 1
+-%}
 <!doctype html>
 <html lang="{{ language }}">
 <head>
@@ -6,13 +8,13 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="format-detection" content="telephone=no">
-
   <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
-  <title>LionRockJS Admin</title>
+
+  <title>LionRock Admin</title>
 
   <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}">
-  {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" />
+  {% for css in meta.stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" />
   {% endfor %}
 
   {% for script in meta.scripts %}
@@ -34,14 +36,14 @@
     {% endif %}
   {% endfor %}
 
+  <script type="application/javascript" src="/media/js/admin.js?r={{ cacheId }}" defer></script>
+
   {% render "head/tailwindcss", cacheId: cacheId %}
 </head>
-<body class="{{ controller }} {{ controller }}-{{ action }}">
+<body class="{{ controller }} {{ controller }}-{{ action }} role-{{ user_role }}">
 {% render "logo" %}
 <header>
 </header>
-
 {{ main }}
-
 </body>
 </html>
