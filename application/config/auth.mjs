@@ -11,7 +11,6 @@ export default {
   databaseMapName,
   databaseMap: new Map([
     [databaseMapName, `${Central.EXE_PATH}/../database/${userDatabase}`],
-    ['session', `${Central.EXE_PATH}/../database/session.sqlite`]
   ]),
 
   identifiers: [IdentifierPassword],
