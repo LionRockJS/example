@@ -1,0 +1,41 @@
+{
+  "sections": {
+    "header_XBwdLm": {
+      "type": "header",
+      "settings": {
+      }
+    },
+    "hero_6B3fHk": {
+      "type": "hero",
+      "settings": {
+        "heading": "{{ page.metafields.page.headline.value }}",
+        "subheading": "{{ page.metafields.page.subheadline.value }}",
+        "image": "{{ page.metafields.custom.top_image.value }}",
+        "body": "hello",
+        "style": "short"
+      }
+    },
+    "paragraphs_PcJwWB": {
+      "type": "paragraphs",
+      "settings": {
+      }
+    },
+    "footnote_hGk4mq": {
+      "type": "footnote",
+      "settings": {
+      }
+    },
+    "dev_footer_LRKK93": {
+      "type": "dev-footer",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header_XBwdLm",
+    "hero_6B3fHk",
+    "paragraphs_PcJwWB",
+    "footnote_hGk4mq",
+    "dev_footer_LRKK93"
+  ]
+}
