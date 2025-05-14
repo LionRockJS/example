@@ -13,7 +13,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.32",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.34",
     "@lionrockjs/central": "^0.0.45",
     "@lionrockjs/mvc": "^0.0.9",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
