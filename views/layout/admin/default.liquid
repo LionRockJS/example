@@ -10,8 +10,11 @@
   <meta name="format-detection" content="telephone=no">
   <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+  <link rel="expect">
 
   <title>LionRock Admin</title>
+
+  {% render "head/fonts" %}
 
   <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}">
   {% for css in meta.stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" />
@@ -37,6 +40,7 @@
   {% endfor %}
 
   <script type="application/javascript" src="/media/js/admin.js?r={{ cacheId }}" defer></script>
+  <script type="application/javascript" src="/media/vendors/htmx/htmx.min.js?r={{ cacheId }}"></script>
 
   {% render "head/tailwindcss", cacheId: cacheId %}
 </head>

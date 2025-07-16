@@ -1,0 +1,19 @@
+<div class="block w-4 2xl:w-[10rem] sticky top-0">
+  <input type="checkbox" id="nav-toggle" class="peer hidden" aria-label="Toggle navigation">
+  <label for="nav-toggle" class="hidden peer-checked:block 2xl:hidden curosr-pointer">
+    <i class="fa-solid fa-xmark"></i>
+  </label>
+
+  <label for="nav-toggle" class="block peer-checked:hidden 2xl:hidden curosr-pointer">
+    <i class="fa-solid fa-bars"></i>
+  </label>
+
+  <div class="absolute peer-checked:flex hidden right-0
+  shadow 2xl:shadow-none
+  px-4 py-2 2xl:p-0
+   bg-white 2xl:relative 2xl:flex flex-col text-sm leading-6 text-right w-[10rem]">
+    <a href="/admin" class="font-bold text-primary hover:underline">Home</a>
+    <hr class="my-2 border-t border-gray-300">
+    <a href="/admin/users" class="font-bold text-primary hover:underline">Users</a>
+  </div>
+</div>

@@ -11,6 +11,8 @@
   <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
   <title>LionRockJS Admin</title>
 
+  {% render "head/fonts" %}
+
   <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}">
   {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}" />
   {% endfor %}

@@ -1,3 +1,108 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@source "../../../views";
+@source "../../../node_modules/@lionrockjs/mod-admin/views";
+
+@theme {
+    --breakpoint-sm: 414px;
+    --breakpoint-md: 718px;
+    --breakpoint-lg: 1090px;
+    --breakpoint-xl: 1312px;
+    --breakpoint-2xl: 1552px;
+
+    --font-sans: 'Inter', '"Noto Sans JP"', '"Noto Sans TC"', "Helvetica", "Arial", "sans-serif";
+    --font-serif: "Marcellus", "Noto Serif JP", "georgia", "serif";
+    --font-mono: 'ui-monospace', 'SFMono-Regular', 'monospace';
+
+    --animate-spin-slow: spin 2s linear infinite;
+
+    --aspect-jumbo-hero: 1.7;
+    --aspect-feature: 0.9;
+    --aspect-article: 1.22;
+
+    --text-sm: 0.8rem;
+    --text-sm--line-height: 1rem;
+    --text-md: 0.875rem;
+    --text-md--line-height: 1.375rem;
+    --text-base: 1rem;
+    --text-base--line-height: 1.625rem;
+    --text-xl: 1.125rem;
+    --text-xl--line-height: 1.75rem;
+    --text-2xl: 1.375rem;
+    --text-2xl--line-height: 1.75rem;
+    --text-3xl: 2.375rem;
+    --text-3xl--line-height: 3rem;
+    --text-4xl: 3.25rem;
+    --text-4xl--line-height: 3.875rem;
+    --text-5xl: 4.625rem;
+    --text-5xl--line-height: 5.25rem;
+    --text-h5: 1.25rem;
+    --text-h5--line-height: 2rem;
+    --text-h4: 1.5rem;
+    --text-h4--line-height: 2.43rem;
+    --text-h3: 1.75rem;
+    --text-h3--line-height: 2.84rem;
+    --text-h2: 2rem;
+    --text-h2--line-height: 3.25rem;
+    --text-h1: 64px;
+    --text-h1--line-height: 1.1;
+    --text-h1-xl: 4.625rem;
+    --text-h1-xl--line-height: 7.5rem;
+
+    --color-paper: #F8F8F8;
+    --color-primary: #4c1f7a;
+    --color-secondary: #6E4A83;
+    --color-highlight: #9D004D;
+    --color-dark: #30144C;
+    --color-light: #EEEEEE;
+    --color-glass: rgba(255,255,255,0.3);
+    --color-black-500: rgba(0,0,0,0.1);
+    --color-grey-300: rgba(0,0,0,0.1);
+
+    --shadow-grow: 0 0 3px rgb(255,255,255);
+}
+
+.container-columns{
+    @apply container mx-auto flex flex-col lg:flex-row
+}
+
+.container-columns > div:first-child{
+    @apply flex flex-col bg-paper border-x border-black-500 min-h-[100vh] py-[144px] font-sans
+    w-full
+    xl:w-[545px] xl:min-w-[545px];
+}
+
+.container-columns > div:nth-child(2){
+    @apply w-full
+}
+
+.panel-icon{
+    @apply min-w-[32px] md:min-w-[55px] cursor-pointer transition duration-300 flex justify-center items-center;
+}
+
+.panel-space{
+    @apply px-[32px] md:px-[55px];
+}
+
+.panel-header{
+    @apply text-7xl text-primary font-serif mb-4;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+:root {
+    font-family: Inter, sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
+
+html, body{
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-feature-settings:
+            "ss01" 1,
+            "frac" 1;
+}
