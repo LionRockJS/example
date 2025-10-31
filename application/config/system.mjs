@@ -1,6 +1,10 @@
-import {Central} from '@lionrockjs/central';
+import {ServerAdapterNodeHTTP} from "@lionrockjs/platform-web-node-http";
 
 export default {
-  debug: (Central.ENV !== Central.ENV_PROD),
-  serve_static_file: false,
+  debug: process.env.DEBUG === "true",
+  serve_static_file: process.env.SERVE_STATIC === "true",
+
+  platform:{
+    adapter: ServerAdapterNodeHTTP
+  }
 }
