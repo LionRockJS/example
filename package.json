@@ -16,7 +16,7 @@
     "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/router": "^0.0.2",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
-    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.10",
+    "@lionrockjs/adapter-database-bun-sqlite": "^0.0.3",
     "@lionrockjs/adapter-auth-password": "^0.0.8",
     "@lionrockjs/adapter-session-jwt": "^0.0.6",
     "@lionrockjs/central": "^0.0.54",
