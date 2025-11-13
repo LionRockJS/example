@@ -8,17 +8,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
-    <title>KohanaJS</title>
+    <title>{{ config.system.APP_TITLE | default: "LionRockJS" }}</title>
+
+    {% render "head/fonts", cacheId: cacheId %}
+    <link rel="stylesheet" href="/media/css/site.css?r={{ cacheId }}">
+
+    {% for css in meta.external_stylesheets %}    <link rel="stylesheet" href="{{ css }}" />
+    {% endfor %}
 
     {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}?r={{ cacheId }}"  media="print" onload="this.media='all'"/>
     {% endfor %}
 
-    {% for script in external_scripts %}    <script type="application/javascript" src="{{ script }}" async ></script>
+    {% for script in meta.scripts %}
+        {% if script contains '.mjs' %}
+            <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}"></script>
+        {% else %}
+            <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" ></script>
+        {% endif %}
     {% endfor %}
 
-    {% for script in defer_scripts %}    <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+    {% for script in meta.external_scripts %}<script type="application/javascript" src="{{ script }}" async></script>
     {% endfor %}
 
+    {% for script in meta.defer_scripts %}
+        {% if script contains '.mjs' %}
+            <script type="module" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+        {% else %}
+            <script type="application/javascript" src="/media/js/{{ script }}?r={{ cacheId }}" defer></script>
+        {% endif %}
+    {% endfor %}
+
+    {% render "head/tailwindcss", cacheId: cacheId %}
 </head>
 <body class="{{ controller }} {{ controller }}-{{ action }}">
 <header></header>

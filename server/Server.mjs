@@ -17,12 +17,13 @@ export default class Server {
       APP_PATH:  path.normalize(`${__dirname}/../application`),
       VIEW_PATH: path.normalize(`${__dirname}/../views`),
     });
+    Central.port = this.port;
 
     await import('../application/import.mjs');
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
-    this.adapter = Central.config.site?.platform?.adapter || {setup: async ()=>({listen: port => console.log(`app listening at ${port}`)})};
+    this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
   }
 
