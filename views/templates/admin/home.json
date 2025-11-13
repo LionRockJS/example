@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "logo_text": "{{config.system.APP_NAME | default: 'LionRockJS'}}",
+        "section_main": "title",
+        "title": "admin",
+        "breadcrumb": "Home:/admin,Dashboard:",
+        "section_header": "orm-header",
+        "section_body": "orm-list",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

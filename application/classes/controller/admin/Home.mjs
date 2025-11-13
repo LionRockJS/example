@@ -1,5 +1,4 @@
-import {Controller} from "@lionrockjs/mvc";
-import {Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView} from "@lionrockjs/central";
+import {Controller, Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView} from "@lionrockjs/central";
 import {ControllerMixinLoginRequire} from "@lionrockjs/mod-auth";
 import {ControllerMixinSession} from "@lionrockjs/mixin-session";
 
@@ -8,7 +7,8 @@ export default class ControllerAdminHome extends Controller {
     ControllerMixinDatabase,
     ControllerMixinSession,
     ControllerMixinLoginRequire,
-    ControllerMixinView]
+    ControllerMixinView
+  ]
 
   constructor(request){
     super(request, new Map([
@@ -21,6 +21,7 @@ export default class ControllerAdminHome extends Controller {
   }
 
   async action_index() {
+    ControllerMixinView.setTemplate(this.state, 'templates/admin/home', {});
     console.log('Hello This is Admin');
   }
 }
