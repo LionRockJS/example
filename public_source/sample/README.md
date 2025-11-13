@@ -1,0 +1,1 @@
+sample folder contain HTML for tailwind generate css

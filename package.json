@@ -5,29 +5,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node server/development",
+    "start": "node server/production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/mvc": "^0.0.8",
+    "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/router": "^0.0.2",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.18",
-    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.7",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
+    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.10",
     "@lionrockjs/adapter-auth-password": "^0.0.8",
     "@lionrockjs/adapter-session-jwt": "^0.0.6",
-    "@lionrockjs/central": "^0.0.41",
-    "@lionrockjs/mixin-orm": "^0.0.11",
-    "@lionrockjs/mixin-form": "^0.0.7",
+    "@lionrockjs/central": "^0.0.54",
+    "@lionrockjs/mixin-orm": "^0.0.16",
+    "@lionrockjs/mixin-form": "^0.0.9",
     "@lionrockjs/mixin-session": "^0.0.12",
-    "@lionrockjs/mod-auth": "^0.0.11",
-    "@lionrockjs/mod-admin": "^0.0.31",
+    "@lionrockjs/mod-auth": "^0.0.12",
+    "@lionrockjs/mod-admin": "^0.0.60",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "dotenv": "^16.4.7",
+    "dotenv": "^17.2.3",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^1.16.2"
+    "serve-static": "^2.2.0"
   }
 }
