@@ -15,8 +15,7 @@ export default class ControllerAdminHome extends Controller {
       [ControllerMixinLoginRequire.REJECT_LANDING, '/login'],
       [ControllerMixinLoginRequire.ALLOW_ROLES, new Set(['admin', 'staff'])],
       [ControllerMixinView.LAYOUT_FILE, 'layout/admin/default'],
-      [ControllerMixinDatabase.DATABASE_MAP, new Map([['session', `${Central.config.auth.databasePath}/session.sqlite`]]),
-      ]
+//      [ControllerMixinDatabase.DATABASE_MAP, new Map([['session', `${Central.config.auth.databasePath}/session.sqlite`]])]
     ]));
   }
 
