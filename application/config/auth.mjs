@@ -3,11 +3,11 @@ import {Central} from '@lionrockjs/central';
 import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
 
 export default {
-  databasePath: path.normalize(Central.EXE_PATH + '/../database'),
+  databasePath: "",
   databaseMap: new Map([
-    ['admin', path.normalize(Central.EXE_PATH + '/../database/admin.sqlite')],
+    ['admin', 'postgres://postgres:postgres@localhost:5432/lionrock_test'],
   ]),
-  userDatabase: 'admin.sqlite',
+  userDatabase: 'public',
   databaseMapName : "admin",
   identifiers: [IdentifierPassword],
   destination: 'admin',
