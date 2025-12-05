@@ -1,0 +1,56 @@
+<div id="pagination" class="border-t border-solid border-neutral-300 py-12 mt-8">
+  <div class="flex flex-col flex-wrap md:flex-row items-center justify-between">
+    <div class="text-center md:text-left w-full {% if max_page < 3 %}md:w-1/3{% else %}md:w-1/2{% endif %} 2xl:w-auto 2xl:order-1 mb-4 md:mb-0">
+      {{ "general.pagination.showing_1" | t }}{{ paginate.current_offset | plus: 1 | at_most: paginate.items }} –
+      {{ paginate.current_offset | plus: paginate.page_size | at_most: paginate.items }}{{ "general.pagination.showing_2" | t }}{{ paginate.items }}{{ "general.pagination.showing_3" | t }}
+    </div>
+    <div class="w-full {% if max_page < 3 %}md:w-1/3{% else %}md:w-full md:order-3 md:mt-3{% endif %} 2xl:w-auto 2xl:order-2 2xl:mt-0 text-center">
+      {% if paginate.current_page != 1 -%}
+        <button
+            class="inline-block button-link {% if paginate.current_page == 1 %}disable{% endif %}"
+            {% if paginate.current_page == 1 %}
+              disabled
+            {% endif %}
+            name="page"
+            value="{{ paginate.current_page | minus : 1 }}"
+            form="FacetFiltersForm"
+            type="submit"
+        >
+          <i class="fa-light fa-chevron-left me-2"></i>{{ "general.pagination.previous" | t }}
+        </button>
+      {%- endif %}
+      {%- for part in paginate.parts -%}
+        {% if part.is_link == false %}
+          <span class="inline-block {% if part.title == paginate.current_page %}button-primary text-white w-[3.5rem]{% else %}text-bbr-gold w-[2rem]{% endif %} px-0 ">{{ part.title }}</span>
+        {% else %}
+          <button
+              class="{% if part.title == paginate.current_page %}button-primary text-white{% else %}button-link{% endif %} px-0 w-[2rem] xl:w-[3.5rem]"
+              form="FacetFiltersForm"
+              type="submit"
+              name="page"
+              value="{{ part.title }}"
+          >
+            {{ part.title }}
+          </button>
+        {% endif %}
+      {%- endfor -%}
+      {% if paginate.next.is_link %}
+        <button
+            class="inline-block button-link {% if paginate.next.is_link == blank %}disable{% endif %}"
+            {% if paginate.current_page >= max_page %}
+              disabled
+            {% endif %}
+            name="page"
+            value="{{ paginate.current_page | plus : 1 }}"
+            form="FacetFiltersForm"
+            type="submit"
+        >
+          {{ "general.pagination.next" | t }}<i class="fa-light fa-chevron-right ms-2"></i>
+        </button>
+      {% endif %}
+    </div>
+    <div class="hidden md:block {% if max_page < 3 %}md:w-1/3{% else %}md:w-1/2{% endif %} 2xl:w-auto 2xl:order-3 text-end">
+      {{ "general.pagination.per_page_1" | t }}{{ paginate.page_size }}{{ "general.pagination.per_page_2" | t }}
+    </div>
+  </div>
+</div>

@@ -14,5 +14,5 @@ await Central.addModules([
 
   await import('@lionrockjs/view-admin'),
   await import('@lionrockjs/mod-admin-cms'),
-  await import('@lionrockjs/view-admin-cms'),
+  await import('@lionrockjs/view-admin-cms-compact'),
 ]);

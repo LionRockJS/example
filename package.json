@@ -27,7 +27,8 @@
     "@lionrockjs/mod-admin": "^0.0.61",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/mod-admin-cms": "^0.0.81",
-    "@lionrockjs/view-admin-cms": "^0.0.35",
+    "@lionrockjs/view-admin": "^0.0.13",
+    "@lionrockjs/view-admin-cms-compact": "^0.0.34",
     "dotenv": "^17.2.3",
     "pluralize": "^8.0.0"
   },
