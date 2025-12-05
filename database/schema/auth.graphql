@@ -1,0 +1,36 @@
+interface IIdentifiers {
+  name: String! @unique
+  belongsTo: Users
+}
+
+type Persons{
+  first_name: String!
+  last_name: String
+}
+
+type PersonalInfos{
+  name: String!
+  value: String!
+  belongsTo: Persons
+}
+
+type Roles {
+  name: String
+}
+
+type Users{
+  belongsTo: Persons
+  hasAndBelongsToMany: Roles
+  activated: Boolean @default( value: false )
+}
+
+type IdentifierUsers implements IIdentifier{
+  name: String! @unique
+  belongsTo: Users
+}
+
+type Logins{
+  ip: String
+  note: String
+  belongsTo: Users
+}
