@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@prisma/client": "7.0.0",
     "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/router": "^0.0.2",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
@@ -30,6 +31,7 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
+    "prisma": "7.0.0",
     "serve-static": "^2.2.0"
   }
 }

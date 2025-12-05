@@ -1,0 +1,95 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas = ["public", "admin"]
+}
+
+model Person {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    first_name String?
+    last_name String?
+
+    infos PersonalInfo[]
+    users User[]
+    @@schema("admin")
+}
+
+model PersonalInfo {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name String
+    value String
+    person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
+    person_id BigInt
+
+    @@schema("admin")
+}
+
+model Role {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name String
+    users User[]
+
+    @@schema("admin")
+}
+
+model User {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    activated Boolean @default(false)
+
+    person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
+    person_id BigInt
+
+    roles Role[]
+    identifers IdentifierUser[]
+    logins Login[]
+
+    @@schema("admin")
+}
+
+model IdentifierUser {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name String @unique
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    user_id BigInt
+
+    @@schema("admin")
+}
+
+model Login {
+    id BigInt @id @default(autoincrement())
+    uuid String @default(uuid(7)) @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    ip String?
+    note String?
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    user_id BigInt
+
+    @@schema("admin")
+}
