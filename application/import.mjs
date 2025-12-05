@@ -13,4 +13,6 @@ await Central.addModules([
   await import('@lionrockjs/mod-admin'),
 
   await import('@lionrockjs/view-admin'),
+  await import('@lionrockjs/mod-admin-cms'),
+  await import('@lionrockjs/view-admin-cms'),
 ]);
