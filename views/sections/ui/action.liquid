@@ -1,0 +1,6 @@
+<div class="w-full panel-space my-8">
+    <a href="{{ section.settings.link }}"
+            class="cursor-pointer transition duration-500 w-full rounded-lg px-3 py-2 uppercase text-base leading-8 font-sans text-white {% if published %}bg-gray-700 hover:bg-gray-900{% else %}bg-primary hover:bg-highlight{% endif %} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+       onclick="setTimeout(()=>{this.href='#'; this.innerHTML = '<i class=\'fas fa-spinner fa-spin\'></i> Loading...';}, 200);"
+    >{{ section.settings.label }}</a>
+</div>

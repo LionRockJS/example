@@ -1,0 +1,73 @@
+{
+  "wrapper": "div.w-full.max-w-\\[1000px\\]",
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/contacts/versions.js"
+        ]
+      }
+    },
+
+    "languages": {
+      "type": "admin/contacts/read/languages",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+
+    "fields": {
+      "type": "admin/contacts/read/inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "items": {
+      "type": "admin/contacts/read/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "other-fields": {
+      "type": "admin/contacts/read/minor-inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "header": {
+      "type": "admin/contacts/edit/header",
+      "settings": {
+      }
+    },
+    "tags": {
+      "type": "admin/contacts/edit/tags"
+    },
+
+    "versions": {
+      "type": "admin/contacts/read/versions"
+    },
+
+    "history": {
+      "type": "admin/contacts/edit/history"
+    },
+
+    "debug": {
+      "type": "admin/pages/debug"
+    }
+  },
+  "order": [
+    "defer_script",
+    "languages",
+    "fields",
+    "items",
+    "other-fields",
+    "versions",
+    "history"
+  ]
+}

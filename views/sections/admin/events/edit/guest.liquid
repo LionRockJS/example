@@ -1,0 +1,178 @@
+{% if item.id == "new_post/event" %}
+{% else %}
+<div class="panel-space mt-8 border-t border-primary py-8" data-event-id="{{ item.id }}">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="text-2xl text-primary font-bold"> <i class="fa-solid fa-user-group-crown"></i> Guest Lists</div>
+    <div class="flex gap-2 items-center">
+      <div class="filter-color-picker group relative flex items-center" data-current-filter="">
+        <div class="cursor-pointer py-2" title="Filter by color">
+          <span id="event-guest-color-indicator" class="h-2 w-2 text-gray-400"><i class="fa-solid fa-circle"></i></span>
+        </div>
+        <div class="color-options absolute right-0 w-[160px] group-hover:block hidden z-10">
+          <div class="bg-gray-700 inline-flex gap-1 p-2 rounded-xl shadow-lg">
+            <input id="event-filter-color-all" type="radio" name="event-filter-color" value="" class="event-color-filter-option hidden" checked><label for="event-filter-color-all" class="text-gray-300 cursor-pointer hover:text-white" title="All colors"><i class="fa-solid fa-xmark"></i></label>
+            <input id="event-filter-color-red" type="radio" name="event-filter-color" value="red" class="event-color-filter-option hidden"><label for="event-filter-color-red" class="text-red-500 cursor-pointer hover:text-red-400" title="Red"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-orange" type="radio" name="event-filter-color" value="orange" class="event-color-filter-option hidden"><label for="event-filter-color-orange" class="text-orange-500 cursor-pointer hover:text-orange-400" title="Orange"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-yellow" type="radio" name="event-filter-color" value="yellow" class="event-color-filter-option hidden"><label for="event-filter-color-yellow" class="text-yellow-300 cursor-pointer hover:text-yellow-200" title="Yellow"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-green" type="radio" name="event-filter-color" value="green" class="event-color-filter-option hidden"><label for="event-filter-color-green" class="text-green-500 cursor-pointer hover:text-green-400" title="Green"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-blue" type="radio" name="event-filter-color" value="blue" class="event-color-filter-option hidden"><label for="event-filter-color-blue" class="text-blue-500 cursor-pointer hover:text-blue-400" title="Blue"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-purple" type="radio" name="event-filter-color" value="purple" class="event-color-filter-option hidden"><label for="event-filter-color-purple" class="text-purple-500 cursor-pointer hover:text-purple-400" title="Purple"><i class="fa-solid fa-circle"></i></label>
+            <input id="event-filter-color-none" type="radio" name="event-filter-color" value="none" class="event-color-filter-option hidden"><label for="event-filter-color-none" class="text-gray-300 cursor-pointer hover:text-white" title="No color"><i class="fa-regular fa-circle"></i></label>
+          </div>
+        </div>
+      </div>
+
+      <form id="form-search-guest" hx-get="/admin/hx/guests-search/?event_id={{ item.id }}" hx-target="#search-guest-result" class="text-md text-gray-700 flex gap-2 items-center" >
+        <input type="text" name="search" id="event-guest-search-input" placeholder="Search by name, email or phone" class="w-[15rem] text-right border border-gray-300 px-2 py-0.5 rounded"/>
+        <input type="hidden" name="color" id="event-guest-color-filter" value=""/>
+        <button type="submit"><i class="fa-solid fa-magnifying-glass ms-2"></i></button>
+      </form>
+    </div>
+  </div>
+  <div id="search-guest-result"></div>
+
+{% assign mail_list_count = mail_list | size %}
+  {% if mail_list_count > 0 %}
+  <table id="guest-list-table" class="mb-4 w-full table-primary">
+    <thead>
+    <tr class="text-left text-primary border-b border-b-gray-300">
+      <th class="for-admin pb-2 pe-1">
+        <input type="checkbox"
+               onclick="tableBulkSelect(this)"
+               aria-label="Checkbox Action"
+               class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+        >
+      </th>
+      <th></th>
+      <th class="pb-2 pe-1">Name</th>
+      <th class="text-center pb-2 px-1 text-nowrap bg-gray-200">Guest Groups<br>(w/Plus Ones)</th>
+      <th class="text-center pb-2 px-1">Onhold</th>
+      <th class="text-center pb-2 px-1 text-nowrap">To be invited</th>
+      <th class="text-center pb-2 px-1">Invited</th>
+      <th class="text-center pb-2 px-1 text-nowrap">Confirmed</th>
+      <th class="text-center pb-2 px-1">Declined</th>
+    {% if total_unconfirmed_total > 0 %}      <th class="text-center pb-2 px-1">Unconfirmed</th>{% endif %}
+    {% if total_checked_in_total > 0 %}      <th class="text-center pb-2 ps-1 text-nowrap bg-gray-200">Checked-in</th>{% endif %}
+      <th></th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      {% assign list = mail_list | sort : "weight" %}
+  {% for m in list %}
+    <tr data-mail-list-id="{{ m.id }}">
+      <td class="align-middle w-6 min-w-6 for-admin py-2">
+        <input type="checkbox"
+               aria-label="Select item"
+               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+               name="selected_items[]"
+               value="{{ item.id }}"
+               form="bulk-action"
+        >
+      </td>
+      <td class="drag-handler cursor-move hover:text-primary transition-colors"><i class="fa-solid fa-grip-vertical px-2"></i></td>
+      <td class="py-2">
+        <a href="/admin/rsvp/{{ m.id }}"
+          class="block overflow-hidden text-ellipsis max-w-[500px] max-h-12"
+          ><span class="font-bold">{{ m.name }}</span>
+          {% if m.print.tokens.show_in_checkin_lite == 'yes' %}
+            <span class="text-xs ms-2"><i class="fa-solid fa-mobile-screen-button"></i>
+            {% if m.print.tokens.checkin_lite_passcode != blank %}
+            <i class="fa-solid fa-lock"></i> {{ m.print.tokens.checkin_lite_passcode }}
+          {% endif %}
+          </span>
+          {% endif %}
+        </a>
+      </td>
+      <td class="text-center py-2 bg-gray-200"><span class="font-bold text-primary">{{ m.guest_count | default: "0" }}</span> <span class="text-gray-400 font-bold">({{ m.guest_total | default: "0" }})</span></td>
+      <td class="text-center py-2 text-primary">{{ m.onhold_count | default: "0" }} <span class="text-gray-400">({{ m.onhold_total | default: "0" }})</span></td>
+      <td class="text-center py-2 text-primary">{{ m.to_be_invited_count | default: "0" }} <span class="text-gray-400">({{ m.to_be_invited_total | default: "0" }})</span></td>
+      <td class="text-center py-2 text-primary">{{ m.invited_count | default: "0" }} <span class="text-gray-400">({{ m.invited_total | default: "0" }})</span></td>
+      <td class="text-center py-2"><span class="text-primary">{{ m.confirmed_count | default: "0" }}</span> <span class="text-gray-400">({{ m.confirmed_total | default: "0" }})</span></td>
+      <td class="text-center py-2 text-primary">{{ m.declined_count | default: "0" }} <span class="text-gray-400">({{ m.declined_total | default: "0" }})</span></td>
+{% if total_unconfirmed_total > 0 %}      <td class="text-center py-2 text-primary">{{ m.unconfirmed_count | default: "0" }} <span class="text-gray-400">({{ m.unconfirmed_total | default: "0" }})</span></td>{% endif %}
+{% if total_checked_in_total > 0 %}      <td class="text-center py-2 text-blue-600 bg-gray-200">{{ m.checked_in_count | default: "0" }} <span class="text-gray-400">({{ m.checked_in_total | default: "0" }})</span></td>{% endif %}
+      <td class="text-end py-2"><a href="/admin/rsvp/{{ m.id }}" class="underline" >View</a></td>
+    </tr>
+  {% endfor %}
+    <!-- Totals Row -->
+    <tr class="border-t-2 border-primary bg-gray-50 font-bold">
+      <td class="align-middle w-6 min-w-6 for-admin py-3"></td>
+      <td></td>
+      <td class="py-3"><a href="/admin/events/{{ item.id }}/all-guests" class="text-primary underline">TOTAL</a></td>
+      <td class="text-center py-3 text-primary bg-gray-200"><span class="font-bold">{{ total_guest_count | default: "0" }}</span> <span class="text-gray-400 font-bold">({{ total_guest_total | default: "0" }})</span></td>
+      <td class="text-center py-3 text-primary">{{ total_onhold_count | default: "0" }} <span class="text-gray-400">({{ total_onhold_total | default: "0" }})</span></td>
+      <td class="text-center py-3 text-primary">{{ total_to_be_invited_count | default: "0" }} <span class="text-gray-400">({{ total_to_be_invited_total | default: "0" }})</span></td>
+      <td class="text-center py-3 text-primary">{{ total_invited_count | default: "0" }} <span class="text-gray-400">({{ total_invited_total | default: "0" }})</span></td>
+      <td class="text-center py-3 text-primary">{{ total_confirmed_count | default: "0" }} <span class="text-gray-400">({{ total_confirmed_total | default: "0" }})</span></td>
+      <td class="text-center py-3 text-primary">{{ total_declined_count | default: "0" }} <span class="text-gray-400">({{ total_declined_total | default: "0" }})</span></td>
+{% if total_unconfirmed_total > 0 %}      <td class="text-center py-3 text-primary">{{ total_unconfirmed_count | default: "0" }} <span class="text-gray-400">({{ total_unconfirmed_total | default: "0" }})</span></td>{% endif %}
+{% if total_checked_in_total > 0 %}      <td class="text-center py-3 text-blue-600 bg-gray-200">{{ total_checked_in_count | default: "0" }} <span class="text-gray-400">({{ total_checked_in_total | default: "0" }})</span></td>{% endif %}
+      <td class="text-end py-3"><a href="/admin/events/{{ item.id }}/all-guests" class="text-primary underline">View All</a></td>
+    </tr>
+    </tbody>
+  </table>
+  {% else %}
+    <div class="text-gray-500 mb-4">
+      You have no guest lists yet. click the button below to create a new one.
+    </div>
+  {% endif %}
+
+  <div class="flex justify-between">
+    <a href="/admin/events/{{ item.id }}/export/guest-lists?r={{ "now" | date: "%Y-%m-%d-%H-%M" }}" download="guest-lists-{{ item.id }}-{{ "now" | date: "%Y-%m-%d-%H-%M" }}.csv"
+      class="inline-block transition duration-500 rounded-lg py-2 uppercase text-base text-primary"
+    ><i class="fa-light fa-file-export me-1"></i> <span class="underline">Export Guest Lists</span></a>
+    <a href="/admin/events/{{ item.id }}/add/mail_list"
+       class="inline-block transition duration-500 rounded-lg py-2 uppercase text-base text-primary"
+    ><i class="fa-solid fa-square-plus me-1"></i> <span class="underline">Add Guest List</span></a>
+  </div>
+</div>
+
+<script>
+// Event guest search color filtering functionality
+(function() {
+  function updateEventGuestColorIndicator(color) {
+    const indicator = document.getElementById('event-guest-color-indicator');
+    if (!indicator) return;
+    
+    if (!color) {
+      indicator.className = 'h-2 w-2 text-gray-400';
+      indicator.innerHTML = '<i class="fa-solid fa-circle"></i>';
+    } else if (color === 'none') {
+      indicator.className = 'h-2 w-2 text-gray-300';
+      indicator.innerHTML = '<i class="fa-regular fa-circle"></i>';
+    } else {
+      indicator.className = `h-2 w-2 text-${color}-500`;
+      indicator.innerHTML = '<i class="fa-solid fa-circle"></i>';
+    }
+  }
+
+  function initEventGuestColorPicker() {
+    const colorFilterOptions = document.querySelectorAll('.event-color-filter-option');
+    const hiddenColorInput = document.getElementById('event-guest-color-filter');
+    const searchForm = document.getElementById('form-search-guest');
+    
+    colorFilterOptions.forEach(option => {
+      option.addEventListener('change', function() {
+        if (this.checked) {
+          updateEventGuestColorIndicator(this.value);
+          if (hiddenColorInput) {
+            hiddenColorInput.value = this.value;
+          }
+          // Trigger form submission to search with color filter
+          if (searchForm) {
+            htmx.trigger(searchForm, 'submit');
+          }
+        }
+      });
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEventGuestColorPicker);
+  } else {
+    initEventGuestColorPicker();
+  }
+})();
+</script>
+{% endif %}

@@ -1,0 +1,18 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "{{section.settings.title | default: \"Dashboard\"}}"
+      }
+    },
+    "main": {
+      "type": "admin/dashboard/events"
+    }
+  },
+  "order": [
+    "title",
+    "main"
+  ]
+}

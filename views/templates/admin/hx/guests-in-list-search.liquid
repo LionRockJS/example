@@ -1,0 +1,74 @@
+<div>{{ count }} guest(s) found for "{{ search }}"</div>
+{% if count > 0 %}
+<form id="remove-contacts" method="post" action="/admin/rsvp/{{ mail_list_id }}/remove-contacts">
+  <input type="hidden" name="search_type" value="lead">
+  <table class="w-full divide-y divide-gray-300 text-md">
+    <thead>
+    <tr>
+      <th>
+        <input type="checkbox"
+               onclick="tableBulkSelect(this)"
+               checked
+               aria-label="Checkbox Action"
+               class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+        >
+      </th>
+      <th class="py-3.5 text-left font-semibold text-gray-900">Name / Company</th>
+      <th class="py-3.5 text-left font-semibold text-gray-900">Email / Phone</th>
+      <th class="py-3.5 text-left font-semibold text-gray-900">Status</th>
+      <th class="py-3.5 text-center font-semibold text-gray-900">Plus Guests</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+      <tr>
+        <td class="align-top w-6 min-w-6 pt-1">
+          <input type="checkbox"
+                 id="cb-remove-{{ item.id }}"
+                 class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+                 name="selected_items[]"
+                 value="{{ item.id }}"
+                 checked
+          >
+        </td>
+        <td class="pb-2 pe-2">
+          <label for="cb-remove-{{ item.id }}" class="whitespace-nowrap max-w-[12rem] overflow-hidden text-ellipsis font-bold">{{ item.name }}</label>
+          <div class="text-xs max-w-[15rem] text-gray-500 overflow-hidden text-ellipsis leading-3 mb-1">{{ item.print.tokens.organization }}</div>
+        </td>
+        <td class="whitespace-nowrap align-top max-w-[15rem] overflow-hidden text-ellipsis pe-2">
+          {{ item.contact | default: "-"}}
+        </td>
+        <td class="whitespace-nowrap align-top pe-2">
+          {% assign status = item.print.tokens.status | default: 'To be invited' %}
+          <span class="rounded px-2 py-1 text-xs text-white 
+              {% case status %}
+                  {% when 'Confirmed' %}bg-green-800
+                  {% when 'Declined' %}bg-red-800
+                  {% when 'Unconfirmed' %}bg-gray-600
+                  {% when 'Onhold' %}bg-yellow-600
+                  {% when 'To be invited' %}bg-blue-600
+                  {% when 'Invited' %}bg-indigo-600
+                  {% else %}bg-gray-500
+              {% endcase %}">{{ status }}</span>
+        </td>
+        <td class="align-top text-center">
+          {{ item.print.tokens.plus_guests | default: 0 }}
+        </td>
+        <td class="align-top">
+          <a href="/admin/rsvp/{{ mail_list_id }}/edit/{{ item.id }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <div>
+    <button type="submit"
+            onclick="return confirm('Are you sure you want to remove the selected guests from this list? This action cannot be undone.');"
+            class="my-4 inline-block transition duration-500 rounded-lg px-6 py-2 uppercase text-base leading-8 font-sans text-white bg-red-700 hover:bg-red-900 focus-visible:outline-offset-2 focus-visible:outline-red-700"
+    >
+      Remove Selected Guests
+    </button>
+  </div>
+</form>
+{% endif %}

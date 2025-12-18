@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/contacts/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "form-search"
+      ]
+    },
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/contacts/index",
+        "title": "contact",
+        "controller_slug": "contacts",
+        "breadcrumb": "Home:/admin,Contacts:/admin/contacts",
+        "section_search": "admin/contacts/search",
+        "section_header": "",
+        "section_body": "admin/contacts/list",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "forms",
+    "main"
+  ]
+}

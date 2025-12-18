@@ -1,0 +1,20 @@
+{% if item.id != "new_post/contact" %}
+<div id="page-tags" class="panel-space mb-8">
+  <div class="font-serif text-primary">Contact Tags</div>
+  <table>
+    {%- for tag_list in tag_lists -%}
+      {% assign tags_count = item.tags[tag_list] | size | default: 0  %}
+      {% if tags_count > 0 %}
+      <tr>
+        <td class="align-top pe-4">{{ tag_list }}</td>
+        <td class="align-top">
+          {% for tags in item.tags[tag_list] %}
+            <div class="inline-block bg-black text-white text-xs px-2 py-1 rounded-full">{{ tags.value }}</div>
+          {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    {%- endfor -%}
+  </table>
+</div>
+{% endif %}

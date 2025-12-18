@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/settings/edit",
+        "title": "Custom fields",
+        "controller_slug": "settings",
+        "breadcrumb": "Home:/admin",
+        "section_search": "",
+        "section_body": "admin/settings/edit-body",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "script",
+    "defer_script",
+    "workspace"
+  ]
+}

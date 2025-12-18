@@ -1,0 +1,5 @@
+{%- assign count = items | size -%}
+<option value="">{% if count > 0 %}Select{% else %}---{% endif %}</option>
+{% for item in items %}
+  <option value="{{ item.id }}">{{ item.name }}</option>
+{% endfor %}

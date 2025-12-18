@@ -1,0 +1,23 @@
+<div>
+  <input type="radio" name="toggle-import" class="peer hidden" id="toggle-import" aria-label="toggle import section">
+<div class="hidden peer-checked:flex justify-between my-8">
+  <div>
+    <div class="text-primary font-bold text-2xl mb-2">Import from Excel</div>
+    <div>Import contacts from xlsx</div>
+    <div><i class="fa-light fa-arrow-down-to-line"></i> <a class="underline" href="/media/samples/guest-list-sample.xlsx?=3">download sample guest list file</a></div>
+  </div>
+  <div>
+    <form method="post" enctype="multipart/form-data" action="/admin/rsvp/import-v2/{{ item.id }}" id="import-form" class="flex items-center place-content-between">
+      <div class="flex items-center">
+        <input id="page-import-file" type="file" name="file" accept=".csv, .xlsx, .xls" required
+          class="w-[15rem]"
+        >
+        <label for="page-import-file" class="me-4"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+        <button type="submit"
+                class="inline-block transition duration-500 rounded-lg px-6 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >Import...</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

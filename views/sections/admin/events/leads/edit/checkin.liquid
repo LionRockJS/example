@@ -1,0 +1,127 @@
+<div class="panel-space border-t border-gray-200 pt-8 mb-8">
+  <div class="mb-4">
+    CHECK IN QRCODE:
+  </div>  
+  <div class="mb-8">
+  {% assign code= "qrcode" %}
+  <a href="/qrcode/{{ rsvp_id }}/{{ item.id }}/{{ code | append : rsvp_id | append: item.id | blake3 }}.png?r={{item.updated_at | to_time }}" download="QRCode {{item.name }}{%if tokens.organization%} {{ tokens.organization}}{%endif%}.png">
+    <img src="/qrcode/{{ rsvp_id }}/{{ item.id }}/{{ code | append : rsvp_id | append: item.id | blake3 }}.png?r={{item.updated_at | to_time }}">
+  </a>
+  </div>
+
+  <div class="mb-4 font-bold text-primary">
+    LANDING URL QRCODE:
+  </div>
+  <div class="mb-8">
+  {% assign code= "qrcode" %}
+  <a href="/qrcode-url/{{ rsvp_id }}/{{ item.id }}/{{ code | append : rsvp_id | append: item.id | blake3 }}.png?r={{item.updated_at | to_time }}" download="QRCode-URL {{item.name }}{%if tokens.organization%} {{ tokens.organization}}{%endif%}.png">
+    <img src="/qrcode-url/{{ rsvp_id }}/{{ item.id }}/{{ code | append : rsvp_id | append: item.id | blake3 }}.png?r={{item.updated_at | to_time }}">
+  </a>
+  <div class="text-xs text-gray-500 mt-2">Scans to RSVP landing page</div>
+  </div>
+
+  <div class="mb-4">
+    <label for="max-main-checkin" class="block text-primary font-bold">Max Main Check-in Times</label>
+    <div class="text-xs text-gray-600 mb-2">Number of times the main attendee can check in (leave empty for 1 time)</div>
+    <input id="max-main-checkin" type="number"
+           name="@max_main_checkin"
+           form="main-form"
+           min="1"
+           value="{{ tokens.max_main_checkin }}"
+           class="w-full border border-gray-300 px-2 py-1 rounded-md"
+           placeholder="1">
+  </div>
+</div>
+
+<!-- Plus One Guests QR Codes -->
+{% assign plus_guests_count = tokens.plus_guests | default: 0 | plus: 0 %}
+{% if plus_guests_count > 0 %}
+  <div class="panel-space border-t border-gray-200 pt-8 mb-8">
+    <div class="mb-4">
+      PLUS-ONE GUESTS CHECK IN QRCODE:
+    </div>
+    
+    {% comment %}Build a map of named plus-one guests from responses{% endcomment %}
+    {% assign named_plus_ones = "" | split: "" %}
+    {% if latest_responses %}
+      {% for response in latest_responses %}
+        {% if response.rsvp-plus-one and response.rsvp-plus-one != blank %}
+          {% assign named_plus_ones = response.rsvp-plus-one %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    
+    {% comment %}Generate QR codes for all plus guests (0 to plus_guests_count-1){% endcomment %}
+    {% for i in (0..plus_guests_count) %}
+      {% if forloop.index0 < plus_guests_count %}
+        {% assign plus_one_index = forloop.index0 %}
+        {% assign code = "qrcode" %}
+        {% assign qr_hash_full = code | append: rsvp_id | append: item.id | append: plus_one_index | blake3 %}
+        {% assign qr_hash = qr_hash_full | slice: 0, 10 %}
+        
+        {% comment %}Try to find named guest info{% endcomment %}
+        {% assign guest_name = "" %}
+        {% assign guest_org = "" %}
+        {% if named_plus_ones[plus_one_index] %}
+          {% assign guest_name = named_plus_ones[plus_one_index].name %}
+          {% assign guest_org = named_plus_ones[plus_one_index].organization %}
+        {% endif %}
+        
+        {% comment %}Use main guest name if no name provided{% endcomment %}
+        {% if guest_name == blank %}
+          {% assign display_label = item.name | append: " - #" | append: forloop.index %}
+          {% assign download_name = item.name | append: " #" | append: forloop.index %}
+        {% else %}
+          {% assign display_label = guest_name %}
+          {% assign download_name = guest_name %}
+          {% if guest_org != blank %}
+            {% assign display_label = display_label | append: " - " | append: guest_org %}
+            {% assign download_name = download_name | append: " " | append: guest_org %}
+          {% endif %}
+        {% endif %}
+        
+        <div class="mb-6">
+          <div class="mb-2 font-semibold">{{ display_label }}</div>
+          <div class="flex gap-4">
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Check-in</div>
+              <a href="/qrcode-plus-one/{{ rsvp_id }}/{{ item.id }}/{{ plus_one_index }}/{{ qr_hash }}.png?r={{ item.updated_at | to_time }}" download="QRCode {{ download_name }}.png">
+                <img src="/qrcode-plus-one/{{ rsvp_id }}/{{ item.id }}/{{ plus_one_index }}/{{ qr_hash }}.png?r={{ item.updated_at | to_time }}" width="150">
+              </a>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Landing URL</div>
+              <a href="/qrcode-url-plus-one/{{ rsvp_id }}/{{ item.id }}/{{ plus_one_index }}/{{ qr_hash }}.png?r={{ item.updated_at | to_time }}" download="QRCode-URL {{ download_name }}.png">
+                <img src="/qrcode-url-plus-one/{{ rsvp_id }}/{{ item.id }}/{{ plus_one_index }}/{{ qr_hash }}.png?r={{ item.updated_at | to_time }}" width="150">
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="panel-space border-t border-gray-200 pt-8 mb-8">
+  <div class="mb-4">
+    <label for="qrcode" class="me-2 font-bold">Ticket QRCode:</label>
+    <div class="text-xs">eg: 3<sup>rd</sup> party QR code text</div>
+  </div>
+
+  <input id="qrcode" type="text"
+         name="@qrcode"
+         form="main-form"
+         value="{{ tokens.qrcode }}"
+         class="border border-gray-300 rounded-md ps-3">
+
+  <div class="mb-4 mt-8">
+    <label for="barcode" class="me-2 font-bold">Ticket Barcode:</label>
+    <div class="text-xs">eg: 3<sup>rd</sup> party barcode (Code128) number</div>
+  </div>
+
+  <input id="barcode" type="text"
+         name="@barcode"
+         form="main-form"
+         value="{{ tokens.barcode }}"
+         class="border border-gray-300 rounded-md ps-3">
+</div>

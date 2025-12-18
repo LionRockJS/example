@@ -1,0 +1,4 @@
+<div class="panel-space my-12">
+    <h1 class="text-4xl text-primary font-serif">{{ section.settings.title | replace : "_", " " | capitalize}}</h1>
+    {% if section.settings.note %}<div class="text-sm">{{ section.settings.note }}</div>{% endif %}
+</div>

@@ -1,0 +1,307 @@
+{% liquid
+  assign count = pagination.total_count | default: items.size
+  assign has_linked_contacts = false
+  for item in items
+    if item.print.tokens.contact_id != blank
+      assign has_linked_contacts = true
+      break
+    endif
+  endfor
+%}
+
+<div class="panel-space" data-rsvp-id="{{ rsvp.id }}" data-event-id="{{ tokens.event.id }}">
+  {% if count > 0 %}  
+  <div class="mb-2 flex gap-2">
+    <a href="/admin/rsvp/export/{{ rsvp.id }}?r={{ "now" | date: "%Y-%m-%d-%H-%M" }}" 
+      class="rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-gray-600 focus-visible:outline-gray-600"
+      download="guest-list-{{ rsvp.id }}-{{ "now" | date: "%Y-%m-%d-%H-%M" }}.csv"
+    >Export Guest List</a>
+    
+    {% if has_linked_contacts %}
+    <form method="POST" action="/admin/rsvp/{{ rsvp.id }}/update-all-from-contacts" style="display:inline;" onsubmit="return confirm('WARNING: This will overwrite guest data with information from the master contact database.\n\nAll linked guests will be updated. This action cannot be undone.\n\nContinue?');">
+      <button type="submit" 
+        class="rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-gray-600 focus-visible:outline-gray-600"
+      >
+        <i class="fa-solid fa-sync"></i> Update All from Contacts
+      </button>
+    </form>
+    {% endif %}
+  </div>
+
+    <!-- Bulk Action Bar -->
+  <div id="bulk-action-bar" class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md hidden">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span id="selected-count" class="text-sm font-semibold text-gray-700">0 guests selected</span>
+        <button type="button" id="deselect-all-btn" class="text-sm text-blue-600 hover:text-blue-800 underline">
+          Deselect All
+        </button>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" id="bulk-delete-btn" class="rounded-md px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+          <i class="fa-solid fa-trash"></i> Delete Selected
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <table id="guestList" class="w-full divide-y divide-gray-300">
+    <thead>
+    <tr>
+      <th class="for-admin">
+        <input type="checkbox"
+               onclick="tableBulkSelect(this)"
+               aria-label="Checkbox Action"
+               class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+        >
+      </th>
+      <th>
+      </th>
+      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 text-nowrap" data-sort="contact">
+        Email / Phone <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+      </th>
+      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="name">
+        Name <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+      </th>
+      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="job-title">
+        Job Title <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+      </th>
+      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100 text-nowrap" data-sort="primary-guest">
+        Primary Guest <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+      </th>
+      <th class="px-3 py-3.5">
+        {% if tokens.edm.id != blank%}
+        <div class="flex gap-2 justify-center">
+          <button id="auto-click-btn" class="rounded-md px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-green-600 focus-visible:outline-green-600">
+            <i class="fa-solid fa-play"></i> Auto Send
+          </button>
+          <button id="auto-click-stop-btn" class="hidden rounded-md px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-red-600 focus-visible:outline-red-600">
+            <i class="fa-solid fa-stop"></i> Stop
+          </button>
+        </div>
+        {% endif %}
+      </th>
+      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="status">
+        Status <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+      </th>
+      {% if has_checkin_data %}
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="checkin">
+          Checked-in <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+      {% endif %}
+    </tr>
+    </thead>
+    {% for item in items %}
+      <tr class="item-row hover:bg-gray-100">
+        <td class="align-middle w-6 min-w-6 for-admin">
+          <input type="checkbox"
+                 aria-label="Select item"
+                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                 name="selected_items[]"
+                 value="{{ item.id }}"
+          >
+        </td>
+        <td class="align-top py-4 text-sm">
+          <div class="color-tag group relative" data-id="{{ item.id }}" data-color-tag="{{ item.print.tokens.color_tag }}">
+            <div class="options absolute left-0 ps-4 -top-[0.45rem] w-[200px] pb-4 group-hover:block hidden">
+              <div class="bg-gray-700 inline-flex gap-1 p-2 rounded-xl">
+                <input {% if item.print.tokens.color_tag == "red" %}checked{% endif %} id="{{item.id}}-color-tag-red" type="radio" name="{{item.id}}-color-tag" value="red" class="color-option hidden"><label for="{{item.id}}-color-tag-red" class="text-red-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "orange" %}checked{% endif %} id="{{item.id}}-color-tag-orange" type="radio" name="{{item.id}}-color-tag" value="orange" class="color-option hidden"><label for="{{item.id}}-color-tag-orange" class="text-orange-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "yellow" %}checked{% endif %} id="{{item.id}}-color-tag-yellow" type="radio" name="{{item.id}}-color-tag" value="yellow" class="color-option hidden"><label for="{{item.id}}-color-tag-yellow" class="text-yellow-300 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "green" %}checked{% endif %} id="{{item.id}}-color-tag-green" type="radio" name="{{item.id}}-color-tag" value="green" class="color-option hidden"><label for="{{item.id}}-color-tag-green" class="text-green-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "blue" %}checked{% endif %} id="{{item.id}}-color-tag-blue" type="radio" name="{{item.id}}-color-tag" value="blue" class="color-option hidden"><label for="{{item.id}}-color-tag-blue" class="text-blue-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "purple" %}checked{% endif %} id="{{item.id}}-color-tag-purple" type="radio" name="{{item.id}}-color-tag" value="purple" class="color-option hidden"><label for="{{item.id}}-color-tag-purple" class="text-purple-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                <input {% if item.print.tokens.color_tag == "gray" %}checked{% endif %} id="{{item.id}}-color-tag-gray" type="radio" name="{{item.id}}-color-tag" value="gray" class="color-option hidden"><label for="{{item.id}}-color-tag-gray" class="text-gray-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+              </div>
+            </div>
+          <label for="toggle-{{ item.id }}-color-tag" class="display h-2 w-2 text-gray-500 cursor-pointer
+            group-has-[input[value='red']:checked]:text-red-500 
+            group-has-[input[value='orange']:checked]:text-orange-500 
+            group-has-[input[value='yellow']:checked]:text-yellow-300 
+            group-has-[input[value='green']:checked]:text-green-500 
+            group-has-[input[value='blue']:checked]:text-blue-500 
+            group-has-[input[value='purple']:checked]:text-purple-500 
+            "><i class="fa-solid fa-circle"></i></label>
+          </div>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 max-w-[10rem] overflow-hidden align-top">
+          <a href="/admin/rsvp/{{ rsvp.id }}/edit/{{ item.id }}" class="border-b border-gray-500 guest-contact">{{ item.contact | escape }}</a>
+
+          {% if cc_enable == "yes" and item.contact_type != "phone" and item.cc != blank or item.print.tokens.cc != blank %}
+            {% liquid
+             assign cc = item.cc | default: item.print.tokens.cc 
+             assign cc_parts = cc | split: "," 
+             assign cc_count = cc_parts | size 
+            %}
+
+            <div class="text-xs {% if cc_count > 1 %}text-red-500 font-bold {%else%}text-gray-500{% endif %}">cc ({{ cc_count }}): <a href="/admin/rsvp/{{ rsvp.id }}/edit/{{ item.id }}" class="border-b border-gray-500">{{ item.cc | default: item.print.tokens.cc | escape }}</a></div>
+          {% endif %}
+        </td>
+        <td class="px-3 py-4 text-sm text-gray-500 guest-name max-w-[10rem] align-top">
+          <a href="/admin/rsvp/{{ rsvp.id }}/edit/{{ item.id }}" class="underline">
+          {{ item.name}}
+          </a>
+          {% if item.print.tokens.contact_id != blank %}<a href="/admin/contacts/{{ item.print.tokens.contact_id }}"><i class="fa-regular fa-address-card"></i></a>{% endif %}</td>
+        <td class="px-3 py-4 text-sm text-gray-500 job-title max-w-[20rem] align-top">{%if item.print.tokens.organization != blank%}<strong>{{item.print.tokens.organization}}</strong><br>{%endif%}{{ item.print.tokens.job_title }}</td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top">
+          <div class="flex items-center gap-2">
+              {% if item.print.tokens.primary_guest %}
+              <div class="flex items-center gap-2 flex-1">
+                <a href="/admin/rsvp/{{ item.primary_guest.rsvp_id }}/edit/{{ item.primary_guest.id }}" class="flex-1">
+                  <div class="font-bold">{{ item.primary_guest.name }}</div>
+                  <div class="text-xs text-gray-500">{{ item.primary_guest.contact }}</div>
+                </a>
+                <button 
+                  type="button"
+                  class="btn-remove-primary-guest text-red-600 hover:text-red-800 cursor-pointer"
+                  data-lead-id="{{ item.id }}"
+                  data-rsvp-id="{{ rsvp.id }}"
+                  title="Remove primary guest"
+                >
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+              </div>
+              {% else %}
+            <button 
+              type="button"
+              class="btn-open-primary-guest-modal text-indigo-600 hover:text-indigo-800 cursor-pointer"
+              data-lead-id="{{ item.id }}"
+              data-rsvp-id="{{ rsvp.id }}"
+              title="Select primary guest"
+            >
+              <i class="fa-solid fa-circle-plus"></i>
+            </button>
+              {% endif %}
+          </div>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top">
+{% assign is_contact_email = tokens.edm.id != blank and item.contact_type == "email" %}
+{% assign contact_is_email = tokens.edm.id != blank and item.contact contains "@" %}
+          {% if is_contact_email or contact_is_email %}
+            <div class="flex gap-2 -translate-y-2">
+            {% liquid
+              assign is_resend = false
+              assign sent_edm_array = item.print.tokens.sent_edm | default: empty
+              for sent_edm_id in sent_edm_array
+                if sent_edm_id == tokens.edm.id
+                  assign is_resend = true
+                  break
+                endif
+              endfor
+            %}
+            {% if item.print.tokens.not_send != true %}
+            <a class="btn-send rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 {% if is_resend %}bg-gray-600 focus-visible:outline-gray-600{% else %}bg-indigo-600 focus-visible:outline-indigo-600{% endif %}" 
+              href="/admin/rsvp/{{ rsvp.id }}/send/{{ item.id }}.json"
+            >
+              {% if is_resend %}
+                {% case item.print.tokens.prefer_language %}
+                {% when "zh-hans" %}
+                重新发送邮件
+                {% when "zh-hant" %}
+                重新發送郵件
+                {% when "en" %}
+                Re-Send Email
+                {% else %}
+                Re-Send Email
+                {% endcase %}
+                {% else %}
+                {% case item.print.tokens.prefer_language %}
+                {% when "zh-hans" %}
+                发送邮件
+                {% when "zh-hant" %}
+                發送郵件
+                {% when "en" %}
+                Send Email
+                {% else %}
+                Send Email
+                {% endcase %}
+                {% endif %}
+            </a>
+            <a class="rounded-md px-3 py-2 text-sm font-semibold text-blue-600 hover:text-blue-800 border border-blue-600 hover:border-blue-800" href="/admin/rsvp/{{ rsvp.id }}/preview/{{ item.id }}" target="_blank" title="Preview email in new tab">
+                <i class="fa-solid fa-eye"></i> Preview
+            </a>
+            {% endif %}
+            <a class="btn-toggle-not-send rounded-md px-3 py-2 text-sm font-semibold cursor-pointer {% if item.print.tokens.not_send %}text-red-600 hover:text-red-800{% else %}text-gray-500 hover:text-gray-700{% endif %}" 
+               data-lead-id="{{ item.id }}" 
+               data-rsvp-id="{{ rsvp.id }}"
+               data-not-send="{{ item.print.tokens.not_send }}"
+               title="{% if item.print.tokens.not_send %}Email sending is paused - click to enable{% else %}Click to pause email sending{% endif %}">
+              <i class="{% if item.print.tokens.not_send %}fa-solid fa-circle-play{% else %}fa-regular fa-circle-pause{% endif %}"></i>
+            </a>
+            </div>
+          {% endif %}
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top">
+            {% assign display_status = item.print.tokens.status | default: "To be invited" %}
+            <span class="guest-status response-state-{{ display_status | downcase | replace: " ", "-" }} hidden">{{ display_status | capitalize }}</span>
+            <select class="response-state-{{ display_status | downcase | replace: " ", "-" }} status-select border-0 rounded p-0 text-sm" data-lead-id="{{ item.id }}" data-rsvp-id="{{ rsvp.id }}">
+              <option value="To be invited" {% if item.print.tokens.status == "To be invited" or item.print.tokens.status == blank %}selected{% endif %}>To be invited</option>
+              <option value="Onhold" {% if item.print.tokens.status == "Onhold" or item.print.tokens.status == "onhold" %}selected{% endif %}>Onhold</option>
+              <option value="Invited" {% if item.print.tokens.status == "Invited" or item.print.tokens.status == "invited" %}selected{% endif %}>Invited</option>
+              <option value="Confirmed" {% if item.print.tokens.status == "Confirmed" or item.print.tokens.status == "confirmed" %}selected{% endif %}>Confirmed</option>
+              <option value="Declined" {% if item.print.tokens.status == "Declined" or item.print.tokens.status == "declined" %}selected{% endif %}>Declined</option>
+              <option value="Unconfirmed" {% if item.print.tokens.status == "Unconfirmed" or item.print.tokens.status == "unconfirmed" %}selected{% endif %}>Unconfirmed</option>
+              <option value="">-</option>
+            </select>
+        </td>
+        {% if has_checkin_data %}
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top">
+            {% assign guest_checkins = item.print.tokens.checkin | default: empty %}
+            {% if guest_checkins.size > 0 %}
+                <span class="text-blue-600">Yes ({{ guest_checkins.size }})</span>
+            {% else %}
+                No
+            {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <div>This guest list is empty</div>
+  {% endif %}
+  
+  <!-- Guest count display -->
+  {% if count > 0 %}
+  <div class="text-sm text-gray-600 mt-4 text-center">
+    Showing {{ pagination.start_index }}-{{ pagination.end_index }} of {{ pagination.total_count }} guests
+  </div>
+  {% endif %}
+</div>
+
+<!-- Primary Guest Selection Modal -->
+<div id="primary-guest-modal" class="fixed top-4 right-4 overflow-y-auto hidden z-1000">
+  <div class="relative mx-auto border border-gray-200 max-w-[600px] shadow-lg rounded-md bg-primary px-4">
+    <div class="flex justify-between items-center my-4">
+      <h3 class="text-lg font-medium text-white">Select Primary Guest</h3>
+      <button type="button" id="close-primary-guest-modal" class="text-white">
+        <i class="fa-solid fa-times text-xl"></i>
+      </button>
+    </div>
+    
+    <div class="mb-4">
+      <label for="primary-guest-search-input" class="block text-sm font-medium text-white mb-2">
+        Search by name, email, or phone
+      </label>
+      <div class="flex gap-2">
+        <input 
+          type="text" 
+          id="primary-guest-search-input" 
+          class="flex-1 rounded-md bg-white sm:text-sm px-4"
+          placeholder="Enter search term..."
+        >
+        <button 
+          type="button"
+          id="primary-guest-search-btn"
+          class="rounded-md px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 shadow-sm"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+    
+    <div id="primary-guest-search-results" class="min-h-[200px]">
+      <!-- Search results will be loaded here -->
+    </div>
+  </div>
+</div>

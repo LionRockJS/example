@@ -1,0 +1,158 @@
+<!-- Status Filter -->
+<div class="mb-4 flex items-center gap-4">
+  <label for="status-filter" class="text-sm font-medium text-gray-700">Filter by Status:</label>
+  <select id="status-filter" class="border border-gray-300 rounded-md px-3 py-2 text-sm" onchange="window.location.href = '{{ request.uri.path }}' + (this.value ? '?status=' + encodeURIComponent(this.value) : '');">
+    <option value="">All Statuses</option>
+    <option value="Confirmed" {% if current_status_filter == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+    <option value="Declined" {% if current_status_filter == 'Declined' %}selected{% endif %}>Declined</option>
+    <option value="Unconfirmed" {% if current_status_filter == 'Unconfirmed' %}selected{% endif %}>Unconfirmed</option>
+    <option value="Onhold" {% if current_status_filter == 'Onhold' %}selected{% endif %}>Onhold</option>
+    <option value="To be invited" {% if current_status_filter == 'To be invited' %}selected{% endif %}>To be invited</option>
+    <option value="Invited" {% if current_status_filter == 'Invited' %}selected{% endif %}>Invited</option>
+  </select>
+  {% if current_status_filter != blank %}
+    <span class="text-sm text-gray-600">Showing {{ pagination.start_index }}-{{ pagination.end_index }} of {{ pagination.total_count }} guests with status: <strong>{{ current_status_filter }}</strong></span>
+    <a href="{{ request.uri.path }}" class="text-sm text-blue-600 hover:text-blue-800">Clear filter</a>
+  {% else %}
+    <span class="text-sm text-gray-600">Showing {{ pagination.start_index }}-{{ pagination.end_index }} of {{ pagination.total_count }} guests</span>
+  {% endif %}
+</div>
+
+<table class="w-full divide-y divide-gray-300">
+<thead>
+<tr>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ID</th>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Language</th>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+    <th></th>
+    <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Response</th>
+</tr>
+</thead>
+{% for item in items %}
+    <tr data-status="{{ item.print.tokens.status | default: 'To be invited' }}">
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.id}}</td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.language}}</td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 max-w-[10rem] overflow-hidden">
+            <a href="/admin/rsvp/{{ event }}/edit/{{ item.id }}" class="border-b border-gray-500">{{ item.contact | escape }}</a>
+            {% if item.cc != blank%}
+                <div class="text-xs text-gray-500">cc: {{ item.cc }}</div>
+            {% endif %}
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.name}}</td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+            {% assign status = item.print.tokens.status | default: 'To be invited' %}
+            <span class="rounded px-2 py-1 text-xs text-white 
+                {% case status %}
+                    {% when 'Confirmed' %}bg-green-800
+                    {% when 'Declined' %}bg-red-800
+                    {% when 'Unconfirmed' %}bg-gray-600
+                    {% when 'Onhold' %}bg-yellow-600
+                    {% when 'To be invited' %}bg-blue-600
+                    {% when 'Invited' %}bg-indigo-600
+                    {% else %}bg-gray-500
+                {% endcase %}">{{ status }}</span>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+            <div class="flex gap-2">
+                <a class="btn-send rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 {% if item.rsvp_code == blank %}bg-indigo-600 focus-visible:outline-indigo-600{% else %}bg-gray-600 focus-visible:outline-gray-600{% endif %}" href="/admin/rsvp/{{ event }}/send/{{ item.id }}.json">{% if item.rsvp_code != blank %}Re-{% endif %}Send Email</a>
+                <a class="rounded-md px-3 py-2 text-sm font-semibold text-blue-600 hover:text-blue-800 border border-blue-600 hover:border-blue-800" href="/admin/rsvp/{{ event }}/preview/{{ item.id }}" target="_blank" title="Preview email in new tab">
+                    <i class="fa-solid fa-eye"></i> Preview
+                </a>
+            </div>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+            {% if item.rsvp_accept != blank %}
+                <span class="rounded px-2 py-1 text-xs text-white {% if item.rsvp_accept == 1 %}bg-green-800{% else %}bg-amber-700{% endif %}">{% if item.rsvp_accept == 1 %}Accepted{% else %}Declined{% endif %}</span>
+                <span><a href="https://rsvp.occasionspr.com/{{ event }}/{{ item.rsvp_code }}" target="_blank"><i class="fa-solid fa-link-horizontal"></i></a></span>
+                <div class="text-xs">{{ item.updated_at | to_time | date :"%Y-%m-%d %H:%M:%S"}}</div>
+            {% else %}
+              {% if item.rsvp_code != blank %}
+                <span><a href="https://rsvp.occasionspr.com/{{ event }}/{{ item.rsvp_code }}" target="_blank"><i class="fa-solid fa-link-horizontal"></i></a></span>
+                <div>waiting</div>
+              {% else %}
+                <div>not sent</div>
+              {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+<!-- Pagination Controls -->
+{% if pagination.total_pages > 1 %}
+<div class="mt-6 flex items-center justify-between border-t border-gray-200 pt-4">
+  <div class="flex flex-1 justify-between sm:hidden">
+    {% if pagination.has_prev %}
+      <a href="{{ request.uri.path }}?page={{ pagination.current_page | minus: 1 }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+    {% else %}
+      <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">Previous</span>
+    {% endif %}
+    {% if pagination.has_next %}
+      <a href="{{ request.uri.path }}?page={{ pagination.current_page | plus: 1 }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+    {% else %}
+      <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">Next</span>
+    {% endif %}
+  </div>
+  <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div>
+      <p class="text-sm text-gray-700">
+        Showing <span class="font-medium">{{ pagination.start_index }}</span> to <span class="font-medium">{{ pagination.end_index }}</span> of <span class="font-medium">{{ pagination.total_count }}</span> results
+      </p>
+    </div>
+    <div>
+      <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+        {% if pagination.has_prev %}
+          <a href="{{ request.uri.path }}?page={{ pagination.current_page | minus: 1 }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+            <span class="sr-only">Previous</span>
+            <i class="fa-solid fa-chevron-left h-5 w-5"></i>
+          </a>
+        {% else %}
+          <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-300 ring-1 ring-inset ring-gray-300 bg-gray-100 cursor-not-allowed">
+            <i class="fa-solid fa-chevron-left h-5 w-5"></i>
+          </span>
+        {% endif %}
+        
+        {% assign start_page = pagination.current_page | minus: 2 %}
+        {% if start_page < 1 %}{% assign start_page = 1 %}{% endif %}
+        {% assign end_page = pagination.current_page | plus: 2 %}
+        {% if end_page > pagination.total_pages %}{% assign end_page = pagination.total_pages %}{% endif %}
+        
+        {% if start_page > 1 %}
+          <a href="{{ request.uri.path }}?page=1{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">1</a>
+          {% if start_page > 2 %}
+            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>
+          {% endif %}
+        {% endif %}
+        
+        {% for i in (start_page..end_page) %}
+          {% if i == pagination.current_page %}
+            <span aria-current="page" class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ i }}</span>
+          {% else %}
+            <a href="{{ request.uri.path }}?page={{ i }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ i }}</a>
+          {% endif %}
+        {% endfor %}
+        
+        {% if end_page < pagination.total_pages %}
+          {% if end_page < pagination.total_pages | minus: 1 %}
+            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>
+          {% endif %}
+          <a href="{{ request.uri.path }}?page={{ pagination.total_pages }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ pagination.total_pages }}</a>
+        {% endif %}
+        
+        {% if pagination.has_next %}
+          <a href="{{ request.uri.path }}?page={{ pagination.current_page | plus: 1 }}{% if current_status_filter != blank %}&status={{ current_status_filter | url_encode }}{% endif %}" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+            <span class="sr-only">Next</span>
+            <i class="fa-solid fa-chevron-right h-5 w-5"></i>
+          </a>
+        {% else %}
+          <span class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-300 ring-1 ring-inset ring-gray-300 bg-gray-100 cursor-not-allowed">
+            <i class="fa-solid fa-chevron-right h-5 w-5"></i>
+          </span>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+</div>
+{% endif %}

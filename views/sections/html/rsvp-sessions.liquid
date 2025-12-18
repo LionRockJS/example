@@ -1,0 +1,18 @@
+<div class="my-8">
+  RSVP sessions
+  <div class="mb-3">
+    {% if tokens.title %}<div class="text-2xl">{{ tokens.title | capitalize }}</div>{% endif %}
+    {% if tokens.body %}<div>{{ tokens.body }}</div>{% endif %}
+  </div>
+  <div class="mb-3">
+    <input type="text"
+           aria-label="Name"
+           name="edm-plus-one-name"
+           placeholder="Name"
+           class="w-full p-2 border border-gray-300 rounded"
+    >
+  </div>
+  {% if tokens.notes %}
+    <div>{{ tokens.notes }}</div>
+  {% endif %}
+</div>

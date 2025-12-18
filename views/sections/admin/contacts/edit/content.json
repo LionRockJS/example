@@ -1,0 +1,69 @@
+{
+  "wrapper": "div.w-full.max-w-\\[1000px\\]",
+  "sections": {
+    "languages": {
+      "type": "admin/contacts/edit/languages",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+
+    "fields": {
+      "type": "admin/contacts/edit/inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "items": {
+      "type": "admin/contacts/edit/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "other-fields": {
+      "type": "admin/contacts/edit/minor-inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "blocks": {
+      "type": "admin/contacts/edit/blocks",
+      "settings": {
+        "controller_slug": "{{controller_slug}}",
+        "block_types": "{{section.settings.block_types}}"
+      }
+    },
+
+
+    "header": {
+      "type": "admin/contacts/edit/header",
+      "settings": {
+      }
+    },
+    "tags": {
+      "type": "admin/contacts/edit/tags"
+    },
+    "duplicate-panel": {
+      "type": "admin/contacts/edit/duplicate"
+    },
+    "history": {
+      "type": "admin/contacts/edit/history"
+    },
+    "debug": {
+      "type": "admin/pages/debug"
+    }
+  },
+  "order": [
+    "languages",
+    "fields",
+    "items",
+    "other-fields",
+    "duplicate-panel",
+    "history"
+  ]
+}

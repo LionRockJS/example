@@ -1,0 +1,53 @@
+{% comment %}
+RSVP QR Code Block - HTML Template
+This block will render a QR code for RSVP purposes in HTML format.
+{% endcomment %}
+
+{% liquid
+  assign title = tokens.title | default: "QR Code"
+  assign message = tokens.message | default: "Scan the QR code to Checkin"
+  assign size = tokens.size | default: "200"
+%}
+
+<div class="rsvp-qrcode-block" style="text-align: center; margin: 20px 0;">
+  {% if title != blank %}
+  <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #333;">
+    {{ title }}
+  </h3>
+  {% endif %}
+  
+  {% if message != blank %}
+  <p style="margin-bottom: 15px; color: #666; font-size: 14px;">
+    {{ message }}
+  </p>
+  {% endif %}
+
+  <!-- RSVP QR Code - dynamically generated based on guest information -->
+  {% liquid
+    assign ids = item.mail.entity_id | split: ":"
+    assign rsvp_id = ids[0]
+    assign guest_id = ids[1]
+    assign updated_at = item.mail.updated_at
+    if rsvp_id and guest_id
+      assign code = "qrcode"
+      assign qr_hash_full = code | append: rsvp_id | append: guest_id | blake3
+      assign qr_hash = qr_hash_full | slice: 0, 10
+      assign qr_src = "/qrcode/" | append: rsvp_id | append: "/" | append: guest_id | append: "/" | append: qr_hash | append: ".png"
+      if updated_at
+        assign ts = updated_at | to_time
+        assign qr_src = qr_src | append: "?r=" | append: ts
+      endif
+      assign qr_alt = "RSVP QR Code for " | append: guest.name | default: "Guest"
+    else
+      assign qr_src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIiBzdHJva2U9IiNjY2MiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0cHgiIGZpbGw9IiM2NjYiPlFSIENvZGU8L3RleHQ+Cjwvc3ZnPgo="
+      assign qr_alt = "RSVP QR Code (Preview)"
+    endif
+  %}
+  <div class="qr-code-container" style="display: inline-block; margin: 10px;">
+    <img 
+      src="{{ qr_src }}"
+      alt="{{ qr_alt }}"
+      style="width: {{ size }}px; border: 1px solid #ddd; border-radius: 4px;"
+    />
+  </div>
+</div>

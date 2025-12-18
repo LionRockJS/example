@@ -1,0 +1,49 @@
+<div class="panel-space">
+  <div>
+    <div class="grid grid-cols-3 gap-3 me-[24px] md:me-[55px]">
+      {% for field in fields %}
+        {% if field.name == ":name" or field.name == ":original" or field.name == ":contact"%}
+        {% else %}
+        <div>
+          <label
+              class="text-white bg-primary text-xs px-2"
+              for="field-{{field.name}}">{{field.label}}{% if field.required %}*{% endif %}</label>
+
+          {% if field.label == 'content' %}
+            <textarea
+                form="main-form"
+                class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+                name="{{field.name}}" {% if field.required %}required = "required"{% endif %}  placeholder="{{field.label | escape}}">{{field.value | default : field.defaultValue | escape}}</textarea>
+          {% elsif field.label == 'published_at' %}
+            <input
+                form="main-form"
+                class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+                name="{{field.name}}" type="datetime-local" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %} placeholder="{{field.label | escape}}"/>
+          {% else %}
+            <input
+                form="main-form"
+                class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+                name="{{field.name}}" type="text" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %} placeholder="{{field.label | escape}}"/>
+          {% endif %}
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="order-last z-20 sticky bottom-4">
+  <div class="flex">
+    <div class="min-w-[24px] md:min-w-[55px] flex justify-center items-center">
+    </div>
+    <div class="w-full">
+      <button form="main-form" type="submit" class="transition duration-500 w-full rounded-lg px-3 py-2 uppercase text-base leading-8 font-sans text-white bg-gray-700 hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Save</button>
+    </div>
+    <div class="min-w-[55px]">
+
+    </div>
+  </div>
+  <div class="px-[24px] md:px-[55px]">
+    <a class="button-secondary" href="/admin/rsvp/{{ rsvp_id }}/delete/{{ item.id }}">Delete</a>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="border-y border-gray-300 my-4 bg-gray-300 rounded-lg px-4 py-2">
+<div class="mb-4">{{ count }} Guest(s) found{% if search != blank %} for "{{ search }}"{% endif %}{% if color != blank %} with color "{{ color }}"{% endif %}</div>
+{% if count > 0 %}
+  <table id="event-guest-search-results" class="w-full divide-y divide-gray-800">
+  <thead>
+  <tr>
+    <th></th>
+    <th class="text-left font-semibold text-primary">Name</th>
+    <th class="text-left font-semibold text-primary">Email / Phone</th>
+    <th class="text-center font-semibold text-primary">Plus Guests</th>
+    <th class="text-left font-semibold text-primary">Response</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-500">
+  {% for list in lists %}
+<tr>
+  <td colspan="6"><a class="block font-bold text-primary underline my-2" href="/admin/rsvp/{{list.mail_list_id}}">Guest List: {{ list.title }}</a></td>
+</tr>
+
+
+    {% for item in list.guests %}
+      <tr class="guest-search-result-row" data-color-tag="{{ item.print.tokens.color_tag }}">
+        <td class="py-1 align-top">
+          <div class="color-tag" data-color-tag="{{ item.print.tokens.color_tag }}">
+            <span class="display h-2 w-2 text-gray-500
+              {% if item.print.tokens.color_tag == 'red' %}text-red-500{% endif %}
+              {% if item.print.tokens.color_tag == 'orange' %}text-orange-500{% endif %}
+              {% if item.print.tokens.color_tag == 'yellow' %}text-yellow-300{% endif %}
+              {% if item.print.tokens.color_tag == 'green' %}text-green-500{% endif %}
+              {% if item.print.tokens.color_tag == 'blue' %}text-blue-500{% endif %}
+              {% if item.print.tokens.color_tag == 'purple' %}text-purple-500{% endif %}
+              "><i class="fa-solid fa-circle"></i></span>
+          </div>
+        </td>
+        <td class="py-1 whitespace-nowrap align-top max-w-[15rem] overflow-hidden text-ellipsis pe-2 guest-name">
+          <label for="cb-select-{{ item.id }}" class="whitespace-nowrap max-w-[12rem] overflow-hidden text-ellipsis font-bold">{{ item.name }}</label>
+          <div class="text-xs max-w-[15rem] text-gray-500 overflow-hidden text-ellipsis leading-3 mb-1">{{ item.print.tokens.organization }}</div>
+        </td>
+        <td class="py-1 pe-2 guest-contact">
+          {{ item.contact }}
+        </td>
+        <td class="py-1 max-w-[15rem] overflow-hidden text-ellipsis text-center">
+          {{ item.print.tokens.plus_guests | default: 0 }}
+        </td>
+        <td class="py-1 max-w-[15rem] overflow-hidden text-ellipsis response-state-{{ item.print.tokens.status | downcase | replace: " ", "-" }} guest-status">
+          {{ item.print.tokens.status | default: "-" | capitalize }}
+        </td>
+        <td class="py-1 text-end">
+          <a href="/admin/rsvp/{{list.mail_list_id}}/edit/{{ item.id }}" class="underline">View</a>
+        </td>
+      </tr>
+    {% endfor %}
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<div id="event-guest-search-count" class="text-sm text-gray-600 mt-4 text-center"></div>
+</div>

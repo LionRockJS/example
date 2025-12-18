@@ -1,0 +1,67 @@
+{% for item in items %}
+{% liquid
+    assign icon = "xmark"
+  #item maybe string or blueprint input object
+    assign name = item.name | default: item
+    assign input_type = item.type | default: inputs[name] | default: "text/basic"
+    # compatible to input_type without subtype
+    unless input_type contains "/"
+      assign input_type = input_type | append : "/basic"
+    endunless
+
+    assign selector = prefix | append: key | append : name
+    assign placeholder = placeholders[name] | strip_html
+
+    if name contains "."
+      assign full_values = values
+      assign name_parts = name | split: "."
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
+
+    if name contains "@"
+      assign full_values = values
+      assign name_parts = name | split: "@"
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
+%}
+
+
+<div class="min-h-8 mb-4">
+  <!-- checkbox -->
+  {% render "ui/toggle/checkbox", toggle_selector: selector %}
+  <!-- off-label -->
+  {% render "ui/toggle/off/label", toggle_selector: selector, name: name, icon: icon%}
+  <!-- on-icon_content -->
+
+  <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+    {% render "ui/toggle/icon", toggle_selector: selector, icon: icon %}
+
+    <div class="w-full me-[24px] md:me-[55px]">
+      {% liquid
+        assign type = input_type
+        assign label = name
+        assign value = values[name]
+        assign label_text = label | strip_html
+        assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+        assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+      %}
+      {{ selector }}
+
+      <div class="relative w-full group">
+        <label for="field-{{ selector }}"></label>
+        <input type="text" name="{{ selector }}"
+               id="field-{{ selector }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+               value="{{ value_attribute }}"
+               placeholder="{{ placeholder }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+{% assign values = full_values | default: values %}
+{% endfor %}

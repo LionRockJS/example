@@ -1,0 +1,69 @@
+{% if latest_responses != blank %}
+<div class="panel-space">
+  <div class="font-bold">Response:</div>
+  {% for response in latest_responses %}
+    {% if response.view_id != blank %}
+    <div class="font-bold my-4 underline">
+      {% assign sign_full = "rsvp" | append: rsvp_id  | append: item.id | append: response.edm_id | blake3 %}
+      {% assign sign = sign_full | slice: 0, 10 %}
+
+      <a href="//{{ edm_base }}/rsvp/{{ response.event_slug }}/{{ response.edm_id }}/{{ response.view_id }}/{{ sign }}" target="_blank">
+        <i class="fa-light fa-envelope-open"></i> {{ response.edm_name }} <i class="fa-regular fa-pen-to-square"></i>
+      </a>
+    </div>
+  {% endif %}
+
+    <!-- Dynamic block rendering -->
+    {% for block_type in response.response_keys %}
+      {% assign block_data = response[block_type] %}
+      
+      {% if block_data != blank %}
+        {% assign template_name = 'admin/events/leads/edit/responses/' | append: block_type %}
+        {% render template_name, block_data: block_data %}
+      {% endif %}
+    {% endfor %}
+
+    <!-- Plus One Guests -->
+    {% if response.rsvp-plus-one != blank %}
+      <div class="text-primary font-bold mt-6">Plus One Guests</div>
+      {% for plus_one in response.rsvp-plus-one %}
+        <div class="mb-4">
+          <div><i class="fa-regular fa-user-group-simple"></i> <span class="font-bold">Guest Name:</span> {{ plus_one.name }}</div>
+          {% if plus_one.organization != blank %}<div><i class="fa-regular fa-building"></i> <span class="font-bold">Organization:</span> {{ plus_one.organization }}</div>{% endif %}
+          
+          <!-- Dynamic block rendering for plus one guests -->
+          {% for block_type in response.plus_one_keys %}
+            {% assign block_data = plus_one[block_type] %}
+            
+            {% if block_data != blank %}
+              <div>
+                {% assign template_name = 'admin/events/leads/edit/responses/' | append: block_type %}
+                {% render template_name, block_data: block_data %}
+              </div>
+            {% else %}
+              {% assign has_main_block = false %}
+              {% for main_key in response.response_keys %}
+                {% if main_key == block_type %}
+                  {% assign has_main_block = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+              {% if has_main_block %}
+                <div class="ps-4 text-sm text-gray-500 mt-1">No {{ block_type | replace: 'rsvp-', '' | replace: '-', ' ' }} specified</div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+  {% endfor %}
+
+</div>
+{% endif %}
+
+<div class="for-admin panel-space my-8">
+  <textarea aria-label="original" class="w-full h-64 p-2 border border-gray-300 rounded-md bg-gray-50 text-sm font-mono" readonly>
+  {{ item.original | escape }}
+  </textarea>
+</div>

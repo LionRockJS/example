@@ -1,0 +1,52 @@
+<div class="panel-space flex justify-between my-16">
+  <div class="w-full">
+    <div class="text-primary font-bold text-2xl mb-2">Add guests from master database. </div>
+    <div>Select contacts by conditions and filter from master database. <br>You may also <label for="toggle-import" class="select-none underline cursor-pointer">import guests from file</label> or <label for="toggle-create" class="select-none underline cursor-pointer">create new guest</label></div>
+    {% render "admin/events/mail_list/contact-import" %}
+    {% render "admin/events/mail_list/contact-add" %}
+    <form class="my-4" id="form-select-contact"
+          hx-get="/admin/hx/contacts-search?mail_list_id={{ item.id }}"
+          hx-target="#filtered-contacts"
+    >
+      <input
+          id="contact-filter-search"
+          name="search"
+          type="text"
+          class="inline-block border border-gray-300 px-2 py-1 rounded-md text-md"
+          placeholder="Search"
+          aria-label="Search contacts"
+          required
+          >
+      <select name="path"
+              hx-get="/admin/hx/contacts-search?mail_list_id={{ item.id }}"
+              hx-include="#contact-filter-search"
+              hx-target="#filtered-contacts"
+              class="px-2 py-1 border border-gray-300 rounded-md me-4 text-md">
+        <option value="">Filter by</option>
+{% render "contacts/options" %}
+      </select>
+      <span>or</span>
+      <select
+          name="tag_type_id"
+          hx-get="/admin/hx/tags"
+          hx-target="#tags"
+          class="px-2 py-1 border border-gray-300 rounded-md ms-4 me-2 text-md"
+      >
+        <option>Select a tag type</option>
+        {% for tagtype in tag_types %}
+          <option value="{{ tagtype.id }}">{{ tagtype.name }}</option>
+        {% endfor %}
+      </select>
+      <select id="tags"
+              name="tag_id"
+              hx-get="/admin/hx/contacts-by-tag?mail_list_id={{ item.id }}"
+              hx-target="#filtered-contacts"
+              class="px-2 py-1 border border-gray-300 rounded-md me-4 text-md">
+        <option>---</option>
+      </select>
+    </form>
+    <div id="filtered-contacts" class="my-4"></div>
+  </div>
+  <div>
+  </div>
+</div>

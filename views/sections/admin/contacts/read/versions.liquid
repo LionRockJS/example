@@ -1,0 +1,15 @@
+{% assign versions_count = versions | size %}
+{% assign versions_sort = versions | reverse %}
+{% if versions_count > 0 %}
+<div class="relative">
+  <div class="absolute top-6 right-0 panel-space">
+    <select id="versions-select" class="border-1 border-gray-300 rounded-lg me-4 text-md min-w-[15rem] py-1">
+      <option value="0">Current Version</option>
+      {% for version in versions_sort %}
+        {% assign version_id = version | replace : ".json", "" %}
+        <option value="{{ version_id }}" {% if request.query.version == version_id %}selected{% endif %}>{{ version_id | date: "%Y-%m-%d %H:%M:%S" }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+{% endif %}

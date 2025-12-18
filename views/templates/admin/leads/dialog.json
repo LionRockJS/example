@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "title",
+        "title": "Delete Guest",
+        "controller_slug": "{{controller_slug}}",
+        "breadcrumb": "Home:/admin,Dashboard:",
+        "section_search": "empty",
+        "section_header": "empty",
+        "section_body": "admin/events/leads/dialog"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

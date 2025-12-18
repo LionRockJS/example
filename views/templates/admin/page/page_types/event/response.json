@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/events/response/index",
+        "section_body": "admin/events/response/view",
+        "section_menu": "admin/navigation",
+        "title": "Events",
+        "controller_slug": "events",
+        "breadcrumb": "Home:/admin,Events:/admin/events",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "workspace"
+  ]
+}

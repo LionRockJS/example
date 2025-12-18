@@ -1,0 +1,50 @@
+<div class="border-y border-gray-300 my-4 bg-gray-300 rounded-lg px-4 py-2">
+  <div class="mb-4">{{ count }} Guest(s) found{% if search != blank %} for "{{ search }}"{% endif %}</div>
+  {% if count > 0 %}
+    <table id="primary-guest-search-results" class="w-full divide-y divide-gray-800">
+      <thead>
+        <tr>
+          <th class="text-left font-semibold text-primary">Name / Email / Phone</th>
+          <th class="text-left font-semibold text-primary">Organization</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-500">
+        {% for list in lists %}
+          <tr>
+            <td colspan="5" class="py-2">
+              <div class="font-bold text-primary">{{ list.title }} ({{ list.count }})</div>
+            </td>
+          </tr>
+          {% for guest in list.guests %}
+            <tr class="primary-guest-result-row hover:bg-gray-400">
+              <td class="py-2 whitespace-nowrap align-top max-w-[15rem] overflow-hidden text-ellipsis pe-2">
+                <div class="font-bold">{{ guest.name }}</div>
+                <div class="text-sm text-gray-500">
+                  {{ guest.contact }}
+                </div>
+              </td>
+              <td class="py-2 pe-2 max-w-[15rem] overflow-hidden text-ellipsis">
+                {{ guest.print.tokens.organization }}
+              </td>
+              <td class="py-2 text-end">
+                <button 
+                  type="button"
+                  class="btn-select-primary-guest rounded-md px-3 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 shadow-sm"
+                  data-guest-id="{{ guest.id }}"
+                  data-guest-name="{{ guest.name | escape }}"
+                  data-mail-list-id="{{ guest.mail_list_id }}"
+                >
+                  Select
+                </button>
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  {% if error %}
+    <div class="text-red-600">{{ error }}</div>
+  {% endif %}
+</div>

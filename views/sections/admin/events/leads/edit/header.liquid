@@ -1,0 +1,21 @@
+<div class="w-full panel-space mb-8">
+  <div>
+    <input form="main-form"
+           class="block w-full border-0 p-0 bg-transparent tracking-wide text-6xl text-primary focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent"
+           type="text"
+           placeholder="contact name"
+           name=":name"
+           value="{{ item.name }}"
+           required
+    >
+  </div>
+
+  <div class="mb-8">
+    <input type="text" value="{{ tokens.organization }}" name="@organization" placeholder="Company / Organization"
+           class="text-2xl block w-full border-0 p-0 bg-transparent focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent font-bold"
+            form="main-form"
+           aria-label="Organization"
+           />
+    {% if tokens.contact_id != blank %}<a href="/admin/contacts/{{ tokens.contact_id }}" target="_blank" class="my-4 inline-block underline text-gray-500"><i class="fa-regular fa-address-card me-2"></i>View contact</a>{% endif %}
+  </div>
+</div>

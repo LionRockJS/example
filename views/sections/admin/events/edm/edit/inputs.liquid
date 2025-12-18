@@ -1,0 +1,63 @@
+<div class="mb-4 max-w-[800px]">
+
+{% liquid
+
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+    assign selector = section.settings.selector | default: "edm"
+%}
+
+    <input type="hidden" name="*event" value="{{ values.event.id }}" form="main-form"/>
+<!-- subject -->
+    {% assign icon = "inbox-full" %}
+    <div class="min-h-8 mb-4">
+        <div class="panel-space">
+                <div class="mb-3 w-full relative">
+                    <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500">Email Subject</div>
+                    {% assign key = 'subject' %}
+                    <input type="text" name=".{{ key }}"
+                           aria-label="Subject"
+                           id="field-{{ selector }}-1"
+                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-bold text-xl w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+                           value="{{ values[key] | escape }}"
+                           placeholder="{{ placeholders[key] | strip_html | default: "Email Subject" }}"
+                           form="{{ form }}"
+                            {% if language == "mis" or language == blank %}
+                            required
+                            {% endif %}
+                    >
+                </div>
+
+            <!-- standard content -->
+            <div class="mb-3 w-full relative">
+                <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500">Headline</div>
+                {% assign key = 'heading' %}
+                <input type="text" name=".{{ key }}"
+                       aria-label="email {{ key }}"
+                       id="field-{{ key }}"
+                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+                       value="{{ values[key] | escape }}"
+                       placeholder="{{ placeholders[key] | strip_html | default: "Headline" }}"
+                       form="{{ form }}"
+                >
+            </div>
+
+            <div class="mb-3 w-full relative">
+                <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10">Body</div>
+                {% assign key = 'body' %}
+                {% assign value = values[key] %}
+                {% assign selector =  '.' | append : key %}
+                <div class="border-1 border-gray-300 rounded p-2">
+                {% render "pagefield/richtext/md", placeholder: 'body', value: value, label: "Body", selector: selector, form: 'main-form' %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

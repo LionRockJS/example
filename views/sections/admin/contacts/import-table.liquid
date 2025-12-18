@@ -1,0 +1,69 @@
+{% liquid
+
+    assign prefix = section.settings.controller | default: "pages"
+assign suffix = section.settings.page_type
+assign qs = ""
+if request.query.pagesize
+    assign qs = qs | append: "pagesize=" | append: request.query.pagesize
+endif
+if request.query.page
+    assign qs = qs | append: "&page=" | append: request.query.page
+endif
+if request.query.language
+    assign qs = qs | append: "&language=" | append: request.query.language
+endif
+if qs != blank
+    assign qs = '?' | append: qs
+endif
+
+%}
+
+<div class="panel-space">
+
+    <input form="form-list" type="hidden" name="destination" value="/admin/contacts{{ qs }}">
+    <table id="table" class="table-primary w-full">
+        <thead>
+        <tr class="text-left text-primary">
+            <th>Name / ID</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in added %}
+            {% if forloop.index0 == 0 %}
+            <tr><td class="sticky top-0 rounded-md bg-gray-500 text-white py-2 text-center" colspan="4">New Contacts</td></tr>
+            {% endif %}
+            {% assign display_name = item.first_name | append: " " | append: item.middle_name | append: " " | append: item.last_name | strip | default: item.chinese_name_sc | default: item.chinese_name_tc %}
+            <tr>
+                <td class="overflow-hidden leading-4 text-nowrap pe-4 pt-4 max-w-[15rem] text-ellipsis">
+                    <span class="font-bold">{{ display_name }}</span><br>
+                    <span class="text-xs">{{ item.id }}</span></td>
+                <td class="pe-4 overflow-hidden max-w-[15rem] text-ellipsis">{{ item.email_work_1 | default : item.email_general_1 | default: item.email_personal_1 }}</td>
+                <td class="pe-4 overflow-hidden max-w-[10rem] text-ellipsis">{{ item.mobile_1 |  default: item.work_phone_1_direct | default: item.work_phone_general_1 | default: item.home_phone_1 }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+
+        {% for item in duplicated %}
+            {% if forloop.index0 == 0 %}
+                <tr><td class="sticky top-0 rounded-md bg-gray-500 text-white py-2 text-center" colspan="4">Contacts ID exists</td></tr>
+            {% endif %}
+            {% assign display_name = item.first_name | append: " " | append: item.middle_name | append: " " | append: item.last_name | strip | default: item.chinese_name_sc | default: item.chinese_name_tc %}
+            <tr>
+                <td class="overflow-hidden leading-4 text-nowrap pe-4 pt-4 align-top">
+                    <a href="/admin/contacts/{{ item.__record.id }}" target="_blank" class="underline">
+                    <span class="font-bold">{{ display_name }}</span><br>
+                    <span class="text-xs">{{ item.id }}({{ item.__record.id }})</span>
+                    </a>
+                </td>
+                <td class="pe-4 pt-4 align-top">{{ item.email_work_1 | default : item.email_general_1 | default: item.email_personal_1 }}</td>
+                <td class="pe-4 pt-4 align-top">{{ item.mobile_1 |  default: item.work_phone_1_direct | default: item.work_phone_general_1 | default: item.home_phone_1 }}</td>
+                <td class="pe-4 pt-4 align-top text-xs text-ellipsis overflow-hidden">{{ item.__updateSummary }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

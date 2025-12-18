@@ -1,0 +1,83 @@
+<div class="panel-space">
+    <div class="grid grid-cols-2 mb-4 gap-4">
+      <div>
+        <div>
+          <div>
+            {% if duplicatedObjects.length == 0 and conflictedObjects.length == 0 %}
+              <i class="fa-solid fa-file-check me-1 text-green-700"></i>
+            {% else %}
+              <i class="fa-solid fa-file-check me-1 text-orange-400"></i>
+            {% endif %}
+            Items in file: <b>{{ objects.length }}</b>, duplicated: <b>{{ duplicatedObjects.length }}</b>, conflict:
+            <b
+              {% if conflictedObjects.length > 0 %}
+                class="text-red-500"
+              {% endif %}
+            >
+              {{- conflictedObjects.length -}}
+            </b>
+          </div>
+          <div>
+            {% if duplicated.length == 0 %}
+              <i class="fa-solid fa-database text-green-700"></i>
+            {% else %}
+              <i class="fa-solid fa-database text-orange-400"></i>
+            {% endif %}
+            New: <b>{{ added.length }}</b>, exist: <b>{{ duplicated.length }}</b>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div><b>{{ headers | size }}</b> column(s) found in file.</div>
+        <div>
+        <input id="toggle-header-names" type="checkbox" class="peer hidden">
+        <label 
+          for="toggle-header-names" 
+          class="peer-checked:hidden block underline cursor-pointer"
+          >Show Header Names</label>
+        <label 
+          for="toggle-header-names" 
+          class="peer-checked:block hidden underline cursor-pointer"
+          >Hide Header Names</label>
+        <div class="my-4 w-full text-xs peer-checked:block hidden">
+          {{ headers | join: ', ' }}
+        </div>
+        </div>
+        <div>
+          <input id="toggle-header-mapping" type="checkbox" class="peer hidden">
+          <label for="toggle-header-mapping" 
+            class="peer-checked:hidden block underline cursor-pointer"
+            >Show Columns to Database Mapping</label>
+          <label for="toggle-header-mapping" 
+            class="peer-checked:block hidden underline cursor-pointer"
+            >Hide Columns to Database Mapping</label>  
+          <div class="my-4 w-full text-xs peer-checked:block hidden">
+            {{ configImporter | json }}
+          </div>
+        </div>
+      </div>
+      </div>
+
+    <div class="flex mb-8 items-center gap-2">
+        <select name="action"
+            form="main-form"
+            class="bg-white text-black rounded px-2 py-1 border border-gray-300"
+            >
+        {% if added.length > 0 %}<option value="new">Import New Records Only</option>{% endif %}
+        {% if duplicated.length > 0 %}<option value="append">Append Data to Existing Records Only</option>{% endif %}
+        {% if added.length > 0 and duplicated.length > 0 %}<option value="new-append">Import New Records and Append Data to Existing Records</option>{% endif %}
+        {% if duplicated.length > 0 %}<option value="overwrite">Overwrite Existing Records</option>{% endif %}
+        {% if duplicated.length > 0 %}<option value="force-new">Import All Existing Records as new records</option>{% endif %}
+            </select>
+
+            <div>
+                <button type="submit" 
+                    form="main-form"
+                    class="inline-block cursor-pointer transition duration-500 w-full rounded-lg px-3 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" 
+                    onclick="setTimeout(()=&gt;{this.disabled = true; this.innerHTML = '&lt;i class=\'fas fa-spinner fa-spin\'&gt;&lt;/i&gt; Loading...';}, 200);"
+                >Accept</button>
+            </div>
+
+    </div>
+
+  </div>

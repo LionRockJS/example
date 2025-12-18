@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "page/edit/index",
+        "title": "Guests",
+        "controller_slug": "rsvp",
+        "breadcrumb": "Home:/admin,Guest List:/admin/rsvp/{{id}}",
+        "section_header": "{{ title }}",
+        "section_body": "admin/guests/import-post",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

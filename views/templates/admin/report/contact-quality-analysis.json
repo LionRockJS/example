@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/report/nav",
+        "title": "Contact Quality Analysis",
+        "breadcrumb": "Home:/admin,Reports:/admin/reports,Contact Quality:/admin/reports/contact-quality-analysis",
+        "section_header": "orm-header",
+        "section_body": "admin/report/contact-quality-analysis",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

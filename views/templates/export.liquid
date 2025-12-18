@@ -1,0 +1,4 @@
+{%- for header in headers -%}"=""{{ header | replace : "\"", "\"\"" }}"""{%- if forloop.last != true -%},{%- endif -%}{%- endfor %}
+{% for row in rows -%}
+{% for value in row %}"=""{{ value | default: "" | replace : "\"", "\"\"" }}"""{%- if forloop.last != true -%},{%- endif -%}{% endfor %}
+{% endfor -%}

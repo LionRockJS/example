@@ -1,0 +1,64 @@
+{% assign mail_list_count = mail_list | size %}
+{% assign edm_count = edm | size %}
+{% if edm_count == 0 and item.id == "new_post/event" or mail_list_count == 0 %}
+{% else %}
+<div class="panel-space border-t border-primary py-8">
+  <div class="mb-4">
+    <div class="text-2xl text-primary font-bold"> <i class="fa-light fa-envelope"></i> Email Templates</div>
+    <div class="text-md text-gray-700"></div>
+  </div>
+
+
+  {% if edm_count > 0 %}
+    <table class="mb-4 w-full table-primary">
+      <thead>
+      <tr class="text-left text-primary border-b border-b-gray-300">
+        <th class="pb-2 for-admin">
+          <input type="checkbox"
+                 aria-label="Checkbox Action"
+                 onclick="tableBulkSelect(this)"
+                 class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          >
+        </th>
+        <th class="pb-2">Name</th>
+        <th class="pb-2"></th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+      {% for m in edm %}
+        <tr>
+          <td class="align-middle w-6 min-w-6 py-2 for-admin">
+            <input type="checkbox"
+                   aria-label="Select item"
+                   class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                   name="selected_items[]"
+                   value="{{ item.id }}"
+                   form="bulk-action"
+            >
+          </td>
+          <td class="overflow-hidden text-ellipsis text-nowrap py-2 font-bold"><a href="/admin/edm/{{ m.id }}" >{{ m.name }}</a></td>
+          <td class="text-end py-2">
+            <a href="/admin/edm/{{ m.id }}" class="underline me-3">
+              <i class="fa-solid fa-eye me-1"></i>View
+            </a>
+            <a href="/admin/events/{{ item.id }}/duplicate/edm/{{ m.id }}" class="underline">
+              <i class="fa-solid fa-copy me-1"></i>Duplicate
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="text-gray-500 mb-4">
+      You have no email template created yet. click the button below to create a new one.
+    </div>
+  {% endif %}
+
+  <div class="text-end">
+    <a href="/admin/events/{{ item.id }}/add/edm"
+       class="inline-block transition duration-500 rounded-lg py-2 uppercase text-base text-primary"
+    ><i class="fa-solid fa-square-plus me-1"></i> <span class="underline">Add Template</span></a>
+  </div>
+</div>
+{% endif %}

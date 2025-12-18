@@ -1,0 +1,45 @@
+<div id="page-blocks" class="my-4">
+    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-blocks">
+    <label class="peer-checked:hidden peer-checked:px-0 absolute -translate-x-[3px] rounded cursor-pointer select-none text-white bg-black px-6 py-2 z-10 leading-8 shadow-sm" for="toggle-blocks"><i class="fa-solid fa-grip-dots"></i></label>
+
+    <div class="hidden peer-checked:flex mb-4">
+        <label for="toggle-blocks" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-black hover:border-highlight"><i class="pt-[0.3rem] fa-solid fa-grid-2-plus"></i></label>
+        {% assign limit_blocks = limits | split : "," %}
+        <div id="add-block" class="flex flex-row items-center">
+            <div class="relative w-full">
+                <label for="block-select" class="hidden">Available Blocks</label>
+                <select id="block-select" name="block-select"
+                        class="border-none bg-transparent font-bold"
+                        form="main-form"
+                >
+                    <option value="">Content Blocks</option>
+                    {% if limits != blank %}
+                        {% for block_name in limit_blocks %}
+                            <option value="{{ block_name }}">{{ block_name }}</option>
+                        {% endfor %}
+                    {% else %}
+                        {% for block_name in block_names %}
+                            <option value="{{ block_name }}">{{ block_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="btn btn-primary"
+                        name="action"
+                        value="block-add"
+                        form="main-form"
+                >
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="min-w-[24px] md:min-w-[55px]"></div>
+    </div>
+
+    <div class="hidden peer-checked:flex w-full">
+        {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates, form: "main-form" %}
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "main": {
+      "type": "admin/events/table",
+      "settings": {
+        "controller": "events"
+      }
+    },
+    "pagination": {
+      "type": "pagination",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "pagination"
+  ]
+}

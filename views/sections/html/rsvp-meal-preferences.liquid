@@ -1,0 +1,85 @@
+{% liquid
+  assign block_name = "rsvp-meal-preferences"
+  assign title = tokens.title | default: "Meal Preference"
+  
+  # Check if this is for admin form (field_name_prefix is provided)
+  assign admin_prefix = field_name_prefix | default: ''
+  assign is_admin_form = false
+  if admin_prefix != ''
+    assign is_admin_form = true
+  endif
+  
+  # For public forms: use block hashing
+  if is_admin_form == false
+    #prefix can be plus one prefix or blank
+    assign block_source_id = tokens._id | default: tokens._index | default: tokens._weight
+    assign block_id = prefix | append: block_name | title |  append : '-' | append: block_source_id
+    assign block_hash = block_id | md5
+    assign block_hash = "x" | append : block_hash | truncate: 16, ""
+  endif
+
+  for block in item.print.blocks
+    if block.tokens._type == "rsvp-plus-one"
+      assign has_plus_one = true
+    endif
+  endfor
+%}
+
+<div class="{% if show_title == false %}{% else %}my-8{% endif %}">
+  {% unless is_admin_form %}
+    <input type="hidden" name="{{ block_hash }}" value="{{ block_id }}" />
+    <input type="hidden" name="{{ block_hash }}-title" value="{{ title }}" />
+  {% endunless %}
+  
+  <div class="mb-3">
+    {% if tokens.title %}<div class="text-2xl">{% if has_plus_one == true and for_guest != true %}{{ "your" | t | capitalize }}{% endif %}{{ tokens.title | default: "Meal Preference" }}</div>{% endif %}
+    {% if tokens.body %}<div>{{ tokens.body }}</div>{% endif %}
+  </div>
+
+  {% for food in tokens.food %}
+    {% if is_admin_form %}
+      {% assign field_suffix = "rsvp-meal-preferences-" | append: block_id | append: "-food" %}
+      {% assign form_name_key = admin_prefix | append: field_suffix %}
+      {% assign value_key = field_suffix %}
+      {% assign selector = "admin-meal-" | append: block_id | append: "-food-" | append: forloop.index0 %}
+    {% else %}
+      {% capture selector %}{{ prefix }}block-{{ block_source_id }}-food-{{ forloop.index0 }}{% endcapture %}
+      {% assign form_key = block_hash | append: '-food' %}
+      {% assign form_name_key = block_hash | append: '-food' %}
+      {% assign value_key = form_key %}
+    {% endif %}
+    
+    {% assign saved_food_value = savedFormData[value_key] %}
+    <div>
+      <div>
+        <input type="radio"
+               id="{{ selector }}"
+               name="{{ form_name_key }}"
+               value="{{ food.name | escape }}"
+               {% if saved_food_value == food.name %}checked{% endif %}
+               {% if form %}form="{{ form }}"{% endif %}
+        > <label for="{{ selector }}">{{ food.name }}</label>
+      </div>
+      {% if food.description %}<div class="text-sm">{{ food.description }}</div>{% endif %}
+    </div>
+  {% endfor %}
+  
+  {% if tokens.allow_message == "yes" %}
+    {% if is_admin_form %}
+      {% assign field_suffix = "rsvp-meal-preferences-" | append: block_id | append: "-message" %}
+      {% assign form_name_key = admin_prefix | append: field_suffix %}
+      {% assign value_key = field_suffix %}
+    {% else %}
+      {% assign form_name_key = block_hash | append: '-message' %}
+      {% assign value_key = form_name_key %}
+    {% endif %}
+    
+    <div class="mt-2">
+      <textarea aria-label="message"
+                name="{{ form_name_key }}"
+                placeholder="{{ tokens.message_placeholder | default: "Please let us know if you have any special dietary requirements." }}"
+                class="w-full p-2 border border-gray-300 rounded"
+                {% if form %}form="{{ form }}"{% endif %}>{{ savedFormData[value_key] | escape }}</textarea>
+    </div>
+  {% endif %}
+</div>

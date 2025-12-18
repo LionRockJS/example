@@ -1,0 +1,942 @@
+{% liquid
+    assign page = item
+    assign form = section.settings.form | default: "main-form"
+    assign default_items = " " |  split: ","
+%}
+
+<div class="min-h-8 mb-8 relative z-5">
+    <!-- checkbox -->
+    {% render "ui/toggle/checkbox", toggle_selector: "position" %}
+    <!-- off-label -->
+    {% render "ui/toggle/off/label", toggle_selector: "position", name: "Position", icon: "briefcase"%}
+    <!-- on-icon_content -->
+
+    <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+        <label for="toggle-position" class="pt-1 min-w-[24px] md:min-w-[55px] flex cursor-pointer justify-center"><i class="fa-light fa-briefcase" aria-hidden="true"></i></label>
+
+        <div class="w-full me-[24px] md:me-[55px]">
+            <div class="flex backdrop-blur">
+                <label for="toggle-position" class="block font-bold cursor-pointer select-none hover:text-highlight">Position</label>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:position"
+                       value="1"
+                       class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+                <button type="submit"
+                        class="button-add"
+                        name="action"
+                        value="item-add:position"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+            </div>
+            <div>
+                {% liquid
+                    assign page_items = tokens['position'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.position[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:position|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div class="">
+                            <div class="mt-2 mb-4">
+                                <input type="text" name="{{ prefix }}.organization_name"
+                                       class="input-clip text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['organization_name'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['position'][page_item._key]['organization_name'] | strip_html | default: "Company / Organisation Name" }}"
+                                       form="{{ form }}"
+                                       list="companies"
+                                >
+
+                                <input type="text" name="{{ prefix }}.client"
+                                       class="input-clip mb-4 font-bold text-ellipsis transition-[background] duration-[50000s] block font-sans w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['client'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['position'][page_item._key]['client'] | strip_html | default: "Client Name" }}"
+                                       form="{{ form }}"
+                                       list="clients"
+                                >
+
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                            <input type="text" name="{{ prefix }}.title"
+                                                   class="text-2xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                                   value="{{ page_item['title'] | escape }}"
+                                                   placeholder="{{ placeholders.tokens['position'][page_item._key]['title'] | strip_html | default: "Title" }}"
+                                                   form="{{ form }}"
+                                            >
+
+
+                                            <input type="text" name="{{ prefix }}.department"
+                                                   class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                                   value="{{ page_item['department'] | escape }}"
+                                                   placeholder="{{ placeholders.tokens['position'][page_item._key]['department'] | strip_html | default: "Department" }}"
+                                                   form="{{ form }}"
+                                            >
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center">
+                                            <i class="fa-light fa-envelope me-2"></i>
+                                            <input type="email" name="{{ prefix }}@email"
+                                                   class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                                   value="{{ page_item['email'] | escape }}"
+                                                   placeholder="{{ placeholders.tokens['position'][page_item._key]['email'] | strip_html | default: "Email" }}"
+                                                   form="{{ form }}"
+                                                {% if language == "mis" or language == blank %}
+                                                    required
+                                                    data-either="basic-contact"
+                                                {% endif %}
+                                            >
+                                        </div>
+                                        <div class="flex items-center relative">
+                                            <i class="fa-light fa-phone me-2 absolute"></i>
+                                            <input type="tel" name="{{ prefix }}@direct_phone" pattern="[+0-9 ]+"
+                                                   class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none min-w-[18rem]"
+                                                   value="{{ page_item['direct_phone'] | escape }}"
+                                                   placeholder="{{ placeholders.tokens['position'][page_item._key]['direct_phone'] | strip_html | default: "Direct Phone" }}"
+                                                {% if language == "mis" or language == blank %}
+                                                    required
+                                                    data-either="basic-contact"
+                                                {% endif %}
+                                            >
+                                            <div class="error" style="display: none;"></div>
+                                            <input type="text" name="{{ prefix }}@direct_phone" class="hidden" form="{{ form }}">
+                                            <input type="text" pattern="[0-9]+" name="{{ prefix }}@direct_phone_ext"
+                                                   class="min-w-32 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                                   value="{{ page_item['direct_phone_ext'] | escape }}"
+                                                   placeholder="{{ placeholders.tokens['position'][page_item._key]['direct_phone_ext'] | strip_html | default: "Ext." }}"
+                                                   form="{{ form }}"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input id="toggle_company_details_{{ prefix | md5 }}" type="checkbox" class="peer hidden" {% if page_item['address'] != blank or page_item['website'] != blank or page_item['general_email'] != blank or page_item['general_phone'] != blank or page_item['fax'] != blank %}checked{% endif %}/>
+                            <label for="toggle_company_details_{{ prefix | md5 }}" class="block peer-checked:hidden select-none cursor-pointer"><i class="fa-light fa-square-plus"></i> Show General Information</label>
+                            <div class="mb-4 peer-checked:block hidden">
+                                <label for="toggle_company_details_{{ prefix | md5 }}" class="block peer-checked:hidden select-none cursor-pointer"><i class="fa-light fa-square-minus"></i> Hide General Information</label>
+                                <textarea type="text" name="{{ prefix }}.address" rows="3"
+                                          class="text-ellipsis transition-[background] duration-[50000s] block font-sans w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                          placeholder="{{ placeholders.tokens['position'][page_item._key]['address'] | strip_html | default: "Address" }}"
+                                          form="{{ form }}"
+                                >{{ page_item['address'] | escape }}</textarea>
+
+                                <div class="grid grid-cols-2">
+                                    <div class="flex items-center">
+                                        <i class="fa-light fa-link me-2"></i>
+                                        <input type="text" name="{{ prefix }}@website"
+                                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                               value="{{ page_item['website'] | escape }}"
+                                               placeholder="{{ placeholders.tokens['position'][page_item._key]['website'] | strip_html | default: "Web Site" }}"
+                                               form="{{ form }}"
+                                        >
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <i class="fa-light fa-envelope me-2"></i>
+                                        <input type="email" name="{{ prefix }}@general_email"
+                                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                               value="{{ page_item['general_email'] | escape }}"
+                                               placeholder="{{ placeholders.tokens['position'][page_item._key]['general_email'] | strip_html | default: "General Email" }}"
+                                               form="{{ form }}"
+                                            {% if language == "mis" or language == blank %}
+                                                required
+                                                data-either="basic-contact"
+                                            {% endif %}
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 pb-4 mb-4">
+                                    <div class="flex items-center relative">
+                                        <i class="fa-light fa-phone-rotary me-2 absolute"></i>
+                                        <input type="tel" name="{{ prefix }}@general_phone" pattern="[+0-9 ]+"
+                                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none"
+                                               value="{{ page_item['general_phone'] | escape }}"
+                                               placeholder="{{ placeholders.tokens['position'][page_item._key]['general_phone'] | strip_html | default: "General Phone" }}"
+                                            {% if language == "mis" or language == blank %}
+                                                required
+                                                data-either="basic-contact"
+                                            {% endif %}
+                                        >
+                                        <div class="error" style="display: none;"></div>
+                                        <input type="text" name="{{ prefix }}@general_phone" class="hidden" form="{{ form }}">
+                                    </div>
+
+                                    <div class="flex items-center relative">
+                                        <i class="fa-light fa-fax me-2 absolute"></i>
+                                        <input type="tel" name="{{ prefix }}@fax" pattern="[+0-9 ]+"
+                                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                               value="{{ page_item['fax'] | escape }}"
+                                               placeholder="{{ placeholders.tokens['position'][page_item._key]['fax'] | strip_html | default: "Fax." }}"
+                                            {% if language == "mis" or language == blank %}
+                                                required
+                                                data-either="basic-contact"
+                                            {% endif %}
+                                        >
+                                        <div class="error" style="display: none;"></div>
+                                        <input type="text" name="{{ prefix }}@fax" class="hidden" form="{{ form }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contacts Section -->
+<div class="min-h-8 mb-8 relative z-4">
+    <!-- checkbox -->
+    {% render "ui/toggle/checkbox", toggle_selector: "contacts" %}
+    <!-- off-label -->
+    {% render "ui/toggle/off/label", toggle_selector: "contacts", name: "Phone / Email / Social Media", icon: "address-card"%}
+    <!-- on-icon_content -->
+
+    <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+        <label for="toggle-contacts" class="pt-1 min-w-[24px] md:min-w-[55px] flex cursor-pointer justify-center"><i class="fa-light fa-address-card" aria-hidden="true"></i></label>
+
+        <div class="w-full me-[24px] md:me-[55px]">
+            <!-- email -->
+            <div>
+                <div class="flex backdrop-blur">
+                    <label for="toggle-contacts" class="block font-bold cursor-pointer select-none hover:text-highlight">Personal Email</label>
+                    <input type="text"
+                           pattern="\d+"
+                           name="count:email"
+                           value="1"
+                           class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                           form="{{ form }}"
+                    >
+                    <button type="submit"
+                            class="button-add"
+                            name="action"
+                            value="item-add:email"
+                            form="{{ form }}"
+                    ><i class="fa-light fa-circle-plus"></i></button>
+                </div>
+                <div class="border-b border-gray-200 mb-4">
+                    {% liquid
+                        assign page_items = tokens['email'] | default: default_items | sort : "_weight"
+                    %}
+                    {% for page_item in page_items %}
+                        {% capture prefix %}.email[{{ page_item._key }}]{% endcapture %}
+                        <div class="relative my-4">
+                            <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                                <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                       class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                       form="{{ form }}"
+                                />
+                            </div>
+
+                            <div class="absolute -right-4 z-10">
+                                {% if forloop.length > 1 %}
+                                    <button type="submit" name="action"
+                                            value="item-delete:email|{{ page_item._key }}"
+                                            form="{{ form }}"
+                                            class="cursor-pointer hover:text-red-900"
+                                    ><i class="fal fa-times"></i></button>
+                                {% endif %}
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center">
+                                    <i class="fa-light fa-envelope me-2"></i>
+                                    <input type="email" name="{{ prefix }}@email"
+                                           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                           value="{{ page_item['email'] | escape }}"
+                                           placeholder="{{ placeholders.tokens['email'][page_item._key]['email'] | strip_html | default: "Email" }}"
+                                           form="{{ form }}"
+                                        {% if language == "mis" or language == blank %}
+                                            required
+                                            data-either="basic-contact"
+                                        {% endif %}
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- phone -->
+            <div>
+                <div class="flex backdrop-blur">
+                    <label for="toggle-contacts" class="block font-bold cursor-pointer select-none hover:text-highlight">Mobile Phone</label>
+                    <input type="text"
+                           pattern="\d+"
+                           name="count:phone"
+                           value="1"
+                           class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                           form="{{ form }}"
+                    >
+                    <button type="submit"
+                            class="button-add"
+                            name="action"
+                            value="item-add:phone"
+                            form="{{ form }}"
+                    ><i class="fa-light fa-circle-plus"></i></button>
+                </div>
+                <div class="border-b border-gray-200 mb-4">
+                    {% liquid
+                        assign page_items = tokens['phone'] | default: default_items | sort : "_weight"
+                    %}
+                    {% for page_item in page_items %}
+                        {% capture prefix %}.phone[{{ page_item._key }}]{% endcapture %}
+                        <div class="relative my-4">
+                            <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                                <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                       class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                       form="{{ form }}"
+                                />
+                            </div>
+
+                            <div class="absolute -right-4 z-10">
+                                {% if forloop.length > 1 %}
+                                    <button type="submit" name="action"
+                                            value="item-delete:phone|{{ page_item._key }}"
+                                            form="{{ form }}"
+                                            class="cursor-pointer hover:text-red-900"
+                                    ><i class="fal fa-times"></i></button>
+                                {% endif %}
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center relative">
+                                    <i class="fa-light fa-phone-rotary me-2 absolute"></i>
+                                    <input type="tel" name="{{ prefix }}@phone" pattern="[+0-9 ]+"
+                                           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                           value="{{ page_item['phone'] | escape }}"
+                                           placeholder="{{ placeholders.tokens['phone'][page_item._key]['phone'] | strip_html | default: "Phone" }}"
+                                        {% if language == "mis" or language == blank %}
+                                            required
+                                            data-either="basic-contact"
+                                        {% endif %}
+                                    >
+                                    <div class="error" style="display: none;"></div>
+                                    <input type="text" name="{{ prefix }}@phone" class="hidden" form="{{ form }}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- social media -->
+            <div>
+                <div class="flex backdrop-blur">
+                    <label for="toggle-contacts" class="block font-bold cursor-pointer select-none hover:text-highlight">Social Media</label>
+                    <input type="text"
+                           pattern="\d+"
+                           name="count:social_media"
+                           value="1"
+                           class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                           form="{{ form }}"
+                    >
+                    <button type="submit"
+                            class="button-add"
+                            name="action"
+                            value="item-add:social_media"
+                            form="{{ form }}"
+                    ><i class="fa-light fa-circle-plus"></i></button>
+                </div>
+                <div>
+                    {% liquid
+                        assign page_items = tokens['social_media'] | default: default_items | sort : "_weight"
+                    %}
+                    {% for page_item in page_items %}
+                        {% capture prefix %}.social_media[{{ page_item._key }}]{% endcapture %}
+                        <div class="relative my-4">
+                            <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                                <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                       class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                       form="{{ form }}"
+                                />
+                            </div>
+
+                            <div class="absolute -right-4 z-10">
+                                {% if forloop.length > 1 %}
+                                    <button type="submit" name="action"
+                                            value="item-delete:social_media|{{ page_item._key }}"
+                                            form="{{ form }}"
+                                            class="cursor-pointer hover:text-red-900"
+                                    ><i class="fal fa-times"></i></button>
+                                {% endif %}
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center">
+                                    {% assign value = page_item['type']  %}
+                                    <select name="{{ prefix }}@type" form="{{ form }}" aria-label="Phone Type">
+                                        <option value="wechat" {% if value == "wechat" %}selected{% endif %}>WeChat</option>
+                                        <option value="instagram" {% if value == "instagram" %}selected{% endif %}>Instagram</option>
+                                        <option value="facebook" {% if value == "facebook" %}selected{% endif %}>Facebook</option>
+                                        <option value="twitter" {% if value == "twitter" %}selected{% endif %}>Twitter</option>
+                                        <option value="linkedin" {% if value == "linkedin" %}selected{% endif %}>LinkedIn</option>
+                                        <option value="weibo" {% if value == "weibo" %}selected{% endif %}>Weibo</option>
+                                        <option value="red" {% if value == "red" %}selected{% endif %}>Xiaohongshu</option>
+                                        <option value="line" {% if value == "line" %}selected{% endif %}>Line</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fa-light fa-link me-2"></i>
+                                    <input type="text" name="{{ prefix }}@url"
+                                           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                           value="{{ page_item['url'] | escape }}"
+                                           placeholder="{{ placeholders.tokens['social_media'][page_item._key]['url'] | strip_html | default: "URL" }}"
+                                           form="{{ form }}"
+                                        {% if language == "mis" or language == blank %}
+                                            required
+                                            data-either="basic-contact"
+                                        {% endif %}
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="min-h-8 mb-8 relative z-3">
+    <!-- checkbox -->
+    {% render "ui/toggle/checkbox", toggle_selector: "addresses" %}
+    <!-- off-label -->
+    {% render "ui/toggle/off/label", toggle_selector: "addresses", name: "Addresses", icon: "buildings"%}
+    <!-- on-icon_content -->
+
+    <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+        <label for="toggle-addresses" class="pt-1 min-w-[24px] md:min-w-[55px] flex cursor-pointer justify-center"><i class="fa-light fa-buildings" aria-hidden="true"></i></label>
+
+        <div class="w-full me-[24px] md:me-[55px]">
+            <div class="flex backdrop-blur">
+                <label for="toggle-addresses" class="block font-bold cursor-pointer select-none hover:text-highlight">Home</label>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:home"
+                       value="1"
+                       class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+                <button type="submit"
+                        class="button-add"
+                        name="action"
+                        value="item-add:home"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+            </div>
+            <div>
+                {% liquid
+                    assign page_items = tokens['home'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.home[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:home|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <div class="flex items-center">
+                                <i class="fa-light fa-location-dot me-2"></i>
+                                <input type="text" name="{{ prefix }}.address"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['address'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['home'][page_item._key]['address'] | strip_html | default: "Address" }}"
+                                       form="{{ form }}"
+                                >
+                            </div>
+                            <div class="flex items-center relative">
+                                <i class="fa-light fa-phone me-2 absolute"></i>
+                                <input type="tel" name="{{ prefix }}@phone" pattern="[+0-9 ]+"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                       value="{{ page_item['phone'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['home'][page_item._key]['phone'] | strip_html | default: "Phone" }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                                <div class="error" style="display: none;"></div>
+                                <input type="text" name="{{ prefix }}@phone" class="hidden" form="{{ form }}">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- other addresses -->
+            <div class="flex backdrop-blur">
+                <label for="toggle-addresses" class="block font-bold cursor-pointer select-none hover:text-highlight">Other Address</label>
+                <button type="submit"
+                        class="button-add mx-2"
+                        name="action"
+                        value="item-add:other_address"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:other_address"
+                       value="1"
+                       class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+            </div>
+            <div>
+                {% liquid
+                    assign page_items = tokens['other_address'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.other_address[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:other_address|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <div class="flex items-center">
+                                <i class="fa-light fa-location-dot me-2"></i>
+                                <input type="text" name="{{ prefix }}.address"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['address'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['other_address'][page_item._key]['address'] | strip_html | default: "Address" }}"
+                                       form="{{ form }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- spouse -->
+<div class="min-h-8 mb-8 relative z-2">
+    <!-- checkbox -->
+    {% render "ui/toggle/checkbox", toggle_selector: "spouse" %}
+    <!-- off-label -->
+    {% render "ui/toggle/off/label", toggle_selector: "spouse", name: "Spouse / Assistant", icon: "users"%}
+    <!-- on-icon_content -->
+
+    <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+        <label for="toggle-spouse" class="pt-1 min-w-[24px] md:min-w-[55px] flex cursor-pointer justify-center"><i class="fa-light fa-users" aria-hidden="true"></i></label>
+
+        <div class="w-full me-[24px] md:me-[55px]">
+            <!-- spouse -->
+            <div class="flex backdrop-blur">
+                <label for="toggle-spouse" class="block font-bold cursor-pointer select-none hover:text-highlight">Spouse</label>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:spouse"
+                       value="1"
+                       class="hidden mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+                <button type="submit"
+                        class="hidden button-add"
+                        name="action"
+                        value="item-add:spouse"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+            </div>
+            <div class="border-b border-gray-200 mb-4">
+                {% liquid
+                    assign page_items = tokens['spouse'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.spouse[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="hidden w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:spouse|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-2">
+                            <input type="text" name="{{ prefix }}.name"
+                                   class="text-2xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                   value="{{ page_item['name'] | escape }}"
+                                   placeholder="{{ placeholders.tokens['spouse'][page_item._key]['name'] | strip_html | default: "Name" }}"
+                                   form="{{ form }}"
+                            >
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center relative">
+                                <i class="fa-light fa-phone me-2 absolute"></i>
+                                <input type="tel" name="{{ prefix }}@mobile" pattern="[+0-9 ]+"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                       value="{{ page_item['mobile'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['spouse'][page_item._key]['mobile'] | strip_html | default: "Mobile" }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                                <div class="error" style="display: none;"></div>
+                                <input type="text" name="{{ prefix }}@mobile" class="hidden" form="{{ form }}">
+                            </div>
+
+                            <div class="flex items-center">
+                                <i class="fa-light fa-envelope me-2"></i>
+                                <input type="email" name="{{ prefix }}@email"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['email'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['spouse'][page_item._key]['email'] | strip_html | default: "Email" }}"
+                                       form="{{ form }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- assistant -->
+            <div class="flex backdrop-blur">
+                <label for="toggle-spouse" class="block font-bold cursor-pointer select-none hover:text-highlight">Assistant</label>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:assistant"
+                       value="1"
+                       class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+                <button type="submit"
+                        class="button-add"
+                        name="action"
+                        value="item-add:assistant"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+            </div>
+            <div class="border-b border-gray-200 mb-4">
+                {% liquid
+                    assign page_items = tokens['assistant'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.assistant[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:assistant|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-2">
+                            <input type="text" name="{{ prefix }}.name"
+                                   class="text-2xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                   value="{{ page_item['name'] | escape }}"
+                                   placeholder="{{ placeholders.tokens['assistant'][page_item._key]['name'] | strip_html | default: "Name" }}"
+                                   form="{{ form }}"
+                            >
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center relative">
+                                <i class="fa-light fa-phone-rotary me-2 absolute"></i>
+                                <input type="tel" name="{{ prefix }}@work_phone" pattern="[+0-9 ]+"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                       value="{{ page_item['work_phone'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['assistant'][page_item._key]['work_phone'] | strip_html | default: "Work Phone" }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                                    <div class="error" style="display: none;"></div>
+                                <input type="text" name="{{ prefix }}@work_phone" class="hidden" form="{{ form }}">
+                            </div>
+
+                            <div class="flex items-center relative">
+                                <i class="fa-light fa-mobile me-2 absolute"></i>
+                                <input type="tel" name="{{ prefix }}@mobile" pattern="[+0-9 ]+"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none "
+                                       value="{{ page_item['mobile'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['assistant'][page_item._key]['mobile'] | strip_html | default: "Mobile" }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                                <div class="error" style="display: none;"></div>
+                                <input type="text" name="{{ prefix }}@mobile" class="hidden" form="{{ form }}">
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-light fa-envelope me-2"></i>
+                                <input type="email" name="{{ prefix }}@email"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['email'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['assistant'][page_item._key]['email'] | strip_html | default: "Email" }}"
+                                       form="{{ form }}"
+                                    {% if language == "mis" or language == blank %}
+                                       required
+                                       data-either="basic-contact"
+                                       {% endif %}
+                                >
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- nickname -->
+<div class="min-h-8 mb-8 relative z-1">
+    <!-- checkbox -->
+    {% render "ui/toggle/checkbox", toggle_selector: "note" %}
+    <!-- off-label -->
+    {% render "ui/toggle/off/label", toggle_selector: "note", name: "Nickname / notes", icon: "triangle-exclamation"%}
+    <!-- on-icon_content -->
+
+    <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+        <label for="toggle-note" class="pt-1 min-w-[24px] md:min-w-[55px] flex cursor-pointer justify-center"><i class="fa-light fa-triangle-exclamation" aria-hidden="true"></i></label>
+
+        <div class="w-full me-[24px] md:me-[55px]">
+            <!-- nickname -->
+            <div class="flex backdrop-blur">
+                <label for="toggle-note" class="block font-bold cursor-pointer select-none hover:text-highlight">Nickname</label>
+                <input type="text"
+                       pattern="\d+"
+                       name="count:nickname"
+                       value="1"
+                       class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                       form="{{ form }}"
+                >
+                <button type="submit"
+                        class="button-add"
+                        name="action"
+                        value="item-add:nickname"
+                        form="{{ form }}"
+                ><i class="fa-light fa-circle-plus"></i></button>
+            </div>
+            <div class="border-b border-gray-200 mb-4">
+                {% liquid
+                    assign page_items = tokens['nickname'] | default: default_items | sort : "_weight"
+                %}
+                {% for page_item in page_items %}
+                    {% capture prefix %}.nickname[{{ page_item._key }}]{% endcapture %}
+                    <div class="relative my-4">
+                        <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                            <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                                   class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                                   form="{{ form }}"
+                            />
+                        </div>
+
+                        <div class="absolute -right-4 z-10">
+                            {% if forloop.length > 1 %}
+                                <button type="submit" name="action"
+                                        value="item-delete:nickname|{{ page_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900"
+                                ><i class="fal fa-times"></i></button>
+                            {% endif %}
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex items-center">
+                                <input type="text" name="{{ prefix }}@name"
+                                       class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                                       value="{{ page_item['name'] | escape }}"
+                                       placeholder="{{ placeholders.tokens['nickname'][page_item._key]['name'] | strip_html | default: "Name" }}"
+                                       form="{{ form }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- event_history -->
+
+{% if user.name == "root" %}
+<div class="panel-space">
+<div class="w-full">
+    <!-- event_history -->
+    <div class="flex backdrop-blur">
+        <div class="text-red-500 font-bold">Event history</div>
+        <input type="text"
+               pattern="\d+"
+               name="count:event_history"
+               value="1"
+               class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+               form="{{ form }}"
+        >
+        <button type="submit"
+                class="button-add"
+                name="action"
+                value="item-add:event_history"
+                form="{{ form }}"
+        ><i class="fa-light fa-circle-plus"></i></button>
+    </div>
+    <div class="border-b border-gray-200 mb-4">
+        {% liquid
+            assign page_items = tokens['event_history'] | default: default_items | sort : "_weight"
+        %}
+        {% for page_item in page_items %}
+            {% capture prefix %}.event_history[{{ page_item._key }}]{% endcapture %}
+            <div class="relative my-4">
+                <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                    <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                           class="w-8 text-center border border-gray-200 rounded-s-full ps-2 pe-1 py-1 text-sm"
+                           form="{{ form }}"
+                    />
+                </div>
+
+                <div class="absolute -right-4 z-10">
+                    {% if forloop.length > 1 %}
+                        <button type="submit" name="action"
+                                value="item-delete:event_history|{{ page_item._key }}"
+                                form="{{ form }}"
+                                class="cursor-pointer hover:text-red-900"
+                        ><i class="fal fa-times"></i></button>
+                    {% endif %}
+                </div>
+
+                <div class="grid grid-cols-3 gap-4">
+
+                        <input type="text" name="{{ prefix }}@date"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['date'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['date'] | strip_html | default: "Date" }}"
+                               form="{{ form }}"
+                        >
+                        <input type="text" name="{{ prefix }}@event_name"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['event_name'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['event_name'] | strip_html | default: "Event" }}"
+                               form="{{ form }}"
+                        >
+                        <input type="text" name="{{ prefix }}@role"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['role'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['role'] | strip_html | default: "Role" }}"
+                               form="{{ form }}"
+                        >
+                        <input type="text" name="{{ prefix }}@session"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['session'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['session'] | strip_html | default: "Session" }}"
+                               form="{{ form }}"
+                        >
+                        <input type="text" name="{{ prefix }}@rsvp"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['rsvp'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['rsvp'] | strip_html | default: "RSVP" }}"
+                               form="{{ form }}"
+                        >
+                        <input type="text" name="{{ prefix }}@remark"
+                               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                               value="{{ page_item['remark'] | escape }}"
+                               placeholder="{{ placeholders.tokens['event_history'][page_item._key]['remark'] | strip_html | default: "Remark" }}"
+                               form="{{ form }}"
+                        >
+
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+</div>
+{% endif %}
+
+<datalist id="companies">
+{%- for company in companyNames %}
+    <option value="{{ company | strip }}">
+{%- endfor -%}
+</datalist>
+
+<datalist id="clients">
+{%- for client in clientNames %}
+    <option value="{{ client | strip }}">
+{%- endfor -%}
+</datalist>
+
+<style>
+    input.input-clip {
+        clip-path: rect(0 92% 100% 0);
+    }
+</style>

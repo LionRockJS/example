@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "header": {
+      "type": "admin/events/leads/edit/header",
+      "settings": {
+      }
+    },
+    "inputs": {
+      "type": "admin/events/leads/edit/inputs",
+      "settings": {
+      }
+    },
+    "responses": {
+      "type": "admin/events/leads/edit/responses",
+      "settings": {
+      }
+    },
+    "actions": {
+      "type": "admin/events/leads/edit/action",
+      "settings": {
+      }
+    },
+    "history": {
+      "type": "admin/events/leads/edit/history",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header",
+    "inputs",
+    "responses",
+    "actions",
+    "history"
+  ]
+}

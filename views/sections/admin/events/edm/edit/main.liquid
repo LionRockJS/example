@@ -1,0 +1,61 @@
+<div class="flex flex-wrap my-8">
+  <div
+    class="flex -translate-x-[3px] border-l-[5px] peer-checked:border-gray-400 border-gray-200 hover:border-highlight w-full">
+
+    <input type="checkbox" class="peer hidden" id="toggle-preview" data-state-store="true" checked="">
+
+    <label for="toggle-preview" class="panel-icon "><i class="fa-light fa-gear" aria-hidden="true"></i></label>
+    <div class="w-full">
+      <div class="relative w-full group">
+        <div class="font-serif text-3xl text-primary">Test Email</div>
+      </div>
+
+      <div class="flex flex-row text-sm">
+        <div>Test email before broadcast RSVP email</div>
+      </div>
+    </div>
+
+    <div class="w-full hidden peer-checked:block panel-space mt-4">
+      {% if tokens.sender != blank %}
+      <form method="POST" action="/admin/edm/preview/{{ item.id }}">
+        <div>
+          <input id="preview-name" type="text" name="name" class="border-1 border-gray-300 px-2 rounded-md"
+            placeholder="Recipient Name*" required />
+        </div>
+        <div>
+          <input id="preview-email" type="email" name="email" class="border-1 border-gray-300 px-2 rounded-md"
+            placeholder="email*" required />
+          <input id="preview-email-cc" type="text" name="cc" class="border-1 border-gray-300 px-2 rounded-md"
+            placeholder="cc.email" />
+          <button type="submit"
+            class="transition duration-500 rounded-lg px-3 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Send</button>
+        </div>
+      </form>
+      {% else %}
+        Please set the sender email address before sending a test email.
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="panel-space sticky top-0">
+  <div class="text-sm font-bold my-2">Email Preview:</div>
+  <iframe src="/admin/edm/html/{{ item.id }}?language={{ language }}" class="w-full border border-gray-300 aspect-square rounded-lg mb-16"></iframe>
+</div>
+
+<div class="panel-space">
+  <div class="hidden">
+    <div class="my-8">
+      <textarea class="w-full h-[20rem] bg-black text-green-400 font-mono text-xs rounded-lg p-2">{{ item.mjml }}</textarea>
+    </div>
+
+    <div class="my-8">
+      <textarea class="w-full h-[20rem] bg-black text-green-400 font-mono text-xs rounded-lg p-2">{{ item.html }}</textarea>
+    </div>
+
+    <div class="my-8">
+      <textarea class="w-full h-[20rem] bg-gray-200">{{ item.original }}</textarea>
+    </div>
+  </div>
+
+</div>

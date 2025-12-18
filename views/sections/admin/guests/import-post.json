@@ -1,0 +1,39 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "form":{
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/rsvp/import-accept/{{ id }}/{{ file }}",
+            "method": "POST"
+          }
+        }
+      },
+      "block_order": [
+        "main-form"
+      ]
+    },
+    "title": {
+      "type": "ui/title",
+      "settings": {
+        "title": "Import Guest List"
+      }
+    },
+    "summary":{
+      "type": "ui/import-summary"
+    },
+    "table": {
+      "type": "admin/guests/import-table"
+    }
+  },
+  "order": [
+    "form",
+    "title",
+    "summary",
+    "table"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/events/mail-list-name.js",
+          "admin/events/all-guests.js"
+        ]
+      }
+    },
+    "head": {
+      "type": "admin/events/all-guests/head"
+    },
+    "main": {
+      "type": "admin/events/all-guests/list"
+    }
+  },
+  "order": [
+    "defer_script",
+    "head",
+    "main"
+  ]
+}

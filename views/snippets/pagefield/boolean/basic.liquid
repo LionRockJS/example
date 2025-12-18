@@ -1,0 +1,25 @@
+{% liquid
+    assign label_text = label | strip_html
+    assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
+<div class="relative w-full group">
+    <span>{{ placeholder }}:</span>
+    <label>
+    <input type="radio"
+           name="{{ selector }}"
+           id="field-{{ selector }}"
+           value="yes"
+           {% if value == "yes" %}checked{% endif %}
+            {% if form != blank %}form="{{ form }}"{% endif %}
+    >Yes</label>
+    <label>
+    <input type="radio"
+           name="{{ selector }}"
+           id="field-{{ selector }}-hidden"
+           value="no"
+           {% if value != "yes" %}checked{% endif %}
+           {% if form != blank %}form="{{ form }}"{% endif %}
+    >No</label>
+</div>

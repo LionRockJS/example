@@ -1,0 +1,25 @@
+<div class="panel-space mb-4 flex items-center justify-between">
+  <h1 class="text-3xl font-serif text-primary">All Guests - {{ event.name }}</h1>
+  
+  <div class="flex gap-2 items-center">
+    <input type="text" id="searchInput" oninput="searchGuests()" placeholder="Filter by name, email, phone or status" class="min-w-[20rem] border border-gray-300 px-2 py-0.5 rounded" aria-label="Search guests"/>
+    
+    <div class="filter-color-picker group relative flex items-center" data-current-filter="">
+      <div class="cursor-pointer py-2" title="Filter by color">
+        <span id="selectedColorIndicator" class="h-2 w-2 text-gray-400"><i class="fa-solid fa-circle"></i></span>
+      </div>
+      <div class="color-options absolute right-0 w-[160px] group-hover:block hidden">
+        <div class="bg-gray-700 inline-flex gap-1 p-2 rounded-xl shadow-lg">
+          <input id="filter-color-all" type="radio" name="filter-color" value="" class="color-filter-option hidden" checked><label for="filter-color-all" class="text-gray-300 cursor-pointer hover:text-white" title="All colors"><i class="fa-solid fa-xmark"></i></label>
+          <input id="filter-color-red" type="radio" name="filter-color" value="red" class="color-filter-option hidden"><label for="filter-color-red" class="text-red-500 cursor-pointer hover:text-red-400" title="Red"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-orange" type="radio" name="filter-color" value="orange" class="color-filter-option hidden"><label for="filter-color-orange" class="text-orange-500 cursor-pointer hover:text-orange-400" title="Orange"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-yellow" type="radio" name="filter-color" value="yellow" class="color-filter-option hidden"><label for="filter-color-yellow" class="text-yellow-300 cursor-pointer hover:text-yellow-200" title="Yellow"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-green" type="radio" name="filter-color" value="green" class="color-filter-option hidden"><label for="filter-color-green" class="text-green-500 cursor-pointer hover:text-green-400" title="Green"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-blue" type="radio" name="filter-color" value="blue" class="color-filter-option hidden"><label for="filter-color-blue" class="text-blue-500 cursor-pointer hover:text-blue-400" title="Blue"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-purple" type="radio" name="filter-color" value="purple" class="color-filter-option hidden"><label for="filter-color-purple" class="text-purple-500 cursor-pointer hover:text-purple-400" title="Purple"><i class="fa-solid fa-circle"></i></label>
+          <input id="filter-color-none" type="radio" name="filter-color" value="none" class="color-filter-option hidden"><label for="filter-color-none" class="text-gray-300 cursor-pointer hover:text-white" title="No color"><i class="fa-regular fa-circle"></i></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

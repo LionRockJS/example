@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/report/nav",
+        "title": "User Usage Report",
+        "breadcrumb": "Home:/admin,Reports:/admin/reports,User Usage:/admin/reports/user-usage",
+        "section_header": "orm-header",
+        "section_body": "admin/report/user-usage",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

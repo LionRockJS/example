@@ -1,0 +1,17 @@
+<div class="panel-space max-w-[800px] flex justify-end mb-8 sticky bottom-8">
+  <div class="for-admin mx-4">
+    <a
+        class="inline-block transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white bg-red-700 hover:bg-black focus-visible:outline focus-visible:outline-offset-2"
+        href="/admin/{{ controller_slug | default: "pages" }}/delete/{{ item.id }}?cp=/admin/events/{{ tokens.event.id }}">Delete</a>
+  </div>
+
+  <div class="text-right">
+      <button form="main-form" type="submit"
+              class="transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-primary"
+              name="destination"
+              value="/admin/edm/{{item.id}}?language={{language}}"
+
+      >Save</button>
+  </div>
+
+</div>

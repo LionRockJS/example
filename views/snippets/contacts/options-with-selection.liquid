@@ -1,0 +1,59 @@
+<option value="">All Fields</option>
+<optgroup label="Name">
+  <option {% if search_path == "values.mis.first_name"%}selected{% endif %} value="values.mis.first_name">First Name</option>
+  <option {% if search_path == "values.mis.middle_name"%}selected{% endif %} value="values.mis.middle_name">Middle Name</option>
+  <option {% if search_path == "values.mis.last_name"%}selected{% endif %} value="values.mis.last_name">Last Name</option>
+  <option {% if search_path == "values.mis.bio"%}selected{% endif %} value="values.mis.bio">Bio</option>
+</optgroup>
+<optgroup label="Personal Email & Mobile">
+  <option {% if search_path == "items.email[*].attributes.email"%}selected{% endif %} value="items.email[*].attributes.email">Personal Email</option>
+  <option {% if search_path == "items.phone[*].attributes.phone"%}selected{% endif %} value="items.phone[*].attributes.phone">Mobile</option>
+</optgroup>
+<optgroup label="Work / Position">
+  <option {% if search_path == "items.position[*].values.mis.organization_name"%}selected{% endif %} value="items.position[*].values.mis.organization_name">Company</option>
+  <option {% if search_path == "items.position[*].attributes.client"%}selected{% endif %} value="items.position[*].attributes.client">Client Name</option>
+  <option {% if search_path == "items.position[*].values.mis.title"%}selected{% endif %} value="items.position[*].values.mis.title">Title</option>
+  <option {% if search_path == "items.position[*].values.mis.department"%}selected{% endif %} value="items.position[*].values.mis.department">Department</option>
+  <option {% if search_path == "items.position[*].attributes.email"%}selected{% endif %} value="items.position[*].attributes.email">Email</option>
+  <option {% if search_path == "items.position[*].attributes.direct_phone"%}selected{% endif %} value="items.position[*].attributes.direct_phone">Direct Phone</option>
+
+  <option {% if search_path == "items.position[*].values.mis.address"%}selected{% endif %} value="items.position[*].values.mis.address">Address</option>
+  <option {% if search_path == "items.position[*].attributes.website"%}selected{% endif %} value="items.position[*].attributes.website">Website</option>
+  <option {% if search_path == "items.position[*].attributes.general_email"%}selected{% endif %} value="items.position[*].attributes.general_email">General Email</option>
+  <option {% if search_path == "items.position[*].attributes.general_phone"%}selected{% endif %} value="items.position[*].attributes.general_phone">General Phone</option>
+  <option {% if search_path == "items.position[*].attributes.fax"%}selected{% endif %} value="items.position[*].attributes.fax">Fax</option>
+</optgroup>
+<optgroup label="Attributes">
+  <option {% if search_path == "attributes.gender"%}selected{% endif %} value="attributes.gender">Gender (M/F)</option>
+  <option {% if search_path == "attributes.prefix"%}selected{% endif %} value="attributes.prefix">Prefix</option>
+  <option {% if search_path == "attributes.suffix"%}selected{% endif %} value="attributes.suffix">Suffix</option>
+  <option {% if search_path == "attributes.region"%}selected{% endif %} value="attributes.region">Region</option>
+  <option {% if search_path == "attributes.birthday"%}selected{% endif %} value="attributes.birthday">Birthday</option>
+  <option {% if search_path == "attributes.referral_by"%}selected{% endif %} value="attributes.referral_by">Referral by</option>
+  <option {% if search_path == "attributes.remarks"%}selected{% endif %} value="attributes.remarks">Remarks</option>
+</optgroup>
+<optgroup label="Home">
+  <option {% if search_path == "items.home[*].attributes.phone"%}selected{% endif %} value="items.home[*].attributes.phone">Phone</option>
+  <option {% if search_path == "items.home[*].values.mis.address"%}selected{% endif %} value="items.home[*].values.mis.address">Address</option>
+</optgroup>
+
+<optgroup label="Other Address">
+  <option {% if search_path == "items.other_address[*].values.mis.address"%}selected{% endif %} value="items.other_address[*].values.mis.address">Address</option>
+</optgroup>
+
+<optgroup label="Spouse">
+  <option {% if search_path == "items.spouse[*].values.mis.name"%}selected{% endif %} value="items.spouse[*].values.mis.name">Name</option>
+  <option {% if search_path == "items.spouse[*].attributes.mobile"%}selected{% endif %} value="items.spouse[*].attributes.mobile">Mobile</option>
+  <option {% if search_path == "items.spouse[*].attributes.email"%}selected{% endif %} value="items.spouse[*].attributes.email">Email</option>
+</optgroup>
+
+<optgroup label="Assistant">
+  <option {% if search_path == "items.spouse[*].values.mis.name"%}selected{% endif %} value="items.assistant[*].values.mis.name">Name</option>
+  <option {% if search_path == "items.spouse[*].attributes.mobile"%}selected{% endif %} value="items.assistant[*].attributes.mobile">Mobile</option>
+  <option {% if search_path == "items.spouse[*].attributes.email"%}selected{% endif %} value="items.assistant[*].attributes.email">Email</option>
+</optgroup>
+
+<optgroup label="Social Media">
+  <option {% if search_path == "items.social_media[*].attributes.type"%}selected{% endif %} value="items.social_media[*].attributes.type">Type</option>
+  <option {% if search_path == "items.social_media[*].attributes.url"%}selected{% endif %} value="items.social_media[*].attributes.url">URL</option>
+</optgroup>

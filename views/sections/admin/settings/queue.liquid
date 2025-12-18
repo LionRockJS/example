@@ -1,0 +1,8 @@
+<div class="w-full panel-space">
+  <div class="font-bold">({{ crons | size }}) Cron jobs in memory</div>
+  {% for job in crons %}
+    <div class="sm">
+      {{ job }}
+    </div>
+  {% endfor %}
+</div>

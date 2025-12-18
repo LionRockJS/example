@@ -1,0 +1,108 @@
+<div class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4 sticky top-4 for-admin">
+  <h5 class="font-bold">Commands</h5>
+
+  <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd">
+  <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
+  <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
+
+  <ul class="block peer-checked:hidden">
+    <li class="mb-3">
+      <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd-bulk-fill">
+      <label for="toggle-cmd-bulk-fill" class="cursor-pointer select-none peer-checked:hidden block">Bulk Fill Items <i class="fa-thin fa-chevron-down"></i></label>
+
+      <div class="peer-checked:block hidden">
+        <label for="toggle-cmd-bulk-fill" class="cursor-pointer select-none">Bulk Fill Items <i class="fa-thin fa-chevron-up"></i></label>
+
+        {% render "pagefield/textarea/code", label: "data", selector: "cmd-input", value: "", rows: 16, placeholder: "paste content here" %}
+        {% render "pagefield/textarea/code", label: "data fields map to key", selector: "cmd-mapping", value: "", rows: 8, placeholder: "keys", color: "text-amber-500" %}
+
+        <div class="relative w-full">
+          <label for="cmd-selector" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">selector</label>
+          <input id="cmd-selector" type="text" class="text-xs block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
+        </div>
+
+        <div class="flex py-3">
+      <span
+          id="cmd-copy"
+          class="me-2 cursor-pointer text-xs my-1 transition duration-500 rounded-lg px-3 py-2 uppercase leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >Copy Selector</span>
+          <span
+              id="cmd-clean"
+              class="me-2 cursor-pointer text-xs my-1 transition duration-500 rounded-lg px-3 py-2 uppercase leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >Clean</span>
+          <span
+              id="cmd-run"
+              class="cursor-pointer text-xs my-1 transition duration-500 rounded-lg px-3 py-2 uppercase leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >Run</span>
+        </div>
+
+        <div class="text-xs">Available selectors:
+          <ul>
+            <li>${i} loop index</li>
+            <li>${key} key</li>
+            <li>----- item separator</li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
+    <li class="mb-3">
+      <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd-replace-all">
+      <label for="toggle-cmd-replace-all" class="cursor-pointer select-none peer-checked:hidden block">Replace All <i class="fa-thin fa-chevron-down"></i></label>
+
+      <div class="peer-checked:block hidden">
+        <label for="toggle-cmd-replace-all" class="cursor-pointer select-none block mb-3">Replace All <i class="fa-thin fa-chevron-up"></i></label>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="relative w-full mb-3">
+            <label for="cmd-search-all-search"
+                   class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">
+              Search</label>
+            <input id="cmd-search-all-search" type="text"
+                   class="text-xs block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                   value=""
+            >
+          </div>
+
+          <div class="relative w-full mb-3">
+            <label for="cmd-search-all-replace"
+                   class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">
+              Replace with</label>
+            <input id="cmd-search-all-replace" type="text"
+                   class="text-xs block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                   value=""
+            >
+          </div>
+        </div>
+        <div class="relative w-full mb-3">
+          <label for="cmd-search-all-selector"
+                 class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">
+            selector</label>
+          <input id="cmd-search-all-selector" type="text"
+                 class="text-xs block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                 value="*"
+          >
+        </div>
+
+        <div>
+          <span
+              id="cmd-search-all-copy-selector"
+              class="me-2 cursor-pointer text-xs my-1 transition duration-500 rounded-lg px-3 py-2 uppercase leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >Copy Selector</span>
+
+          <span
+              id="cmd-search-all-run"
+              class="me-2 cursor-pointer text-xs my-1 transition duration-500 rounded-lg px-3 py-2 uppercase leading-8 font-sans text-white bg-primary hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >Run</span>
+        </div>
+
+      </div>
+    </li>
+    <li class="mb-3">
+      <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd-bulk-fill">
+      <label for="toggle-cmd-bulk-fill" class="cursor-pointer select-none peer-checked:hidden block">Bulk Fill Items <i class="fa-thin fa-chevron-down"></i></label>
+
+      <div class="peer-checked:block hidden">
+      </div>
+    </li>
+  </ul>
+</div>

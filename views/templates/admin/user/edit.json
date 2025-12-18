@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/users/index",
+        "title": "Users",
+        "controller_slug": "users",
+        "breadcrumb": "Home:/admin,Users:/admin/users",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "admin/user/edit",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

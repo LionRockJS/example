@@ -1,0 +1,91 @@
+{
+  "wrapper": "div.panel-main.relative",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Contacts",
+        "note": "ID: {{ tokens.id | default : item.id }}{%if tokens._modified_by %}, modified by {{ tokens._modified_by }} at {{item.updated_at | to_time | date: \"%Y-%m-%d %H:%M\"}}{%endif%} {%if tokens.source != blank %}, source: {{ tokens.source }}{% endif %}"
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/contacts/{{ item.id }}?language={{ language | default: 'mis' }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/contacts/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+    "actions": {
+      "type": "admin/contacts/actions"
+    },
+    "attributes": {
+      "type": "admin/contacts/edit/attributes",
+      "settings": {
+        "name": "Settings",
+        "icon": "gear",
+        "toggle_selector": "attributes",
+        "content": "admin/pages/default/attributes-grid",
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "languages": {
+      "type": "admin/pages/default/languages",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+
+    "fields": {
+      "type": "admin/contacts/edit/picture"
+    },
+
+    "items": {
+      "type": "admin/contacts/edit/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "blocks": {
+      "type": "admin/contacts/edit/blocks",
+      "settings": {
+        "controller_slug": "{{controller_slug}}",
+        "block_types": "{{section.settings.block_types}}"
+      }
+    },
+
+    "tags": {
+      "type": "admin/contacts/edit/tags"
+    },
+    "debug": {
+      "type": "admin/pages/debug"
+    }
+  },
+  "order": [
+    "title",
+    "forms",
+    "attributes",
+    "tags",
+    "fields",
+    "actions"
+  ]
+}

@@ -1,0 +1,12 @@
+{% for block in blocks %}
+{% assign section = "mjml/" | append: block.tokens._type %}
+{% if block.tokens._type == 'rsvp-button' %}
+    {% render "mjml/button", tokens: rsvp_button, guest: guest, rsvp_id: rsvp_id %}
+    {% assign has_rsvp = false %}
+{% else %}
+    {% render section, tokens: block.tokens, guest: guest, rsvp_id: rsvp_id %}
+{% endif %}
+{% endfor %}
+{% if has_rsvp == true %}
+    {% render "mjml/button", tokens: rsvp_button, guest: guest, rsvp_id: rsvp_id %}
+{% endif %}

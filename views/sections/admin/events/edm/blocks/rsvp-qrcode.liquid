@@ -1,0 +1,86 @@
+<!--
+    selector:selector,
+    page_id: page_id,
+
+    tokens: tokens,
+    block_index: block._key,
+    placeholder:placeholder[placeholder_key],
+    blueprint: blocks_blueprint[tokens._type],
+    inputs: inputs,
+    form: form
+-->
+<div>
+    <label for="toggle-{{ prefix }}"
+           class="mb-2 uppercase text-primary cursor-pointer select-none flex items-center gap-2"
+    ><i class="fa-regular fa-qrcode"></i>Check-in QR Code</label>
+    <div class="text-sm text-gray-500 mb-4">Generate a QR code for easy access. Guests can scan to check-in.</div>
+
+    <!-- Title -->
+    <div class="mb-4 relative">
+        {% assign key = "title" %}
+        {% assign type = "." %}
+        {% assign name = prefix | append: type | append: key %}
+        {% assign value = tokens[key] | default: "RSVP QR Code" %}
+        <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+            <i class="fa-solid fa-heading"></i>
+            <span>Title</span>
+        </label>
+
+        <input type="text" name="{{ name }}" id="{{ name | md5 }}"
+               placeholder="RSVP QR Code"
+               value="{{ value }}"
+               class="w-full p-2 bg-white border-1 border-gray-300 rounded focus:outline-none focus:text-gray-800"
+               form="{{ form }}"
+        />
+    </div>
+
+    <!-- Message -->
+    <div class="mb-4 relative">
+        {% assign key = "message" %}
+        {% assign type = "." %}
+        {% assign name = prefix | append: type | append: key %}
+        {% assign value = tokens[key] | default: "Scan the QR code to RSVP" %}
+        <label for="field-{{ name }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+            <i class="fa-solid fa-message"></i>
+            <span>Message</span>
+        </label>
+
+        <div class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400">
+        {% render "pagefield/richtext/md",
+            selector: name,
+            label: "Message",
+            value: value,
+            placeholder: "Scan the QR code to RSVP",
+            form: form
+        %}
+        </div>
+    </div>
+
+    <!-- Size -->
+    <div class="mb-4 relative">
+        {% assign key = "size" %}
+        {% assign type = "@" %}
+        {% assign name = prefix | append: type | append: key %}
+        {% assign value = tokens[key] | default: "200" %}
+
+        <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+            <i class="fa-solid fa-expand"></i>
+            <span>QR Code Size (pixels)</span>
+        </label>
+
+        <input type="number" name="{{ name }}" id="{{ name | md5 }}"
+               placeholder="200"
+               value="{{ value }}"
+               min="100"
+               max="500"
+               step="10"
+               class="w-full p-2 bg-white border-1 border-gray-300 rounded focus:outline-none focus:text-gray-800"
+               form="{{ form }}"
+        />
+    </div>
+
+    <div class="text-xs text-gray-400 mt-4">
+        <i class="fa-solid fa-info-circle"></i>
+        The QR code will be generated based on the event's RSVP URL. Size should be between 100-500 pixels for optimal scanning.
+    </div>
+</div>

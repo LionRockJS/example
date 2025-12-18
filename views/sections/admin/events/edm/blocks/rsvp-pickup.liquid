@@ -1,0 +1,235 @@
+<!--
+    selector:selector,
+    page_id: page_id,
+
+    tokens: tokens,
+    block_index: block._key,
+    placeholder:placeholder[placeholder_key],
+    blueprint: blocks_blueprint[tokens._type],
+    inputs: inputs,
+    form: form
+-->
+{% liquid
+    assign attributes = blueprint.attributes
+    assign fields = blueprint.fields
+    assign items = blueprint.items
+%}
+<div>
+    <label for="toggle-{{ prefix }}"
+           class="mb-2 uppercase text-primary cursor-pointer select-none flex items-center gap-2"
+    ><i class="fa-regular fa-car"></i>Pickup Service</label>
+    <div class="text-sm text-gray-500 mb-4"></div>
+
+    <div>
+        <div class="w-full">
+            <!-- title -->
+            <div class="mb-4 relative">
+                {% assign key = "title" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <span>Title</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default : "Pickup Service" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Pickup Service"
+                />
+            </div>
+
+            <!-- Pickup Date Label -->
+            <div class="mb-4 relative">
+                {% assign key = "pickup_date_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-calendar"></i>
+                    <span>Pickup Date Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Pickup Date" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Pickup Date"
+                />
+            </div>
+
+            <!-- Pickup Time Label -->
+            <div class="mb-4 relative">
+                {% assign key = "pickup_time_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Pickup Time Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Pickup Time" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Pickup Time"
+                />
+            </div>
+
+            <!-- Pickup Location Label -->
+            <div class="mb-4 relative">
+                {% assign key = "pickup_location_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <span>Pickup Location Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Pickup Location" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Pickup Location"
+                />
+            </div>
+
+            <!-- Drop-off Date Label -->
+            <div class="mb-4 relative">
+                {% assign key = "dropoff_date_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-calendar"></i>
+                    <span>Drop-off Date Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Drop-off Date" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Drop-off Date"
+                />
+            </div>
+
+            <!-- Drop-off Time Label -->
+            <div class="mb-4 relative">
+                {% assign key = "dropoff_time_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Drop-off Time Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Drop-off Time" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Drop-off Time"
+                />
+            </div>
+
+            <!-- Drop-off Location Label -->
+            <div class="mb-4 relative">
+                {% assign key = "dropoff_location_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <span>Drop-off Location Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Drop-off Location" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Drop-off Location"
+                />
+            </div>
+
+            <!-- Accommodation Title -->
+            <div class="mb-4 relative">
+                {% assign key = "accommodation_title" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-bed"></i>
+                    <span>Accommodation Title</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Accommodation"
+                />
+            </div>
+
+            <!-- Check-in Date Label -->
+            <div class="mb-4 relative">
+                {% assign key = "checkin_date_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Check-in Date Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Check-in Date" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Check-in Date"
+                />
+            </div>
+
+            <!-- Check-out Date Label -->
+            <div class="mb-4 relative">
+                {% assign key = "checkout_date_label" %}
+                {% assign type = "." %}
+                {% assign name = prefix | append: type | append: key %}
+                {% assign value = tokens[key] %}
+
+                <label for="{{ name | md5 }}" class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10 flex items-center gap-1">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                    <span>Check-out Date Label</span>
+                </label>
+                <input type="text"
+                       form="{{ form }}"
+                       id="{{ name | md5 }}"
+                       name="{{ name }}"
+                       value="{{ value | default: "Check-out Date" }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400"
+                       placeholder="Check-out Date"
+                />
+            </div>
+        </div>
+    </div>
+</div>

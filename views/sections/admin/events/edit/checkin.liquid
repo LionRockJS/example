@@ -1,0 +1,23 @@
+<div class="panel-space w-full">
+
+    <form action="/admin/events/adhoc-checkin/{{ item.id }}" class="mb-4">
+
+        <div class="text-primary font-bold">Adhoc Check-in</div>
+        <div>
+            <input type="text" name="name" value="" placeholder="Enter guest name" class="border border-gray-300 rounded-lg px-2 py-1 mb-2"> *
+        </div>
+        <div>
+            <input type="text" name="organization" value="" placeholder="Enter organization" class="border border-gray-300 rounded-lg px-2 py-1 mb-2">
+        </div>
+        <div>
+            <input type="text" name="email" value="" placeholder="Enter email" class="border border-gray-300 rounded-lg px-2 py-1 mb-2">
+        </div>
+        <div>
+            <input type="text" name="phone" value="" placeholder="Enter phone" class="border border-gray-300 rounded-lg px-2 py-1 mb-2">
+        </div>
+
+        <button type="submit" name="action" value="adhoc_checkin"
+        class="cursor-pointer transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >Submit</button>
+    </form>
+</div>

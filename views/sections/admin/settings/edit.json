@@ -1,0 +1,14 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "{{section.settings.title}}"
+      }
+    }
+  },
+  "order": [
+    "title"
+  ]
+}

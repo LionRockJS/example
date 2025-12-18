@@ -1,0 +1,55 @@
+{% liquid
+    assign url = '/admin/rsvp/' | append: rsvp.id
+    assign q = "?"
+    
+    if request.query.status
+        assign q = q | append: "&status=" | append: request.query.status
+    endif
+
+    if request.query.pagesize
+        assign q = q | append: "&pagesize=" | append: request.query.pagesize
+    endif
+
+    if request.query.language
+        assign q = q | append: "&language=" | append: request.query.language
+    endif
+
+    if request.query.sort
+        assign q = q | append: "&sort=" | append: request.query.sort
+    endif
+
+    if request.query.order
+        assign q = q | append: "&order=" | append: request.query.order
+    endif
+%}
+{% if maxPage > 0 %}
+    <nav aria-label="Page navigation" class="panel-space text-sm my-8">
+        <ul class="pagination flex w-full justify-center">
+            <li class="me-2 page-item{% if page == 1 %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}{{ q }}&page=1"><i class="far fa-chevron-double-left"></i></a></li>
+            <li class="page-item{% if page == 1 %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}{{ q }}&page={{ page | minus : 1 }}">Prev</a></li>
+
+            {% assign rangeMin = page |  minus : 5 %}
+            {% assign rangeMax = page | plus : 3 %}
+
+            {% if rangeMin < 0 %}
+                {% assign rangeMax = 8 %}
+            {% endif %}
+
+            {% if rangeMax >= maxPage %}
+                {% assign rangeMin = maxPage | minus: 9 %}
+                {% assign rangeMax = maxPage | minus: 1 %}
+            {% endif %}
+
+            {% if rangeMin < 0 %}
+                {% assign rangeMin = 0 %}
+            {% endif %}
+
+            {% for i in (rangeMin..rangeMax) %}
+                {% assign pageIndex = page | minus : 1 %}
+                <li class="mx-2 page-item{% if i == pageIndex %} font-bold{% endif %}"><a class="page-link" href="{{url}}{{ q }}&page={{ i |  plus : 1 }}">{{ i |  plus : 1}}</a></li>
+            {% endfor %}
+            <li class="me-2 page-item{% if pageIndex == rangeMax %} opacity-20{% endif %}"><a class="page-link disabled" href="{{ url }}{{ q }}&page={{ page | plus : 1 }}">Next</a></li>
+            <li class="page-item{% if pageIndex == rangeMax %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}{{ q }}&page={{ maxPage }}"><i class="far fa-chevron-double-right"></i></a></li>
+        </ul>
+    </nav>
+{% endif %}

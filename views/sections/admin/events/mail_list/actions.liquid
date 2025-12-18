@@ -1,0 +1,18 @@
+<div class="order-last z-20 sticky bottom-4">
+    <div class="flex panel-space">
+        {% if item.name != "adhoc" %}
+        <div>
+            <a 
+                class="block text-center cursor-pointer transition duration-500 rounded-lg me-4 px-4 py-2 uppercase text-base leading-8 font-sans text-white bg-red-800 hover:bg-highlight focus-visible:outline-offset-2 focus-visible:outline-primary"
+                href="/admin/rsvp/delete/{{ item.id }}?cp=/admin/events/{{ tokens.event.id }}">Delete</a>
+        </div>
+        {% endif %}
+
+        <div class="w-full">
+            <button form="main-form" type="submit"
+                    class="cursor-pointer transition duration-500 w-full rounded-lg px-3 py-2 uppercase text-base leading-8 font-sans text-white {% if published %}bg-gray-700 hover:bg-gray-900{% else %}bg-primary hover:bg-highlight{% endif %} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >Save</button>
+        </div>
+    </div>
+
+</div>

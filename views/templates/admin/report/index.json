@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/report/nav",
+        "title": "Reports",
+        "breadcrumb": "Home:/admin,Reports:/admin/reports",
+        "section_header": "orm-header",
+        "section_body": "admin/report/nav",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

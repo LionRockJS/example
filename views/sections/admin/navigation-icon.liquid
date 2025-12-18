@@ -1,0 +1,85 @@
+<div class="w-40 relative">
+  <div class="h-[160px]"></div>
+  <ul class="text-xl text-primary text-center sticky top-4">
+    <li class="mb-4 pb-2 border-b border-gray-300">
+      <a href="/admin" class="hover:text-black p-2 group relative"><i class="fa-solid fa-house"></i>
+        <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+          <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-base shadow-lg">Home</div>
+        </div>
+      </a>
+    </li>
+    <li class="my-2 for-admin for-contact-editor for-staff">
+      <a href="/admin/contacts" class="hover:text-black p-2 group relative"><i class="fa-solid fa-address-card"></i>
+        <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+          <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-base shadow-lg">Contacts</div>
+        </div>
+      </a>
+    </li>
+    <li class="mb-4 pb-4 border-b border-gray-300  for-admin for-event-editor for-staff">
+      <a href="/admin/events" class="hover:text-black p-2 group relative"><i class="fa-regular fa-calendar-star"></i>
+        <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+          <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Events / RSVP</div>
+        </div>
+      </a>
+    </li>
+
+    {% if user_roles contains "admin" or user_role == "root" %}
+      <li class="border-t border-gray-300 my-2"></li>
+      <li>
+        <a href="/admin/pages/list/mail_preview_list" class="hover:text-black p-2 group relative"><i class="fa-regular fa-badge-check"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">eDM Reviewers</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/tags" class="hover:text-black p-2 group relative"><i class="fa-solid fa-tags"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Tags</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/tag_types" class="hover:text-black p-2 group relative"><i class="fa-solid fa-suitcase"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Tag Types</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/users" class="hover:text-black p-2 group relative"><i class="fa-solid fa-user-plus"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Users</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/roles" class="hover:text-black p-2 group relative"><i class="fa-solid fa-hat-wizard"></i></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Roles</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/settings/cms/blueprint" class="hover:text-black p-2 group relative"><i class="fa-solid fa-input-text"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Custom Fields</div>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a href="/admin/settings/queue" class="hover:text-black p-2 group relative"><i class="fa-regular fa-stopwatch"></i>
+          <div class="hidden group-hover:block absolute right-0 top-0 bottom-0">
+            <div class="absolute left-2 p-2 bg-primary text-white rounded font-bold text-nowrap text-base shadow-lg">Queues</div>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</div>

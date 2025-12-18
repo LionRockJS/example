@@ -1,0 +1,112 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/events/users.js"
+        ]
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/events/{{ item.id }}?language={{ language | default: default_language }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/{{section.settings.controller_slug}}/search/{{ item.page_type }}",
+            "method": "POST"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "{{section.settings.title}}"
+      }
+    },
+
+    "actions": {
+      "type": "admin/events/actions"
+    },
+    "attributes": {
+      "type": "admin/pages/default/attributes",
+      "settings": {
+        "name": "Settings",
+        "icon": "gear",
+        "toggle_selector": "attributes",
+        "content": "admin/pages/default/attributes-grid",
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "languages": {
+      "type": "admin/pages/default/languages",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "fields": {
+      "type": "admin/pages/default/inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "steps": {
+      "type": "admin/events/edit/steps"
+    },
+    "users": {
+      "type": "admin/events/edit/users"
+    },
+    "items": {
+      "type": "admin/events/edit/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+    "checkin": {
+      "type": "admin/events/edit/checkin"
+    },
+    "blocks": {
+      "type": "admin/events/edm/edit/blocks",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}",
+        "block_types": "{{ config.cms.blockList.events | json }}",
+        "block_templates": {
+          "rsvp-plus-one": "admin/events/edm/blocks/plus-one",
+          "rsvp-meal-preferences":  "admin/events/edm/blocks/meal-preference",
+          "rsvp-qrcode": "admin/events/edm/blocks/rsvp-qrcode"
+        }
+      }
+    }
+  },
+  "order": [
+    "defer_script",
+    "forms",
+    "title",
+    "steps",
+    "users",
+    "checkin",
+    "items",
+    "blocks"
+  ]
+}

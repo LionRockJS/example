@@ -1,0 +1,13 @@
+{
+  "wrapper": "div.flex.flex-col.w-full.md:min-w-\\[545px\\].md:w-\\[545px\\].bg-paper.border-x.border-black-500.min-h-\\[100vh\\].py-\\[144px\\].font-sans",
+  "sections": {
+    "main": {
+      "type": "home",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

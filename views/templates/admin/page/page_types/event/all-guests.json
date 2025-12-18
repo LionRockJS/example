@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "script": {
+      "type": "#external_scripts",
+      "settings": {
+        "value": [
+        ]
+      }
+    },
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+        ]
+      }
+    },
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/events/all-guests/index",
+        "section_body": "admin/events/all-guests/content",
+        "section_menu": "admin/navigation",
+        "title": "All Guests",
+        "controller_slug": "events",
+        "breadcrumb": "Home:/admin,Events:/admin/events,{{ event.name }}:/admin/events/{{ event.id }}",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "script",
+    "defer_script",
+    "workspace"
+  ]
+}

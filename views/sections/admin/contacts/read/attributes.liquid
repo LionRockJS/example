@@ -1,0 +1,92 @@
+<div class="min-h-8 mb-4 panel-space">
+  <!-- on-icon_content -->
+  <div>
+    <div>
+      <div class="grid grid-cols-3 gap-3">
+        {% if tokens['gender'] != blank %}
+        <!-- gender -->
+        <div class="w-full">
+          <label for="gender" class="text-white bg-primary text-xs px-2">Gender</label>
+          <div>{{ tokens['gender'] | upcase}}</div>
+        </div>
+        {% endif %}
+
+        {% assign prefix_value = tokens['prefix'] | join: "" | downcase | replace : ".", '' %}
+        {% if prefix_value != blank %}
+        <!-- prefix -->
+        <div class="w-full">
+          <label for="prefix" class="text-white bg-primary text-xs px-2">Prefix</label>
+          <div>
+            {% if prefix_value == 'dr' %}Dr.{% endif %}
+            {% if prefix_value == 'miss' %}Miss{% endif %}
+            {% if prefix_value == 'mr' %}Mr.{% endif %}
+            {% if prefix_value == 'mrs' %}Mrs.{% endif %}
+            {% if prefix_value == 'ms' %}Ms.{% endif %}
+            {% if prefix_value == 'prof' %}Prof.{% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% assign suffix_value = tokens['suffix'] %}
+        {% if suffix_value != blank %}
+        <!-- suffix -->
+        <div class="w-full">
+          <label for="suffix" class="text-white bg-primary text-xs px-2">Suffix</label>
+          <div>{{ suffix_value }}</div>
+        </div>
+        {% endif %}
+
+        {% assign birthday_value = tokens['birthday'] %}
+        {% if birthday_value != blank %}
+        <!-- birthday -->
+        <div class="w-full">
+          <label for="birthday" class="text-white bg-primary text-xs px-2">Birthday</label>
+{% liquid
+  if birthday_value != blank
+    assign birthday_parts = birthday_value | split: "-"
+    assign birthday_month = birthday_parts[1] | default: ""
+    assign birthday_day = birthday_parts[2] | default: ""
+  endif
+%}
+          <div>
+            <span>
+            {% if birthday_month == "01" %}Jan{% endif %}
+              {% if birthday_month == "02" %}Feb{% endif %}
+              {% if birthday_month == "03" %}Mar{% endif %}
+              {% if birthday_month == "04" %}Apr{% endif %}
+              {% if birthday_month == "05" %}May{% endif %}
+              {% if birthday_month == "06" %}Jun{% endif %}
+              {% if birthday_month == "07" %}Jul{% endif %}
+              {% if birthday_month == "08" %}Aug{% endif %}
+              {% if birthday_month == "09" %}Sep{% endif %}
+              {% if birthday_month == "10" %}Oct{% endif %}
+              {% if birthday_month == "11" %}Nov{% endif %}
+              {% if birthday_month == "12" %}Dec{% endif %}
+            </span> -
+            <span>{{ birthday_day }}</span>
+          </div>
+        </div>
+        {% endif %}
+
+        {% assign region_value = tokens['region'] %}
+        {% if region_value != blank %}
+        <!-- region -->
+        <div class="w-full">
+          <label for="region" class="text-white bg-primary text-xs px-2">Region</label>
+          <div>{{ region_value }}</div>
+        </div>
+        {% endif %}
+
+        {% assign nationality_value = tokens['nationality'] %}
+        {% if nationality_value != blank %}
+        <!-- nationality -->
+        <div class="w-full">
+          <label for="nationality" class="text-white bg-primary text-xs px-2">Nationality</label>
+          <div>{{ nationality_value }}</div>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<mj-text>{{ tokens.title }}</mj-text>
+<mj-table>
+  {% assign rows = tokens.row | sort: "_weight" %}
+  {% for row in rows %}
+    <tr>
+      <td style="vertical-align: top"{% if tokens.first_column_width != blank %} width="{{tokens.first_column_width}}"{% endif %}>{{ row.name }}</td>
+      <td style="vertical-align: top">{{ row.description | replace_first: "<p>", '<p style="margin-top:0; margin-bottom:0">' }}</td>
+    </tr>
+  {% endfor %}
+</mj-table>

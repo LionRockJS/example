@@ -1,0 +1,15 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "message": {
+      "type": "admin/home_message"
+    },
+    "main": {
+      "type": "admin/home/events"
+    }
+  },
+  "order": [
+    "message",
+    "main"
+  ]
+}

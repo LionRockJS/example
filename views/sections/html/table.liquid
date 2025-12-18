@@ -1,0 +1,13 @@
+{% if tokens.title %}
+  <div>{{ tokens.title }}</div>
+{% endif %}
+
+<table class="mb-4">
+  {% assign rows = tokens.row | sort: "_weight" %}
+  {% for row in rows %}
+    <tr>
+      <td class="pe-4 align-top"><b>{{ row.name }}</b></td>
+      <td>{{ row.description }}</td>
+    </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,1 @@
+<label for="toggle-{{ selector }}" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center items-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-{{ color |  default: "primary" }} hover:border-{{ hover_color |  default: "highlight" }}"><i class="fa-regular fa-{{ icon | default: "xmark" }}{% if icon == blank %} hidden{% endif %}"></i></label>

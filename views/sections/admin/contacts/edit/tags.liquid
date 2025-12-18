@@ -1,0 +1,9 @@
+
+<div id="page-tags" class="panel-space">
+  <h5 class="font-serif text-primary">Contact Tags</h5>
+  <div>
+    {%- for tag_list in tag_lists -%}
+      {% render "admin/contacts/edit/tag/input", page_id: item.id, label: tag_list, tag_group: tag_list, tag_options: tags[tag_list], tags: item.tags[tag_list], controller: "contacts" %}
+    {%- endfor -%}
+  </div>
+</div>

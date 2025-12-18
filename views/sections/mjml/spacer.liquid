@@ -1,0 +1,8 @@
+{% if tokens.lines == blank %}
+{% else %}
+<mj-text>
+  {% for line in (1..tokens.lines) %}
+   &nbsp;<br/>
+  {% endfor %}
+</mj-text>
+{% endif %}

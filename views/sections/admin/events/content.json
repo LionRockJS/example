@@ -1,0 +1,45 @@
+{
+  "wrapper": "div.w-full#event-content",
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/pages/command.js"
+        ]
+      }
+    },
+
+    "languages": {
+      "type": "admin/events/edit/languages"
+    },
+
+    "basic-input": {
+      "type": "admin/events/edit/basic-inputs"
+    },
+
+    "template": {
+      "type": "admin/events/edit/edm"
+    },
+
+    "guest-list": {
+      "type": "admin/events/edit/guest"
+    },
+
+    "response": {
+        "type": "admin/events/edit/response"
+    },
+    "command": {
+        "type": "admin/pages/command"
+    }
+  },
+  "order": [
+    "defer_script",
+    "languages",
+    "basic-input",
+    "guest-list",
+    "template",
+    "response",
+    "command"
+  ]
+}

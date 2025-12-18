@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/pages/default/edit",
+        "section_body": "admin/events/rsvp/content",
+        "section_menu": "admin/navigation",
+        "title": "MailList",
+        "controller_slug": "rsvp",
+        "breadcrumb": "Home:/admin,Events:/admin/events,{{ tokens.event.name }}:/admin/events/{{ tokens.event.id }},{{item.name}}:/admin/pages/{{ item.id }}",
+        "section_navigation": "admin/navigation-icon"
+      }
+    },
+
+    "content": {
+      "type": "ui/content",
+      "settings": {
+        "breadcrumb": [
+          {
+            "label": "Home",
+            "url": "/admin"
+          },
+          {
+            "label": "Mail List",
+            "url": "/admin/mail_list"
+          }
+        ],
+        "section_1": "page/content",
+        "section_2": "admin/navigation"
+      }
+    }
+  },
+  "order": [
+    "content"
+  ]
+}

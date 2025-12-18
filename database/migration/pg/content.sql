@@ -16,7 +16,7 @@ CREATE TABLE draft.pages(
     "end" TIMESTAMPTZ,
     page_type TEXT,
     current_page_version_id BIGINT,
-    original JSON,
+    original JSONB,
     page_id BIGINT,
     FOREIGN KEY (page_id) REFERENCES draft.pages (id) ON DELETE CASCADE
 );
@@ -55,7 +55,7 @@ CREATE TABLE live.pages(
     "end" TIMESTAMPTZ,
     page_type TEXT,
     current_page_version_id BIGINT,
-    original JSON,
+    original JSONB,
     page_id BIGINT,
     FOREIGN KEY (page_id) REFERENCES live.pages (id) ON DELETE CASCADE
 );
@@ -94,7 +94,7 @@ CREATE TABLE trash.pages(
     "end" TIMESTAMPTZ,
     page_type TEXT,
     current_page_version_id BIGINT,
-    original JSON,
+    original JSONB,
     page_id BIGINT,
     FOREIGN KEY (page_id) REFERENCES trash.pages (id) ON DELETE CASCADE
 );

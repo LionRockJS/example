@@ -1,0 +1,25 @@
+{% assign controller_slug = section.settings.controller_slug | default: "pages" %}
+{% assign start = "{{" %}
+{% assign end = "}}" %}
+
+<div class="sticky top-4 mb-6 z-10 flex ">
+<div class="mx-[4px] inline-flex backdrop-blur rounded-full">
+  <span class="text-primary min-w-[16px] md:min-w-[47px] me-[4px] flex justify-center items-center"><i class="fa-sharp fa-light fa-globe"></i></span>
+
+  <div class="value-language-selector inline-block pe-4">
+    {% if language == "mis" or language == blank %}<span class="text-primary"><i class="fa-solid fa-book-open"></i></span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=mis"><i class="fa-light fa-book-open"></i></button>{% endif %}
+    {% if language == "en"      %}<span class="font-bold border-b-2 border-primary text-primary">EN</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=en">EN</button>{% endif %}
+    {% if language == "zh-hant" %}<span class="font-bold border-b-2 border-primary text-primary">繁</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
+    {% if language == "zh-hans" %}<span class="font-bold border-b-2 border-primary text-primary">简</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hans">简</button>{% endif %}
+  </div>
+</div>
+
+<div class="text-xs text-gray-500 flex items-center">
+  <div class="mx-3"><i class="fa-solid fa-circle-info"></i> Template variables:</div>
+  <div class="mx-1">{{ start }}name{{ end }}</div>
+  <div class="mx-1">{{ start }}salutation{{ end }}</div>
+  <div class="mx-1">{{ start }}company{{ end }}</div>
+  <div class="mx-1">{{ start }}title{{ end }}</div>
+</div>
+
+</div>

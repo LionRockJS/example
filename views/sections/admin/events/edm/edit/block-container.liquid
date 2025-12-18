@@ -1,0 +1,53 @@
+{% assign sortBlocks = blocks | sort : "_weight" %}
+
+<ul class="w-full max-w-[800px]">
+{% for block in sortBlocks %}
+    {%- assign blockPlaceholder = sortPlaceholders[forloop.index0] -%}
+    {%- assign tokens = block.tokens -%}
+    {%- capture prefix %}#{{ block._key }}{% endcapture -%}
+    {%- assign selector = prefix | append: "@_name" -%}
+
+    <li class="mb-4 w-full flex">
+        <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-{{ prefix }}">
+        <label for="toggle-{{ prefix }}" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-black hover:border-highlight"><i class="pt-[0.3rem] fa-light fa-game-board-simple"></i></label>
+        <label for="toggle-{{ prefix }}" class="select-none cursor-pointer peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ tokens._type }} : {{ tokens._name | default: '-' }}</span></label>
+
+        <div class="hidden peer-checked:block w-full">
+            <div class="relative flex flex-row">
+                <div class="absolute left-[-27px]">
+                    <input
+                        name="{{ prefix }}@_weight"
+                        value="{{ tokens._weight | default: forloop.index0 }}"
+                        pattern="[0-9.]+"
+                        class="w-8 text-center bg-black text-white rounded-full p-1 text-sm -translate-x-1/2"
+                        {% if form != blank %}form="{{ form }}"{% endif %}
+                    />
+                </div>
+
+                <div class="w-full">
+                    {%- liquid
+                        assign placeholder_key = "__" | append: tokens._name
+                        assign tpl = block_templates[tokens._type] | default: 'page/edit/block/edit-scaffold'
+                        render tpl, selector:selector, page_id: page_id, prefix:prefix, tokens: tokens, block_index: block._key, placeholder: placeholder[placeholder_key], blueprint: blocks_blueprint[tokens._type], inputs: inputs, form: form
+                    -%}
+                </div>
+
+                <div class="min-w-[24px] md:min-w-[55px] text-center">
+                    {%- liquid
+                        assign page_id = page_id | default: "page_id"
+                        assign index = index | default: "9999"
+                    -%}
+                    <button type="submit"
+                            class="btn btn-link"
+                            name="action"
+                            value="block-delete:{{ block._key }}"
+                            form="{{ form }}"
+                    ><i class="fas fa-circle-xmark"></i></button>
+                </div>
+            </div>
+        </div>
+
+
+    </li>
+{% endfor %}
+</ul>

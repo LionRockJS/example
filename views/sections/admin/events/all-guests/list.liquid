@@ -1,0 +1,115 @@
+<div class="panel-space" data-rsvp-id="all">
+  {% if guests.size > 0 %}
+  <table id="guestList" class="w-full divide-y divide-gray-300">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="guest-list">
+          Guest List <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="contact">
+          Email / Phone <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="name">
+          Name <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="job-title">
+          Job Title <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="status">
+          Status <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        {% if has_checkin_data %}
+        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100" data-sort="checkin">
+          Checked-in <i class="fa-solid fa-sort text-gray-400 ml-1"></i>
+        </th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for guest in guests %}
+        <tr class="item-row hover:bg-gray-100" data-status="{{ guest.print.tokens.status | default: 'To be invited' }}" data-rsvp-id="{{ guest.mail_list_id }}">
+          <td class="align-top py-4 text-sm">
+            <div class="color-tag group relative" data-id="{{ guest.id }}" data-color-tag="{{ guest.print.tokens.color_tag }}">
+              <div class="options absolute left-0 ps-4 -top-[0.45rem] w-[200px] pb-4 group-hover:block hidden">
+                <div class="bg-gray-700 inline-flex gap-1 p-2 rounded-xl">
+                  <input {% if guest.print.tokens.color_tag == "red" %}checked{% endif %} id="{{guest.id}}-color-tag-red" type="radio" name="{{guest.id}}-color-tag" value="red" class="color-option hidden"><label for="{{guest.id}}-color-tag-red" class="text-red-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "orange" %}checked{% endif %} id="{{guest.id}}-color-tag-orange" type="radio" name="{{guest.id}}-color-tag" value="orange" class="color-option hidden"><label for="{{guest.id}}-color-tag-orange" class="text-orange-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "yellow" %}checked{% endif %} id="{{guest.id}}-color-tag-yellow" type="radio" name="{{guest.id}}-color-tag" value="yellow" class="color-option hidden"><label for="{{guest.id}}-color-tag-yellow" class="text-yellow-300 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "green" %}checked{% endif %} id="{{guest.id}}-color-tag-green" type="radio" name="{{guest.id}}-color-tag" value="green" class="color-option hidden"><label for="{{guest.id}}-color-tag-green" class="text-green-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "blue" %}checked{% endif %} id="{{guest.id}}-color-tag-blue" type="radio" name="{{guest.id}}-color-tag" value="blue" class="color-option hidden"><label for="{{guest.id}}-color-tag-blue" class="text-blue-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "purple" %}checked{% endif %} id="{{guest.id}}-color-tag-purple" type="radio" name="{{guest.id}}-color-tag" value="purple" class="color-option hidden"><label for="{{guest.id}}-color-tag-purple" class="text-purple-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                  <input {% if guest.print.tokens.color_tag == "gray" %}checked{% endif %} id="{{guest.id}}-color-tag-gray" type="radio" name="{{guest.id}}-color-tag" value="gray" class="color-option hidden"><label for="{{guest.id}}-color-tag-gray" class="text-gray-500 cursor-pointer"><i class="fa-solid fa-circle"></i></label>
+                </div>
+              </div>
+              <label for="toggle-{{ guest.id }}-color-tag" class="display h-2 w-2 text-gray-500 cursor-pointer
+                group-has-[input[value='red']:checked]:text-red-500 
+                group-has-[input[value='orange']:checked]:text-orange-500 
+                group-has-[input[value='yellow']:checked]:text-yellow-300 
+                group-has-[input[value='green']:checked]:text-green-500 
+                group-has-[input[value='blue']:checked]:text-blue-500 
+                group-has-[input[value='purple']:checked]:text-purple-500 
+                "><i class="fa-solid fa-circle"></i></label>
+            </div>
+          </td>
+          <td class="px-3 py-4 text-sm text-gray-500 align-top max-w-[12rem]">
+            <a href="/admin/rsvp/{{ guest.mail_list_id }}" class="text-blue-600 hover:underline">{{ guest.mail_list_name }}</a>
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 max-w-[10rem] overflow-hidden align-top">
+            <a href="/admin/rsvp/{{ guest.mail_list_id }}/edit/{{ guest.id }}" class="border-b border-gray-500 guest-contact">{{ guest.contact | escape }}</a>
+            {% if guest.cc != blank %}
+              <div class="text-xs text-gray-500">cc: {{ guest.cc }}</div>
+            {% endif %}
+          </td>
+          <td class="px-3 py-4 text-sm text-gray-500 guest-name max-w-[10rem] align-top">
+            {{ guest.name }}
+            {% if guest.print.tokens.contact_id != blank %}
+              <a href="/admin/contacts/{{ guest.print.tokens.contact_id }}"><i class="fa-regular fa-address-card"></i></a>
+            {% endif %}
+          </td>
+          <td class="px-3 py-4 text-sm text-gray-500 job-title max-w-[20rem] align-top">
+            {% if guest.print.tokens.organization != blank %}
+              <strong>{{ guest.print.tokens.organization }}</strong><br>
+            {% endif %}
+            {{ guest.print.tokens.job_title }}
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top">
+            {% assign display_status = guest.print.tokens.status | default: "To be invited" %}
+            <span class="guest-status response-state-{{ display_status | downcase | replace: " ", "-" }} hidden">{{ display_status | capitalize }}</span>
+            <select class="response-state-{{ display_status | downcase | replace: " ", "-" }} status-select border-0 rounded p-0 text-sm" data-lead-id="{{ guest.id }}" data-rsvp-id="{{ guest.mail_list_id }}">
+              <option value="To be invited" {% if guest.print.tokens.status == "To be invited" or guest.print.tokens.status == blank %}selected{% endif %}>To be invited</option>
+              <option value="Onhold" {% if guest.print.tokens.status == "Onhold" or guest.print.tokens.status == "onhold" %}selected{% endif %}>Onhold</option>
+              <option value="Invited" {% if guest.print.tokens.status == "Invited" or guest.print.tokens.status == "invited" %}selected{% endif %}>Invited</option>
+              <option value="Confirmed" {% if guest.print.tokens.status == "Confirmed" or guest.print.tokens.status == "confirmed" %}selected{% endif %}>Confirmed</option>
+              <option value="Declined" {% if guest.print.tokens.status == "Declined" or guest.print.tokens.status == "declined" %}selected{% endif %}>Declined</option>
+              <option value="Unconfirmed" {% if guest.print.tokens.status == "Unconfirmed" or guest.print.tokens.status == "unconfirmed" %}selected{% endif %}>Unconfirmed</option>
+              <option value="">-</option>
+            </select>
+          </td>
+          {% if has_checkin_data %}
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 align-top checkin-status">
+            {% assign guest_checkins = guest.print.tokens.checkin %}
+            {% if guest_checkins.size > 0 %}
+                <span class="text-blue-600">Yes ({{ guest_checkins.size }})</span>
+            {% else %}
+                No
+            {% endif %}
+          </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="text-center py-8 text-gray-500">
+      {% if current_status_filter != blank %}
+        No guests found with status "{{ current_status_filter }}".
+      {% else %}
+        No guests found.
+      {% endif %}
+    </div>
+  {% endif %}
+  
+  <!-- Guest count display -->
+  <div id="guestCount" class="text-sm text-gray-600 mt-4 text-center"></div>
+</div>

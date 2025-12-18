@@ -1,0 +1,65 @@
+{% liquid
+
+    assign prefix = section.settings.controller | default: "pages"
+assign suffix = section.settings.page_type
+assign qs = ""
+if request.query.pagesize
+    assign qs = qs | append: "pagesize=" | append: request.query.pagesize
+endif
+if request.query.page
+    assign qs = qs | append: "&page=" | append: request.query.page
+endif
+if request.query.language
+    assign qs = qs | append: "&language=" | append: request.query.language
+endif
+if qs != blank
+    assign qs = '?' | append: qs
+endif
+
+%}
+<form id="form-list" action="/admin/contacts{{ qs }}" method="post"></form>
+<div class="panel-space">
+
+    <input form="form-list" type="hidden" name="destination" value="/admin/contacts{{ qs }}">
+    <table id="table" class="table-primary w-full">
+        <thead>
+        <tr class="text-left text-primary border-b border-b-gray-300">
+            <th class="for-admin">
+                <input type="checkbox"
+                       onclick="tableBulkSelect(this)"
+                       aria-label="Checkbox Action"
+                       class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                >
+            </th>
+            <th class="w-[8rem] hidden xl:table-cell">Date</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in filterd_items %}
+            <tr>
+                <td class="align-middle w-6 min-w-6 for-admin">
+                    <input type="checkbox"
+                           aria-label="Select item"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                           name="selected_items[]"
+                           value="{{ item.id }}"
+                           form="bulk-action"
+                    >
+                </td>
+                <td class="pe-4 py-2 align-top hidden xl:table-cell">
+                    <div class="inline-block text-center text-xs">
+                        {% if item.print.tokens.start != blank %}<div class="border-b border-b-gray-300"><i class="fa-light fa-calendar-days"></i> {{ item.print.tokens.start }}</div>{% endif %}
+                        {% if item.print.tokens.end != blank %}<div><i class="fa-light fa-calendar-days"></i> {{ item.print.tokens.end }}</div>{% endif %}
+                    </div>
+                </td>
+                <td class="overflow-hidden leading-4 text-nowrap pe-4 py-2 align-top">
+                    <a href="/admin/events/{{item.id}}" class="font-bold">{{item.name }}</a><br>
+                    <span class="text-xs">/{{ item.slug | truncate: 100 }}</span></td>
+                <td class="text-end"><a class="underline" href="/admin/events/{{item.id}}">View</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

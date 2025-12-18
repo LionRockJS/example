@@ -1,0 +1,335 @@
+<div class="panel-space w-full mb-8">
+  <div class="grid grid-cols-2 gap-x-8 gap-y-3 mb-3">
+<!-- prefer language -->
+<div>
+  <label for="prefer-language" class="block text-primary font-bold">Prefer Language</label>
+  <select id="prefer-language" name="@prefer_language" form="main-form" class="w-full border border-gray-300 px-2 py-1 rounded-md">
+    <option value="">Please Select</option>
+    <option value="en" {% if tokens.prefer_language == 'en' %}selected{% endif %}>English</option>
+    <option value="zh-hans" {% if tokens.prefer_language == 'zh-hans' %}selected{% endif %}>简体中文</option>
+    <option value="zh-hant" {% if tokens.prefer_language == 'zh-hant' %}selected{% endif %}>繁體中文</option>
+  </select>
+</div>
+
+<!-- prefix -->
+<div>
+  <label for="prefix" class="block text-primary font-bold">Prefix</label>
+  <select id="prefix" name="@prefix" form="main-form" class="w-full border border-gray-300 px-2 py-1 rounded-md">
+    {% liquid
+      assign prefix = tokens.prefix | downcase | replace: '.', '' | strip
+    %}
+    <option value="">Please Select</option>
+    <option value="dr" {% if prefix == 'dr' %}selected{% endif %}>Dr.</option>
+    <option value="miss" {% if prefix == 'miss' %}selected{% endif %}>Miss.</option>
+    <option value="mr" {% if prefix == 'mr' %}selected{% endif %}>Mr.</option>
+    <option value="mrs" {% if prefix == 'mrs' %}selected{% endif %}>Mrs.</option>
+    <option value="ms" {% if prefix == 'ms' %}selected{% endif %}>Ms.</option>
+    <option value="prof" {% if prefix == 'prof' %}selected{% endif %}>Prof.</option>
+    <option value="hon" {% if prefix == 'hon' %}selected{% endif %}>Hon.</option>
+    <option value="ar" {% if prefix == 'ar' %}selected{% endif %}>Ar.</option>
+  </select>
+</div>
+
+<!-- nationality -->
+<div>
+  <label for="nationality" class="block text-primary font-bold">Nationality</label>
+  <select id="nationality" name="@nationality" form="main-form" class="w-full border border-gray-300 px-2 py-1 rounded-md">
+    {% assign nationality_value = tokens.nationality %}
+    {% render 'nationality-options', nationality_value: nationality_value %}
+  </select>
+</div>
+
+<!-- zh-hant name -->
+<div>
+  <label for="zh-hant-name" class="block text-primary font-bold">繁體中文姓名</label>
+  <input id="zh-hant-name" type="text"
+         name="@zh_hant_name"
+         form="main-form"
+         value="{{ tokens.zh_hant_name }}"
+         class="w-full border border-gray-300 px-2 py-1 rounded-md">
+</div>
+<!-- zh-hans name -->
+<div>
+  <label for="zh-hans-name" class="block text-primary font-bold">简体中文姓名</label>
+  <input id="zh-hans-name" type="text"
+         name="@zh_hans_name"
+         form="main-form"
+         value="{{ tokens.zh_hans_name }}"
+         class="w-full border border-gray-300 px-2 py-1 rounded-md">
+</div>
+
+    <div>
+      <label for="job-title" class="block text-primary font-bold">Job Title</label>
+      <textarea id="job-title" type="text"
+             name="@job_title"
+             form="main-form"
+             class="w-full border border-gray-300 px-2 py-1 rounded-md"
+             rows="3"
+             placeholder="Manager, Director, etc.">{{ tokens.job_title }}</textarea>
+    </div>
+<div></div>
+<!-- contact type -->
+<div>
+  <label for="contact-type" class="block text-primary font-bold">RSVP/eDM Contact Type</label>
+  <select id="contact-type" name=":contact_type" form="main-form" class="w-full border border-gray-300 px-2 py-1 rounded-md">
+    <option value="">Please Select</option>
+    <option value="email" {% if item.contact_type == 'email' %}selected{% endif %}>Email</option>
+    <option value="phone" {% if item.contact_type == 'phone' %}selected{% endif %}>Mobile</option>
+  </select>
+</div>
+
+    <div>
+      <label for="contact" class="block text-primary font-bold">{% if item.contact_type == "email" %}Primary email for RSVP/eDM{% else %}Mobile for SMS{% endif %}</label>
+
+      <div id="contact-phone-container" class="flex items-center relative  {% if item.contact_type == "email" %}hidden{% endif %}">
+        <i class="fa-light fa-phone me-2 absolute left-2 text-gray-400"></i>
+        <input id="contact-phone" type="tel"
+               name=":contact"
+               pattern="[+0-9 ]+"
+               value="{{ tokens.phone }}"
+               class="w-full border border-gray-300 pl-8 pr-2 py-1 rounded-md"
+               placeholder="90001000">
+        <div class="error" style="display: none;"></div>
+        <input type="text" name=":contact" 
+          class="w-full border border-gray-300 px-2 py-1 rounded-md hidden"
+          {% if item.contact_type == "phone" %}form="main-form"{% endif %}
+        >
+      </div>
+
+      <div id="contact-email-container" class="flex items-center relative {% if item.contact_type == "phone" %}hidden{% endif %}">
+      <input id="contact-email" type="{% if item.contact_type == "email" %}email{% else %}text{% endif %}"
+             name=":contact"
+             {% if item.contact_type == "email" %}form="main-form"{% endif %}
+             value="{{ item.contact }}"
+             class="w-full border border-gray-300 px-2 py-1 rounded-md">
+      </div>
+    </div>
+
+    <div>
+      <label for="cc" class="block text-primary font-bold">CC Email for RSVP/eDM</label>
+      <input id="cc" type="text"
+             name="@cc"
+             form="main-form"
+             value="{{ tokens.cc }}"
+             class="w-full border border-gray-300 px-2 py-1 rounded-md"
+             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+(\s*,\s*[^\s@]+@[^\s@]+\.[^\s@]+)*$"
+             placeholder="email@example.com,john@acme.com">
+    </div>
+
+    <div {% if item.contact_type == "phone" and item.contact != '' %}style="display: none;"{% endif %}>
+      {% assign phone = tokens.phone %}
+      {% if phone == blank and item.contact_type == "phone" %}
+        {% assign phone = item.contact %}
+      {% endif %}
+      <label for="phone" class="block text-primary font-bold">Mobile</label>
+      <div class="flex items-center relative">
+        <i class="fa-light fa-phone me-2 absolute left-2 text-gray-400"></i>
+        <input id="phone" type="tel"
+               name="@phone"
+               pattern="[+0-9 ]+"
+               value="{{ phone }}"
+               class="w-full border border-gray-300 pl-8 pr-2 py-1 rounded-md"
+               placeholder="90001000">
+        <div class="error" style="display: none;"></div>
+        <input type="text" name="@phone" class="hidden" form="main-form">
+      </div>
+    </div>
+
+    <div>
+      <label for="wechat-id" class="block text-primary font-bold">WeChat ID</label>
+      <input id="wechat-id" type="text"
+             name="@wechat_id"
+             form="main-form"
+             value="{{ tokens.wechat_id }}"
+             class="w-full border border-gray-300 px-2 py-1 rounded-md"
+             placeholder="WeChat ID">
+    </div>
+
+    <div class="for-admin">
+      <label for="contact-id" class="block text-primary font-bold">Contact ID</label>
+      <input id="contact-id" type="text"
+             name="@contact_id"
+             form="main-form"
+             value="{{ tokens.contact_id }}"
+             class="w-full border border-gray-300 px-2 py-1 rounded-md">
+    </div>
+  </div>
+
+  <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-200 pt-8">
+    <div class="mb-4">
+      <label for="status" class="me-2 font-bold">Status:</label>
+      <input id="status" type="text"
+             name="@status"
+             form="main-form"
+             value="{{ tokens.status }}"
+             class="border border-gray-300 rounded-md px-2"
+             list="status-options">
+      <datalist id="status-options">
+        <option value="Onhold">Onhold</option>
+        <option value="To be invited">To be invited</option>
+        <option value="Invited">Invited</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Declined">Declined</option>
+        <option value="Unconfirmed">Unconfirmed</option>
+      </datalist>
+    </div>
+
+    <div class="mb-4">
+      <label class="me-2 font-bold">Allow re-fill RSVP form:</label>
+      <div class="flex gap-4 mt-2">
+        <label class="flex items-center">
+          <input type="radio" name="@allow_refill" form="main-form" value="1" 
+                 {% if tokens.allow_refill == "1" %}checked{% endif %} class="me-2">
+          Yes
+        </label>
+        <label class="flex items-center">
+          <input type="radio" name="@allow_refill" form="main-form" value="0" 
+                 {% if tokens.allow_refill != "1" %}checked{% endif %} class="me-2">
+          No
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 border-t border-gray-200 pt-8">
+    <h3 class="text-lg font-semibold text-primary mb-4">Check-in & QR Code Remarks</h3>
+    <div class="grid grid-cols-1 gap-4">
+      <div>
+        <label for="checkin-remark" class="block text-primary font-bold mb-2">Check-in Remark</label>
+        <textarea id="checkin-remark"
+                  name="@checkin_remark"
+                  form="main-form"
+                  rows="3"
+                  class="w-full border border-gray-300 px-2 py-1 rounded-md"
+                  placeholder="Notes for check-in staff...">{{ tokens.checkin_remark }}</textarea>
+      </div>
+
+      <div>
+        <label for="qrcode-remark" class="block text-primary font-bold mb-2">QR Code Remark</label>
+        <input id="qrcode-remark"
+               type="text"
+               name="@qrcode_remark"
+               form="main-form"
+               value="{{ tokens.qrcode_remark }}"
+               class="w-full border border-gray-300 px-2 py-1 rounded-md"
+               placeholder="Notes displayed on QR code...">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if related_guests.size > 0 %}
+<div class="panel-space w-full mb-8">
+  <h3 class="text-lg font-semibold text-primary mb-4 border-b border-gray-200 pb-2">
+    <i class="fa-light fa-users mr-2"></i>Related Guests
+  </h3>
+  <div class="text-sm text-gray-600 mb-4">
+    Guests linked to the same Primary Guest.
+  </div>
+  
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guest List</th>
+          <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        {% for guest in related_guests %}
+        <tr class="{% if guest.is_current %}bg-blue-50{% endif %}">
+          <td class="px-4 py-2 whitespace-nowrap">
+            <div class="text-sm font-medium text-gray-900">{{ guest.name }}</div>
+          </td>
+          <td class="px-4 py-2 whitespace-nowrap">
+            {% if guest.role == 'Primary Guest' %}
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                Primary
+              </span>
+            {% else %}
+              <span class="text-sm text-gray-500">{{ guest.role }}</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-2 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+              {% case guest.status %}
+                {% when 'Confirmed' %}bg-green-100 text-green-800
+                {% when 'Declined' %}bg-red-100 text-red-800
+                {% when 'Unconfirmed' %}bg-gray-100 text-gray-800
+                {% else %}bg-yellow-100 text-yellow-800
+              {% endcase %}">
+              {{ guest.status | default: 'Unconfirmed' }}
+            </span>
+          </td>
+          <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
+            {{ guest.mail_list_name }}
+          </td>
+          <td class="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+            {% if guest.is_current %}
+              <span class="text-gray-400">Current</span>
+            {% else %}
+              <a href="/admin/rsvp/{{ guest.rsvp_id }}/edit/{{ guest.id }}" class="text-indigo-600 hover:text-indigo-900">
+                View
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% if admin_input_blocks.size > 0 %}
+<!-- Admin Input Forms for Event RSVP Blocks -->
+<div class="panel-space w-full mb-8">
+  <h3 class="text-lg font-semibold text-primary mb-4 border-b border-gray-200 pb-2">
+    <i class="fa-light fa-clipboard-list mr-2"></i>Additional Information
+  </h3>
+  <div class="text-sm text-gray-600 mb-4">
+    Admin-only forms based on event configuration. Data entered here is stored separately from guest responses.
+  </div>
+  
+  {% comment %}Track which block types we've seen for backward compatibility{% endcomment %}
+  {% assign seen_block_types = "" %}
+  
+  {% for block in admin_input_blocks %}
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div class="text-md font-medium text-gray-700 mb-3 flex items-center">
+        <i class="fa-light fa-list-check mr-2"></i>
+        {% case block.type %}
+          {% when 'rsvp-travel-hotel' %}Flight & Hotel Information
+          {% when 'rsvp-custom' %}Custom Information
+          {% when 'rsvp-meal-preferences' %}Meal Preferences
+          {% when 'rsvp-pickup' %}Pickup Service
+          {% when 'rsvp-plus-one' %}Plus One Details
+          {% when 'rsvp-sessions' %}Session Attendance
+          {% else %}{{ block.type | replace: 'rsvp-', '' | replace: '-', ' ' | capitalize }}
+        {% endcase %}
+      </div>
+      
+      {% comment %}Prepare context for block template{% endcomment %}
+      {% assign tokens = block.tokens %}
+      {% assign savedFormData = admin_response %}
+      {% assign field_name_prefix = 'admin-' %}
+      
+      {% comment %}For backward compatibility: only pass block_id if this is NOT the first block of this type{% endcomment %}
+      {% if seen_block_types contains block.type %}
+        {% assign block_id = block.id %}
+      {% else %}
+        {% assign block_id = nil %}
+      {% endif %}
+      {% assign seen_block_types = seen_block_types | append: block.type | append: "," %}
+      
+      <div class="admin-block-form" data-block-type="{{ block.type }}" data-block-id="{{ block.id }}">
+        {% assign block_template = "html/" | append: block.type %}
+        {% render block_template, tokens: tokens, savedFormData: savedFormData, form: 'main-form', field_name_prefix: field_name_prefix, block_id: block_id %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

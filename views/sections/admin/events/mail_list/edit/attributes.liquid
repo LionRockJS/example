@@ -1,0 +1,120 @@
+<div class="w-full">
+  <div class="mb-4">
+    <div class="text-2xl text-primary font-serif">{{ tokens.event.name }}</div>
+    <div class="text-sm">{{ tokens.event.id }}</div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-2 mb-8">
+    <div class="w-full">
+      <label for="show_in_checkin_lite" class="text-white bg-primary text-xs px-2">Show in Check-in Lite System</label>
+
+      <div class="relative flex items-center gap-4 py-1">
+        <label class="flex items-center cursor-pointer">
+          <input 
+            type="radio" 
+            name="@show_in_checkin_lite" 
+            value="yes" 
+            form="main-form"
+            class="mr-2"
+            {% if tokens['show_in_checkin_lite'] == 'yes' %}checked{% endif %}
+          >
+          <span class="text-sm">Yes</span>
+        </label>
+        <label class="flex items-center cursor-pointer">
+          <input 
+            type="radio" 
+            name="@show_in_checkin_lite" 
+            value="no" 
+            form="main-form"
+            class="mr-2"
+            {% if tokens['show_in_checkin_lite'] == 'no' or tokens['show_in_checkin_lite'] == blank %}checked{% endif %}
+          >
+          <span class="text-sm">No</span>
+        </label>
+      </div>
+      <div class="text-xs">Control whether this guest list appears in the check-in lite system.</div>
+    </div>
+
+    <div class="w-full">
+      <label for="checkin_lite_passcode" class="text-white bg-primary text-xs px-2">Check-in Lite Passcode</label>
+
+      <div class="relative">
+        <input
+            type="text"
+            name="@checkin_lite_passcode"
+            id="checkin_lite_passcode"
+            form="main-form"
+            maxlength="6"
+            pattern="[0-9]{6}"
+            placeholder="6-digit code"
+            class="border border-gray-300 rounded-lg text-sm py-1 px-2"
+            value="{{ tokens['checkin_lite_passcode'] | escape }}"
+        >
+      </div>
+      <div class="text-xs">6-digit passcode for accessing this list in check-in lite system.</div>
+    </div>
+  </div>
+
+  {% assign edm_count = options.edms | size %}
+  {% if edm_count == 0 %}
+    <div class="panel-space !ps-0">
+      <div class="text-sm">
+        No eDM templates available. Please create an eDM template to link guest list to eDM. <a href="/admin/events/{{ tokens.event.id }}/add/edm" class="text-primary">Create eDM Template</a>
+      </div>
+    </div>
+  {% else %}
+  <div class="grid grid-cols-2 gap-2 me-[24px] md:me-[55px]">
+    <div class="w-full">
+      <label for="*edm" class="text-white bg-primary text-xs px-2">eDM Template</label>
+
+      <div class="relative">
+        <select name="*edm"
+            aria-label="edm select"
+            class="border border-gray-300 rounded-lg text-sm py-1 w-full"
+            form="main-form"
+            id="edm-select"
+        >
+          <option value="">Select EDM</option>
+          {% for edm in options.edms %}
+            <option value="{{ edm.id }}" {% if edm.id == tokens['edm'].id %}selected{% endif %}>{{ edm.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    {% if tokens['edm'].id != blank %}
+    <div class="w-full">
+      <label for="*mail_reviewer" class="text-white bg-primary text-xs px-2">Broadcast Date</label>
+
+      <div class="relative">
+        <input
+            aria-label="blast datetime"
+            type="datetime-local"
+            form="main-form"
+            name="@blast_datetime"
+            class="border border-gray-300 rounded-lg text-sm py-1 w-full"
+            value="{{ tokens['blast_datetime'] | default: '' }}"
+        >
+      </div>
+    </div>
+
+    <div class="w-full">
+      <label for="*mail_reviewer" class="text-white bg-primary text-xs px-2">Reviewer list</label>
+
+      <div class="relative">
+        <select name="*mail_preview_list" aria-label="edm select"
+                class="border border-gray-300 rounded-lg text-sm py-1 w-full"
+                form="main-form"
+        >
+          <option value="">Select Reviewer List</option>
+          {% for list in options.mail_preview_lists %}
+            <option value="{{ list.id }}" {% if list.id == tokens['mail_preview_list'].id %}selected{% endif %}>{{ list.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="text-xs">Reviewers will receive the eDM 30 minutes before broadcast.</div>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>

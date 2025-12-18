@@ -1,0 +1,15 @@
+{% if block_data != blank %}
+  <div class="grid grid-cols-6 gap-4 font-bold text-primary border-b border-b-gray-300">
+    <div class="col-span-2">Meal Preferences</div>
+    <div>Food</div>
+    <div class="col-span-3">Message</div>
+  </div>
+
+  <div class="grid grid-cols-6 gap-x-4">
+  {% for preference in block_data %}
+      <div class="col-span-2">{{ preference.title }}</div>
+      <div>{{ preference.food }}</div>
+      <div class="col-span-3">{{ preference.message }}</div>
+  {% endfor %}
+  </div>
+{% endif %}

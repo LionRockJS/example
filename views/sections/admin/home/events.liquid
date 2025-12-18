@@ -1,0 +1,71 @@
+ <div class="flex mb-4">
+  <label for="toggle-rsvp-0" class="panel-icon -translate-x-[3px] cursor-pointer transition duration-300 flex justify-center items-center border-l-[5px] peer-checked:border-primary border-gray-300"><i class="fa-regular fa-gear" aria-hidden="true"></i></label>
+  <div>
+    <label class="text-3xl text-primary" for="toggle-rsvp-0">Latest RSVP Responses</label>
+  </div>
+</div>
+
+{% for event in events %}
+  {% assign guests_count = event.guests | size %}
+  {% if guests_count > 0 %}
+  <div class="panel-space w-full group">
+    <div class="mb-4">
+      <a href="/admin/events/{{ event.id }}"
+         class="font-bold text-base text-primary block hover:underline mb-4"
+      >{{ event.name }}</a>
+      {% if guests_count > 0 %}
+
+      <input id="toggle-event-{{ forloop.index0 }}" type="checkbox" class="hidden peer" name="toggle-response" aria-label="Toggle Response">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+        <tr class="text-left text-gray-900">
+          <td class="pe-3">Date</td>
+          <th class="pe-3">Name / Contact</th>
+          <th class="text-end">Response</th>
+          {% if event.guest_stats.checked_in_count > 0 %}<th class="ps-3 text-nowrap text-right">Checked-in</th>{% endif %}
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+        {% assign row_count = 0 %}
+        {% for guest in event.guests %}
+          {% assign status = guest.status | default: "" | downcase %}
+          {% if status == blank or status == "unconfirmed" %}{% else %}
+          {% assign row_count = row_count | plus: 1 %}
+
+          <tr class="{% if row_count > 10 %}hidden group-has-[input:checked]:table-row{% endif %}">
+            <td class="text-nowrap pe-2">
+              <div>{{ guest.date | to_time | date: "%Y-%m-%d" }}</div>
+              <div class="text-xs">{{ guest.date | to_time | date: "%H:%M" }}</div>
+            </td>
+            <td class="text-nowrap pe-3 max-w-[20rem]">
+              <a class="block" href="/admin/rsvp/{{ guest.list_id }}/edit/{{ guest.id }}">
+                <div class="underline w-full text-ellipsis overflow-hidden">
+                  {{ guest.name }}
+                </div>
+                <div class="text-xs">{{ guest.contact }}</div>
+              </a>
+            </td>
+            <td class="overflow-hidden text-ellipsis text-nowrap text-end response-state-{{ guest.status | downcase | replace: " ", "-" }}">{{ guest.status | capitalize }}</td>
+            {% if event.guest_stats.checked_in_count > 0 %}<td class="ps-3 text-right">{{ guest.checked_in | default: "-" }}</td>{% endif %}
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if row_count > 10 %}
+      <div class="text-sm text-right text-gray-500 my-2 peer-checked:hidden">
+        <label for="toggle-event-{{ forloop.index0 }}">Total {{ event.guest_stats.confirmed_count | default: 0 }} Confirmed, {{ event.guest_stats.declined_count | default: 0 }} Declined, <strong class="cursor-pointer">click to show all</strong>.</label>
+      </div>
+      <div class="text-sm text-right text-gray-500 my-2 peer-checked:block hidden">
+        <label for="toggle-event-{{ forloop.index0 }}"><strong class="cursor-pointer">click to show latest 10 responses.</strong></label>
+      </div>
+
+      {% elsif row_count > 0 %}
+      {% else %}
+        <p class="text-gray-500">No responses yet.</p>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,40 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "form":{
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/contacts/import-accept/{{ file }}",
+            "method": "POST"
+          }
+        }
+      },
+      "block_order": [
+        "main-form"
+      ]
+    },
+
+    "title": {
+      "type": "ui/title",
+      "settings": {
+        "title": "Import Contacts"
+      }
+    },
+    "summary":{
+      "type": "ui/import-summary"
+    },
+    "table": {
+      "type": "admin/contacts/import-table"
+    }
+  },
+  "order": [
+    "form",
+    "title",
+    "summary",
+    "table"
+  ]
+}

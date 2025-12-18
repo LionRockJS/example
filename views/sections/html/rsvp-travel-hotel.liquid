@@ -1,0 +1,231 @@
+<div class="my-8">
+  {% comment %}Support optional field_name_prefix for admin forms{% endcomment %}
+  {% assign prefix = field_name_prefix | default: '' %}
+
+  <div class="mb-3">
+    {% if tokens.title %}<div class="text-2xl">{{ tokens.title | capitalize }}</div>{% endif %}
+    {% if tokens.body %}<div>{{ tokens.body }}</div>{% endif %}
+  </div>
+
+  {% comment %}Flight Information{% endcomment %}
+  {% for flight in tokens.flight_custom_input %}
+    {% if flight.label != blank %}
+      {% if block_id %}
+        {% assign field_suffix = "rsvp-travel-hotel-" | append: block_id | append: "-flight-" | append: flight.label | downcase | replace: ' ', '-' | escape %}
+      {% else %}
+        {% assign field_suffix = "rsvp-travel-hotel-flight-" | append: flight.label | downcase | replace: ' ', '-' | escape %}
+      {% endif %}
+      {% assign form_name_key = prefix | append: field_suffix %}
+      {% assign value_key = field_suffix %}
+      {% assign input_type = flight.type | default: 'text' %}
+      {% assign saved_value = savedFormData[value_key] %}
+
+      {% case input_type %}
+        {% when 'checkbox' %}
+          {% comment %}Checkbox: label after input, value from default_value{% endcomment %}
+          <div class="mb-3 flex flex-row items-center">
+            <input
+              type="checkbox"
+              id="flight-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              value="{{ flight.default_value | escape }}"
+              {% if saved_value == flight.default_value %}checked{% endif %}
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if flight.required == "yes" %}required{% endif %}
+              class="mr-2"
+            >
+            <label for="flight-{{ forloop.index0 }}">{{ flight.label }}{% if flight.required == "yes" %} *{% endif %}</label>
+          </div>
+        
+        {% when 'select' %}
+          {% comment %}Select: options from default_value with format "value:label|value:label"{% endcomment %}
+          <div class="mb-3">
+            <label for="flight-{{ forloop.index0 }}" class="block mb-1">{{ flight.label }}{% if flight.required == "yes" %} *{% endif %}</label>
+            <select
+              id="flight-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if flight.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+            >
+              {% assign option_parts = flight.default_value | split: '|' %}
+              {% for option_part in option_parts %}
+                {% assign option = option_part | split: ':' %}
+                {% assign option_value = option[0] | strip %}
+                {% assign option_label = option[1] | default: option_value | strip %}
+                <option value="{{ option_value | escape }}" {% if saved_value == option_value %}selected{% endif %}>{{ option_label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        
+        {% when 'radio' %}
+          {% comment %}Radio: options from default_value with format "value:label|value:label"{% endcomment %}
+          <div class="mb-3">
+            <label class="block mb-1">{{ flight.label }}{% if flight.required == "yes" %} *{% endif %}</label>
+            {% assign option_parts = flight.default_value | split: '|' %}
+            <div class="space-y-2">
+              {% for option_part in option_parts %}
+                {% assign option = option_part | split: ':' %}
+                {% assign option_value = option[0] | strip %}
+                {% assign option_label = option[1] | default: option_value | strip %}
+                <div class="flex items-center">
+                  <input
+                    type="radio"
+                    id="flight-{{ forloop.index0 }}-{{ forloop.index }}"
+                    name="{{ form_name_key }}"
+                    value="{{ option_value | escape }}"
+                    {% if saved_value == option_value %}checked{% endif %}
+                    {% if form %}form="{{ form }}"{% endif %}
+                    {% if flight.required == "yes" %}required{% endif %}
+                    class="mr-2"
+                  >
+                  <label for="flight-{{ forloop.index0 }}-{{ forloop.index }}">{{ option_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        
+        {% when 'textarea' %}
+          <div class="mb-3">
+            <label for="flight-{{ forloop.index0 }}" class="block mb-1">{{ flight.label }}{% if flight.required == "yes" %} *{% endif %}</label>
+            <textarea
+              id="flight-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              placeholder="{{ flight.description | escape }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if flight.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+              rows="3"
+            >{{ saved_value | escape }}</textarea>
+          </div>
+        
+        {% else %}
+          {% comment %}Default: standard input types (text, email, tel, date, time, number, url, etc.){% endcomment %}
+          <div class="mb-3">
+            <label for="flight-{{ forloop.index0 }}" class="block mb-1">{{ flight.label }}{% if flight.required == "yes" %} *{% endif %}</label>
+            <input 
+              type="{{ input_type }}"
+              id="flight-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              value="{{ saved_value | escape }}"
+              placeholder="{{ flight.description | escape }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if flight.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+            >
+          </div>
+      {% endcase %}
+    {% endif %}
+  {% endfor %}
+
+  {% comment %}Hotel Information{% endcomment %}
+  {% for hotel in tokens.hotel_custom_input %}
+    {% if hotel.label != blank %}
+      {% if block_id %}
+        {% assign field_suffix = "rsvp-travel-hotel-" | append: block_id | append: "-" | append: hotel.label | downcase | replace: ' ', '-' | escape %}
+      {% else %}
+        {% assign field_suffix = "rsvp-travel-hotel-" | append: hotel.label | downcase | replace: ' ', '-' | escape %}
+      {% endif %}
+      {% assign form_name_key = prefix | append: field_suffix %}
+      {% assign value_key = field_suffix %}
+      {% assign input_type = hotel.type | default: 'text' %}
+      {% assign saved_value = savedFormData[value_key] %}
+
+      {% case input_type %}
+        {% when 'checkbox' %}
+          {% comment %}Checkbox: label after input, value from default_value{% endcomment %}
+          <div class="mb-3 flex flex-row items-center">
+            <input
+              type="checkbox"
+              id="hotel-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              value="{{ hotel.default_value | escape }}"
+              {% if saved_value == hotel.default_value %}checked{% endif %}
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if hotel.required == "yes" %}required{% endif %}
+              class="mr-2"
+            >
+            <label for="hotel-{{ forloop.index0 }}">{{ hotel.label }}{% if hotel.required == "yes" %} *{% endif %}</label>
+          </div>
+        
+        {% when 'select' %}
+          {% comment %}Select: options from default_value with format "value:label|value:label"{% endcomment %}
+          <div class="mb-3">
+            <label for="hotel-{{ forloop.index0 }}" class="block mb-1">{{ hotel.label }}{% if hotel.required == "yes" %} *{% endif %}</label>
+            <select
+              id="hotel-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if hotel.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+            >
+              {% assign option_parts = hotel.default_value | split: '|' %}
+              {% for option_part in option_parts %}
+                {% assign option = option_part | split: ':' %}
+                {% assign option_value = option[0] | strip %}
+                {% assign option_label = option[1] | default: option_value | strip %}
+                <option value="{{ option_value | escape }}" {% if saved_value == option_value %}selected{% endif %}>{{ option_label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        
+        {% when 'radio' %}
+          {% comment %}Radio: options from default_value with format "value:label|value:label"{% endcomment %}
+          <div class="mb-3">
+            <label class="block mb-1">{{ hotel.label }}{% if hotel.required == "yes" %} *{% endif %}</label>
+            {% assign option_parts = hotel.default_value | split: '|' %}
+            <div class="space-y-2">
+              {% for option_part in option_parts %}
+                {% assign option = option_part | split: ':' %}
+                {% assign option_value = option[0] | strip %}
+                {% assign option_label = option[1] | default: option_value | strip %}
+                <div class="flex items-center">
+                  <input
+                    type="radio"
+                    id="hotel-{{ forloop.index0 }}-{{ forloop.index }}"
+                    name="{{ form_name_key }}"
+                    value="{{ option_value | escape }}"
+                    {% if saved_value == option_value %}checked{% endif %}
+                    {% if form %}form="{{ form }}"{% endif %}
+                    {% if hotel.required == "yes" %}required{% endif %}
+                    class="mr-2"
+                  >
+                  <label for="hotel-{{ forloop.index0 }}-{{ forloop.index }}">{{ option_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        
+        {% when 'textarea' %}
+          <div class="mb-3">
+            <label for="hotel-{{ forloop.index0 }}" class="block mb-1">{{ hotel.label }}{% if hotel.required == "yes" %} *{% endif %}</label>
+            <textarea
+              id="hotel-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              placeholder="{{ hotel.description | escape }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if hotel.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+              rows="3"
+            >{{ saved_value | escape }}</textarea>
+          </div>
+        
+        {% else %}
+          {% comment %}Default: standard input types (text, email, tel, date, time, number, url, etc.){% endcomment %}
+          <div class="mb-3">
+            <label for="hotel-{{ forloop.index0 }}" class="block mb-1">{{ hotel.label }}{% if hotel.required == "yes" %} *{% endif %}</label>
+            <input 
+              type="{{ input_type }}"
+              id="hotel-{{ forloop.index0 }}"
+              name="{{ form_name_key }}"
+              value="{{ saved_value | escape }}"
+              placeholder="{{ hotel.description | escape }}"
+              {% if form %}form="{{ form }}"{% endif %}
+              {% if hotel.required == "yes" %}required{% endif %}
+              class="w-full p-2 border border-gray-300 rounded"
+            >
+          </div>
+      {% endcase %}
+    {% endif %}
+  {% endfor %}
+</div>

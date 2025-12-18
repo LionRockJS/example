@@ -1,0 +1,23 @@
+<div class="birthday-input-container relative">
+  <div class="birthday-input-wrapper">
+    <label for="month-select-1">Month:</label>
+    <select id="month-select-1" class="month-select"></select>
+  </div>
+  <div class="birthday-input-wrapper">
+    <label for="day-select-1">Day:</label>
+    <select id="day-select-1" class="day-select"></select>
+  </div>
+  <!-- Hidden date input -->
+  <input
+      hidden
+      class="full-date"
+      aria-label="{{ label }}"
+      type="date"
+      name="{{ selector }}"
+      value="{{ value }}"
+      id="field-{{ selector }}"
+      lang="en"
+      max="2200-12-30"
+      placeholder="{{ placeholder }}"
+  />
+</div>

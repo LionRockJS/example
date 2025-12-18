@@ -1,0 +1,34 @@
+<div class="mb-4">
+{% liquid
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+%}
+
+    <!-- name -->
+
+    <div class="min-h-8 mb-4 panel-space">
+        <div>
+            <div class="w-full me-[24px] md:me-[55px]">
+                <div class="text-4xl text-primary mb-3">
+                    <span>{{ values['first_name'] }}</span>
+{% if language == "zh-hant" or language == "zh-hans" %}
+{% else %}
+    {% if values['middle_name'] != blank %}
+        <span
+            class="text-2xl text-ellipsis block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 "
+        >{{ values['middle_name'] }}</span>
+    {% endif %}
+
+    <span>{{ values['last_name'] }}</span>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

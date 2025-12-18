@@ -1,0 +1,26 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "import": {
+      "type": "admin/contacts/import"
+    },
+    "main": {
+      "type": "admin/contacts/table",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+    "pagination": {
+      "type": "pagination",
+      "settings": {
+        "base_url": "/admin/contacts",
+        "controller_slug": "contacts"
+      }
+    }
+  },
+  "order": [
+    "import",
+    "main",
+    "pagination"
+  ]
+}

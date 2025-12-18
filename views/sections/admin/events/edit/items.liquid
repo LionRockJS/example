@@ -1,0 +1,311 @@
+<div class="panel-space w-full">
+{% assign form = "main-form" %}
+{% assign session_count = tokens['session'] | size %}
+{% if tokens["name"] == blank %}
+  <div>Create a new event by event name and estimated start date</div>
+{% else %}
+
+<div class="mb-4">
+  <div class="text-primary font-bold">Sessions</div>
+  {% if session_count <= 1 %}
+  <div>This event only have single session. You may <label for="toggle-session" class="underline cursor-pointer select-none">click here</label> to add more sessions.</div>
+  {% endif %}
+</div>
+<div>
+  <input type="checkbox" class="hidden peer" id="toggle-session" aria-label="Toggle session" {% if session_count > 1 %}checked{% endif %}>
+  <div class="peer-checked:block hidden">
+    <!-- session items -->
+    <div class="flex backdrop-blur">
+      <label for="toggle-session" class="block font-bold cursor-pointer select-none hover:text-highlight">Sessions</label>
+      <input type="text"
+             pattern="\d+"
+             name="count:session"
+             value="1"
+             class="mx-2 w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+             form="{{ form }}"
+      >
+      <button type="submit"
+              class="button-add"
+              name="action"
+              value="item-add:session"
+              form="{{ form }}"
+      ><i class="fa-light fa-circle-plus"></i></button>
+    </div>
+    <div id="session-items-container">
+    {% liquid
+        assign page_items = tokens['session'] | default: default_items | sort : "_weight"
+    %}
+    {% for page_item in page_items %}
+        {% capture prefix %}.session[{{ page_item._key }}]{% endcapture %}
+        <div class="relative my-4 border border-gray-300 bg-white rounded-xl px-4 py-2 session-item" data-key="{{ page_item._key }}">
+            <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex flex-col items-center gap-1">
+                <div class="drag-handle cursor-move text-gray-400 hover:text-gray-600 transition-colors" title="Drag to reorder">
+                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                </div>
+                <input name="{{ prefix }}@_weight" value="{{ page_item._weight | default: "0" }}" pattern="[0-9]+"
+                       class="weight-input w-8 text-center border border-gray-200 rounded-full px-1 py-0.5 text-xs bg-white hover:border-gray-400 focus:border-primary focus:outline-none"
+                       title="Weight (auto-saved on drag)"
+                       data-session-key="{{ page_item._key }}"
+                       form="main-form"
+                />
+            </div>
+
+            <div class="absolute right-5 z-10">
+                {% if forloop.length > 1 %}
+                    <button type="submit" name="action"
+                            value="item-delete:session|{{ page_item._key }}"
+                            form="{{ form }}"
+                            class="cursor-pointer hover:text-red-900"
+                    ><i class="fal fa-times"></i></button>
+                {% endif %}
+            </div>
+
+            <div class="mb-2">
+                <input type="text" name="{{ prefix }}.name"
+                       class="text-2xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                       value="{{ page_item['name'] | escape }}"
+                       placeholder="{{ placeholders.tokens['session'][page_item._key]['name'] | strip_html | default: "Session Name" }}"
+                       form="{{ form }}"
+                >
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center relative">
+                    <i class="fa-light fa-tag me-2 absolute"></i>
+                    <select name="{{ prefix }}@type"
+                            class="pl-8 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 focus:outline-none"
+                            form="{{ form }}"
+                    >
+                        <option value="">Select Session Type</option>
+                        <option value="conference" {% if page_item['type'] == 'conference' %}selected{% endif %}>Conference</option>
+                        <option value="banquet" {% if page_item['type'] == 'banquet' %}selected{% endif %}>Banquet</option>
+                        <option value="webinar" {% if page_item['type'] == 'webinar' %}selected{% endif %}>Webinar</option>
+                        <option value="gala" {% if page_item['type'] == 'gala' %}selected{% endif %}>Gala</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="flex items-center relative">
+                    <i class="fa-light fa-calendar me-2 absolute"></i>
+                    {% assign default_datetime = tokens['start'] | append: 'T00:00' %}
+                    <input type="datetime-local" name="{{ prefix }}@start"
+                           class="pl-8 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none"
+                           value="{{ page_item['start'] | default: default_datetime | escape }}"
+                           placeholder="{{ placeholders.tokens['session'][page_item._key]['start'] | strip_html | default: "Start Time" }}"
+                           form="{{ form }}"
+                    >
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="flex items-center relative">
+                <i class="fa-light fa-clock me-2 absolute"></i>
+                <input type="number" name="{{ prefix }}@duration" min="0"
+                       class="pl-8 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none"
+                       value="{{ page_item['duration'] | escape }}"
+                       placeholder="{{ placeholders.tokens['session'][page_item._key]['duration'] | strip_html | default: "Duration (minutes)" }}"
+                       form="{{ form }}"
+                >
+              </div>
+
+              <div class="flex items-center relative">
+                  <i class="fa-light fa-users me-2 absolute"></i>
+                  <input type="number" name="{{ prefix }}@capacity" min="0"
+                          class="pl-8 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none"
+                          value="{{ page_item['capacity'] | escape }}"
+                          placeholder="{{ placeholders.tokens['session'][page_item._key]['capacity'] | strip_html | default: "Capacity" }}"
+                          form="{{ form }}"
+                  >
+              </div>
+            </div>
+
+            <div class="mb-4">
+                {% assign desc_toggle_id = "toggle-desc-" | append: page_item._key %}
+                {% assign has_description = page_item['description'] | size %}
+                {% assign has_location = page_item['location'] | size %}
+                <input type="checkbox" class="peer hidden" id="{{ desc_toggle_id }}" data-state-store="true" {% if has_description > 0 or has_location > 0 %}checked{% endif %}>
+                
+                <!-- Collapsed state button -->
+                <label for="{{ desc_toggle_id }}" class="peer-checked:hidden flex items-center gap-2 cursor-pointer text-sm text-gray-600 hover:text-primary transition-colors mb-2">
+                    <i class="fa-light fa-plus-circle"></i>
+                    <span>Add Location & Description</span>
+                </label>
+
+                <!-- Expanded state -->
+                <div class="hidden peer-checked:block">
+                    <label for="{{ desc_toggle_id }}" class="block text-xs text-gray-600 mb-1 cursor-pointer hover:text-primary">
+                        <i class="fa-light fa-minus-circle mr-1"></i>Location & Description
+                    </label>
+                    
+                    <div class="mb-3">
+                        <div class="flex items-center relative">
+                            <i class="fa-light fa-location-dot me-2 absolute"></i>
+                            <input type="text" name="{{ prefix }}.location"
+                                   class="pl-8 text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none border-b border-gray-200 pb-2"
+                                   value="{{ page_item['location'] | escape }}"
+                                   placeholder="{{ placeholders.tokens['session'][page_item._key]['location'] | strip_html | default: "Location" }}"
+                                   form="{{ form }}"
+                            >
+                        </div>
+                    </div>
+                    
+                    <textarea name="{{ prefix }}.description"
+                              class="w-full min-h-[100px] border border-gray-300 rounded px-3 py-2 text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary"
+                              placeholder="{{ placeholders.tokens['session'][page_item._key]['description'] | strip_html | default: "Session Description" }}"
+                              form="{{ form }}"
+                    >{{ page_item['description'] | escape }}</textarea>
+                </div>
+            </div>
+
+            <!-- Dynamic Inputs Section -->
+            <div class="mb-4 border-t border-gray-200 pt-4">
+                {% assign inputs_toggle_id = "toggle-inputs-" | append: page_item._key %}
+                {% assign input_items = page_item.items['inputs'] | default: default_items %}
+                <input type="checkbox" class="peer hidden" id="{{ inputs_toggle_id }}" data-state-store="true" {% if input_items.size > 0 %}checked{% endif %}>
+                
+                <!-- Collapsed state button -->
+                <label for="{{ inputs_toggle_id }}" class="peer-checked:hidden flex items-center gap-2 cursor-pointer text-sm text-gray-600 hover:text-primary transition-colors py-1 rounded hover:bg-gray-50">
+                    <i class="fa-light fa-plus-circle"></i>
+                    <span>Add Custom Input Fields</span>
+                </label>
+
+                <!-- Expanded state -->
+                <div class="hidden peer-checked:block">
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="{{ inputs_toggle_id }}" class="block text-sm font-semibold text-gray-700 cursor-pointer hover:text-primary">
+                            <i class="fa-light fa-minus-circle me-2"></i>Custom Input Fields
+                        </label>
+                        <div class="flex items-center gap-2">
+                            <input type="text"
+                                   pattern="\d+"
+                                   name="count:session[{{ page_item._key }}].inputs"
+                                   value="1"
+                                   class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                                   form="{{ form }}"
+                            >
+                            <button type="submit"
+                                    class="button-add text-primary hover:text-highlight"
+                                    name="action"
+                                    value="item-add:session[{{ page_item._key }}].inputs"
+                                    form="{{ form }}"
+                                    title="Add input field"
+                            ><i class="fa-light fa-circle-plus"></i></button>
+                        </div>
+                    </div>
+
+                    {% assign input_items = page_item.items['inputs'] | default: default_items | sort: "_weight" %}
+                    {% if input_items.size > 0 %}
+                    <div class="space-y-3">
+                    {% for input_item in input_items %}
+                        {% capture input_prefix %}{{ prefix }}.inputs[{{ input_item._key }}]{% endcapture %}
+                        <div class="relative">
+                            <div class="absolute right-2 top-2">
+                                <button type="submit" name="action"
+                                        value="item-delete:session[{{ page_item._key }}].inputs|{{ input_item._key }}"
+                                        form="{{ form }}"
+                                        class="cursor-pointer hover:text-red-900 text-gray-400"
+                                        title="Delete input field"
+                                ><i class="fal fa-times"></i></button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 me-8">
+                            <div class="mb-2">
+                                <select name="{{ input_prefix }}@type"
+                                        class="input-type-selector w-full border border-gray-300 rounded px-2 py-1 text-sm text-gray-800 focus:outline-none focus:border-primary"
+                                        form="{{ form }}"
+                                        data-input-key="{{ input_item._key }}"
+                                >
+                                    <option value="">Select Type</option>
+                                    <option value="text" {% if input_item['type'] == 'text' %}selected{% endif %}>Text</option>
+                                    <option value="textarea" {% if input_item['type'] == 'textarea' %}selected{% endif %}>Textarea</option>
+                                    <option value="select" {% if input_item['type'] == 'select' %}selected{% endif %}>Select</option>
+                                    <option value="checkbox" {% if input_item['type'] == 'checkbox' %}selected{% endif %}>Checkbox</option>
+                                    <option value="radio" {% if input_item['type'] == 'radio' %}selected{% endif %}>Radio</option>
+                                    <option value="number" {% if input_item['type'] == 'number' %}selected{% endif %}>Number</option>
+                                    <option value="email" {% if input_item['type'] == 'email' %}selected{% endif %}>Email</option>
+                                    <option value="tel" {% if input_item['type'] == 'tel' %}selected{% endif %}>Phone</option>
+                                    <option value="date" {% if input_item['type'] == 'date' %}selected{% endif %}>Date</option>
+                                    <option value="time" {% if input_item['type'] == 'time' %}selected{% endif %}>Time</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2 col-span-2">
+                                <input type="text" name="{{ input_prefix }}@name"
+                                       class="w-full border border-gray-300 rounded px-2 py-1 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary"
+                                       value="{{ input_item['name'] | escape }}"
+                                       placeholder="Input Name"
+                                       form="{{ form }}"
+                                >
+                            </div>
+                            </div>
+
+                            <div class="input-values-container" data-input-key="{{ input_item._key }}" {% if input_item['type'] != 'select' and input_item['type'] != 'radio' %}style="display: none;"{% endif %}>
+                                <label class="block text-xs text-gray-600 mb-1">Options/Values <span class="text-gray-400">(comma-separated)</span></label>
+                                <input type="text" name="{{ input_prefix }}@values"
+                                       class="w-full border border-gray-300 rounded px-2 py-1 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-primary"
+                                       value="{{ input_item['values'] | escape }}"
+                                       placeholder="Option 1, Option 2, Option 3"
+                                       form="{{ form }}"
+                                >
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-sm text-gray-500 italic py-2">No dynamic input fields added yet. Click the + button to add one.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+{% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle input type change to show/hide values field
+    function handleInputTypeChange(selectElement) {
+      const inputKey = selectElement.getAttribute('data-input-key');
+      const valuesContainer = document.querySelector(`.input-values-container[data-input-key="${inputKey}"]`);
+      
+      if (valuesContainer) {
+        const selectedType = selectElement.value;
+        if (selectedType === 'select' || selectedType === 'radio') {
+          valuesContainer.style.display = 'block';
+        } else {
+          valuesContainer.style.display = 'none';
+        }
+      }
+    }
+
+    // Attach event listeners to all input type selectors
+    document.querySelectorAll('.input-type-selector').forEach(function(selector) {
+      selector.addEventListener('change', function() {
+        handleInputTypeChange(this);
+      });
+    });
+  });
+</script>
+
+<style>
+  .sortable-ghost {
+    opacity: 0.4;
+  }
+  .sortable-chosen {
+    background-color: #f3f4f6;
+  }
+  .sortable-drag {
+    opacity: 0.8;
+  }
+  .drag-handle {
+    cursor: grab;
+  }
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+</style>

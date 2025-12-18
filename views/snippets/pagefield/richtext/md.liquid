@@ -1,0 +1,31 @@
+{% liquid
+  assign label_text = label | strip_html
+  assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
+{%- assign label_text = label | strip_html -%}
+<div class="relative group col-span-2 input-editable text-base text-gray-600 font-sans">
+  <label for="field-{{ selector }}" class="hidden">{{ label_text }}</label>
+  <div class="editor-preview leading-5 transition-[background] duration-[50000s] overflow-y-auto max-h-[12.5rem] w-full bg-transparent grow p-0 focus:outline-none focus:text-gray-800" contenteditable="true" data-placeholder="{{ placeholder | default: label }}">{{ value }}</div>
+
+  <textarea type="text"
+            placeholder="{{ placeholder }}"
+            rows="8"
+            class="editor-md hidden group-has-[input[value='md']:checked]:block w-full bg-gray-700 text-white font-mono text-sm px-2"
+  ></textarea>
+
+  <textarea type="text" name="{{ selector }}" id="field-{{ selector }}"
+            placeholder="{{ placeholder }}"
+            rows="8"
+            class="editor-source hidden group-has-[input[value='html']:checked]:block w-full bg-gray-700 text-green-400 font-mono text-sm px-2"
+            {% if form != blank %}form="{{ form }}"{% endif %}
+  >{{ value_attribute }}</textarea>
+    <div class="flex gap-2">
+    <div class="flex gap-2 bg-gray-100 px-2 py-1 rounded-b-xl text-gray-400">
+      <label class="text-xs cursor-pointer"><input type="radio" class="me-1" name="{{ selector }}-mode" value="preview" checked><i class="fa-solid fa-pen"></i></label>    
+      <label class="text-xs cursor-pointer"><input type="radio" class="me-1" name="{{ selector }}-mode" value="md">MarkDown</label>
+      <label class="text-xs cursor-pointer"><input type="radio" class="me-1" name="{{ selector }}-mode" value="html">HTML</label>
+    </div>
+  </div>
+</div>

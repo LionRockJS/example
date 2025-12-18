@@ -1,0 +1,35 @@
+{% assign history_count = tokens.event_history | size %}
+<div class="my-8 panel-space">
+  <div class="text-primary font-serif text-3xl">Event History</div>
+  <div class="text-gray-500 text-base">All events related to this contact</div>
+  <div class="mt-4">
+    {% if history_count > 0 %}
+      <table class="w-full table-primary">
+        <thead>
+          <tr class="text-left text-primary border-b border-b-gray-300">
+            <th class="pe-2">Date</th>
+            <th class="pe-2">Event</th>
+            <th class="pe-2">Role</th>
+            <th class="pe-2">Session</th>
+            <th class="pe-2">RSVP / Status</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in tokens.event_history %}
+            <tr>
+              <td class="text-gray-500 pe-4">{{ event.date | date: "%Y-%m-%d %H:%M" }}</td>
+              <td class="overflow-hidden text-ellipsis pe-2 font-bold">{{ event.event_name }}</td>
+              <td class="overflow-hidden text-ellipsis pe-2 text-nowrap">{{ event.role }}</td>
+              <td class="overflow-hidden text-ellipsis pe-2 text-nowrap">{{ event.session }}</td>
+              <td class="overflow-hidden text-ellipsis pe-2 text-nowrap">{{ event.rsvp }}</td>
+              <td class="overflow-hidden text-ellipsis">{{ event.remark | default: "-" }} {{ event.group_rsvp }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="text-gray-500">No history available for this contact.</p>
+    {% endif %}
+  </div>
+</div>

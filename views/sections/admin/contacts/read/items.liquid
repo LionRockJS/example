@@ -1,0 +1,347 @@
+{% liquid
+    assign page = item
+    assign form = section.settings.form | default: "main-form"
+    assign default_items = " " |  split: ","
+%}
+
+<div class="panel-space mb-4">
+{% liquid
+    assign page_items = tokens['position'] | default: default_items | sort : "_weight"
+%}
+{% for page_item in page_items %}
+    {% if page_item['organization_name'] != blank %}
+    <div class="mb-4 text-3xl font-[400] w-full text-gray-800">
+        {{ page_item['organization_name'] }}
+    </div>
+    {% endif %}
+
+    {% if page_item['client'] %}
+        <div class="font-bold w-full text-gray-800">
+            {{ page_item['client'] }}
+        </div>
+    {% endif %}
+
+    {% if page_item['address'] != blank %}
+        <div>
+            {{ page_item['address'] }}
+        </div>
+    {% endif %}
+
+    <div class="my-4">
+        {% if page_item['title'] != blank %}
+            <div class="text-2xl">{{ page_item['title']  }}</div>
+        {% endif %}
+
+        {% if page_item['department'] != blank %}
+            <div class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+            >{{ page_item['department']  }}</div>
+        {% endif %}
+    </div>
+
+    <!-- phone and email -->
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 mb-4">
+        {% if page_item['email'] != blank %}
+        <div class="flex items-center">
+            <div class="font-bold me-2">Email:</div>
+            <span>{{ page_item['email'] }}</span>
+        </div>
+        {% endif %}
+
+        {% if page_item['direct_phone'] != blank %}
+        <div class="flex items-center">
+            <div class="font-bold me-2">Direct Phone:</div>
+            <span>{{ page_item['direct_phone'] }}</span>
+            {% if page_item['direct_phone_ext'] != blank %}<span>ext. {{ page_item['direct_phone_ext'] }}</span>{% endif %}
+        </div>
+        {% endif %}
+
+        {% if page_item['website'] != blank %}
+            {% if page_item['website'] contains "http" %}
+            {% else %}
+                {% assign website = "https://" | append: page_item['website'] %}
+            {% endif %}
+            <div class="flex items-center">
+                <div class="font-bold me-2">Website:</div>
+                <div><a href="{{ website | default : page_item['website'] }}" target="_blank" class="underline">{{ page_item['website'] }}</a></div>
+            </div>
+        {% endif %}
+
+        {% if page_item['general_email'] != blank %}
+        <div class="flex items-center">
+            <div class="font-bold me-2">General Email:</div>
+            <div>{{ page_item['general_email'] }}</div>
+        </div>
+        {% endif %}
+
+        {% if page_item['general_phone'] != blank %}
+            <div class="flex items-center">
+                <div class="font-bold me-2">General Phone:</div>
+                <div>{{ page_item['general_phone'] }}</div>
+            </div>
+        {% endif %}
+
+        {% if page_item['fax'] != blank %}
+            <div class="flex items-center">
+                <div class="font-bold me-2">Fax:</div>
+                <div>{{ page_item['fax'] }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+
+<!-- Contacts Section -->
+{% liquid
+capture emails
+assign page_items = tokens['email'] | default: default_items | sort : "_weight"
+for page_item in page_items
+if page_item['email'] != blank
+    echo page_item['email']
+endif
+endfor
+endcapture
+%}
+{% if emails != blank %}
+<!-- email -->
+<div class="panel-space flex mb-4">
+    <div class="font-bold me-2">Personal Email:</div>
+    <div>
+        {% assign page_items = tokens['email'] | default: default_items | sort : "_weight" %}
+        <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4">
+        {% for page_item in page_items %}
+            {% if page_item['email'] != blank %}
+            <div class="flex items-center">
+                <div class="text-gray-800 ">{{ page_item['email'] }}</div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% liquid
+capture phones
+    assign page_items = tokens['phone'] | default: default_items | sort : "_weight"
+    for page_item in page_items
+        if page_item['phone'] != blank
+            echo page_item['phone']
+        endif
+    endfor
+endcapture
+%}
+{% if phones != blank %}
+<!-- phone -->
+<div class="panel-space flex mb-4">
+    {% liquid
+        assign page_items = tokens['phone'] | default: default_items | sort : "_weight"
+    %}
+    <div class="font-bold me-2">Mobile Phone:</div>
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4">
+        {% for page_item in page_items %}
+            {% if page_item['phone'] != blank %}
+                <div class="flex items-center">
+                    <div class="text-gray-800 me-2">
+                        {{ page_item['phone'] }}
+                    </div>
+                    {% liquid
+                        assign phone_clean = page_item['phone'] | strip
+                        assign whatsapp_number = phone_clean | replace: '+', '' | replace: ' ', '' | replace: '-', ''
+                    %}
+                    <a href="https://wa.me/{{ whatsapp_number }}" target="_blank" class="text-green-600 hover:text-green-800" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% liquid
+capture snses
+        assign page_items = tokens['social_media'] | default: default_items | sort : "_weight"
+        for page_item in page_items
+            if page_item['url'] != blank
+                echo page_item['url']
+            endif
+        endfor
+    endcapture
+%}
+{% if snses != blank %}
+<!-- social media -->
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Social Media</div>
+    <div>
+        {% liquid
+            assign page_items = tokens['social_media'] | default: default_items | sort : "_weight"
+        %}
+        {% for page_item in page_items %}
+            {% if page_item['url'] != blank %}
+            <div class="relative mb-4">
+                <div class="flex items-center">
+                    <div class="font-bold me-2">
+                        {% liquid
+                            assign value = page_item['type']
+
+                            case value
+                                when "wechat"
+                                    echo "WeChat:"
+                                when "instagram"
+                                    echo "Instagram:"
+                                when "facebook"
+                                    echo "Facebook:"
+                                when "twitter"
+                                    echo "Twitter:"
+                                when "linkedin"
+                                    echo "LinkedIn:"
+                                when "weibo"
+                                    echo "Weibo:"
+                                when "red"
+                                    echo "Xiaohongshu:"
+                                when "line"
+                                    echo "Line:"
+                                else
+                                    echo value | append: ":"
+                            endcase
+                        %}
+                    </div>
+                    <div>
+                        <a href="{{ page_item['url'] }}" target="_blank" class="underline">{{ page_item['url'] }}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% liquid
+capture home_addresses
+        assign page_items = tokens['home'] | default: default_items | sort : "_weight"
+        for page_item in page_items
+            if page_item['address'] != blank or page_item['phone'] != blank
+                echo "."
+            endif
+        endfor
+    endcapture
+%}
+{% if home_addresses != blank %}
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Home Address</div>
+{% assign page_items = tokens['home'] | default: default_items | sort : "_weight" %}
+{% for page_item in page_items %}
+    <div>
+        <div>{{ page_item['address'] }}</div>
+        {% if page_item['phone'] != blank %}<div>Contact Number: {{ page_item['phone'] }}</div>{% endif %}
+    </div>
+ {% endfor %}
+</div>
+{% endif %}
+
+{% liquid
+capture other_addresses
+    assign page_items = tokens['other_address'] | default: default_items | sort : "_weight"
+    for page_item in page_items
+        if page_item['address'] != blank or page_item['phone'] != blank
+            echo "."
+        endif
+    endfor
+endcapture
+%}
+{% if other_addresses != blank %}
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Other Address</div>
+    {% assign page_items = tokens['other_address'] | default: default_items | sort : "_weight" %}
+{% for page_item in page_items %}
+    <div>{{ page_item['address'] }}</div>
+ {% endfor %}
+</div>
+{% endif %}
+
+{% liquid
+capture spouses
+        assign page_items = tokens['spouse'] | default: default_items | sort : "_weight"
+        for page_item in page_items
+            if page_item['name'] != blank or page_item['phone'] != blank or page_item['email'] != blank
+                echo "."
+            endif
+        endfor
+    endcapture
+%}
+{% if spouses != blank %}
+<!-- spouse -->
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Spouse</div>
+    {% assign page_items = tokens['spouse'] | default: default_items | sort : "_weight" %}
+
+    {% for page_item in page_items %}
+    <div class="mb-4">
+        <div>{{ page_item['name'] }}</div>
+        {% if page_item['mobile'] != blank %}<div><b>Contact Number:</b> {{ page_item['mobile'] }}
+        {% liquid
+            assign phone_clean = page_item['mobile'] | strip
+            assign whatsapp_number = phone_clean | replace: '+', '' | replace: ' ', '' | replace: '-', ''
+        %}
+        <a href="https://wa.me/{{ whatsapp_number }}" target="_blank" class="text-green-600 hover:text-green-800" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>{% endif %}
+        {% if page_item['email'] != blank %}<div><b>Email:</b> {{ page_item['email'] }}</div>{% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% liquid
+capture assistants
+        assign page_items = tokens['assistant'] | default: default_items | sort : "_weight"
+        for page_item in page_items
+            if page_item['name'] != blank or page_item['phone'] != blank or page_item['email'] != blank
+                echo "."
+            endif
+        endfor
+    endcapture
+%}
+
+{% if assistants != blank %}
+<!-- assistant -->
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Assistant</div>
+    {% assign page_items = tokens['assistant'] | default: default_items | sort : "_weight" %}
+
+    {% for page_item in page_items %}
+        <div class="mb-4">
+            <div>{{ page_item['name'] }}</div>
+            {% if page_item['work_phone'] != blank %}<div><b>Work Phone:</b> {{ page_item['work_phone'] }}</div>{% endif %}
+            {% if page_item['mobile'] != blank %}<div><b>Mobile:</b> {{ page_item['mobile'] }}
+            {% liquid
+                assign phone_clean = page_item['mobile'] | strip
+                assign whatsapp_number = phone_clean | replace: '+', '' | replace: ' ', '' | replace: '-', ''
+            %}
+            <a href="https://wa.me/{{ whatsapp_number }}" target="_blank" class="text-green-600 hover:text-green-800" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>{% endif %}
+            {% if page_item['email'] != blank %}<div><b>Email:</b> {{ page_item['email'] }}</div>{% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% liquid
+    capture nicknames
+        assign page_items = tokens['nickname'] | default: default_items | sort : "_weight"
+        for page_item in page_items
+            if page_item['name'] != blank
+                echo "."
+            endif
+        endfor
+    endcapture
+%}
+{% if nicknames != blank %}
+<!-- nickname -->
+<div class="panel-space mb-4">
+    <div class="font-bold text-primary">Nickname</div>
+    {% assign page_items = tokens['nickname'] | default: default_items | sort : "_weight" %}
+
+    {% for page_item in page_items %}
+        <div>{{ page_item['name'] }}</div>
+    {% endfor %}
+</div>
+{% endif %}

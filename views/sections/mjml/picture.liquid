@@ -1,0 +1,5 @@
+<mj-image 
+    src="{{ server }}{{ tokens.picture }}"{%if tokens.width != blank %} 
+    width="{{tokens.width}}"{% else %} fluid-on-mobile = "true" {% endif %}
+    {% if tokens.align != blank %} align="{{tokens.align}}" {% endif %}
+ />

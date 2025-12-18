@@ -1,0 +1,230 @@
+{% liquid
+  assign block_name = "rsvp-pickup"
+  assign title = tokens.title | default: "Pickup Service"
+  
+  # Check if this is for admin form (field_name_prefix is provided)
+  assign admin_prefix = field_name_prefix | default: ''
+  assign is_admin_form = false
+  if admin_prefix != ''
+    assign is_admin_form = true
+  endif
+  
+  # For public forms: use block hashing
+  if is_admin_form == false
+    #prefix can be plus one prefix or blank
+    assign block_source_id = tokens._id | default: tokens._index | default: tokens._weight
+    assign block_id_hash = prefix | append: block_name | title |  append : '-' | append: block_source_id
+    assign block_hash = block_id_hash | md5
+    assign block_hash = "x" | append : block_hash | truncate: 16, ""
+  endif
+
+  for block in item.print.blocks
+    if block.tokens._type == "rsvp-plus-one"
+      assign has_plus_one = true
+    endif
+  endfor
+%}
+
+<div class="{% if show_title == false %}{% else %}my-8{% endif %}">
+  {% unless is_admin_form %}
+    <input type="hidden" name="{{ block_hash }}" value="{{ block_id_hash }}" />
+    <input type="hidden" name="{{ block_hash }}-title" value="{{ title }}" />
+  {% endunless %}
+  
+  <div class="mb-3">
+    {% if tokens.title %}<div class="text-2xl">{{ tokens.title | default: "Pickup Service" }}</div>{% endif %}
+  </div>
+
+  <!-- Pickup Information -->
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold mb-3">Pickup Details</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.pickup_date_label | default: "Pickup Date" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-pickup_date" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-pickup_date" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-pickup_date' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="date" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.pickup_time_label | default: "Pickup Time" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-pickup_time" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-pickup_time" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-pickup_time' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="time" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <label class="block text-sm font-medium mb-1">{{ tokens.pickup_location_label | default: "Pickup Location" }}</label>
+      {% if is_admin_form %}
+        {% if block_id %}
+          {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-pickup_location" %}
+        {% else %}
+          {% assign field_suffix = "rsvp-pickup-pickup_location" %}
+        {% endif %}
+        {% assign form_name_key = admin_prefix | append: field_suffix %}
+        {% assign value_key = field_suffix %}
+      {% else %}
+        {% assign form_name_key = block_hash | append: '-pickup_location' %}
+        {% assign value_key = form_name_key %}
+      {% endif %}
+      <input type="text" 
+             name="{{ form_name_key }}"
+             value="{{ savedFormData[value_key] | escape }}"
+             placeholder="Enter pickup address"
+             {% if form %}form="{{ form }}"{% endif %}
+             class="w-full p-2 border border-gray-300 rounded">
+    </div>
+  </div>
+
+  <!-- Drop-off Information -->
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold mb-3">Drop-off Details</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.dropoff_date_label | default: "Drop-off Date" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-dropoff_date" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-dropoff_date" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-dropoff_date' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="date" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.dropoff_time_label | default: "Drop-off Time" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-dropoff_time" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-dropoff_time" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-dropoff_time' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="time" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <label class="block text-sm font-medium mb-1">{{ tokens.dropoff_location_label | default: "Drop-off Location" }}</label>
+      {% if is_admin_form %}
+        {% if block_id %}
+          {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-dropoff_location" %}
+        {% else %}
+          {% assign field_suffix = "rsvp-pickup-dropoff_location" %}
+        {% endif %}
+        {% assign form_name_key = admin_prefix | append: field_suffix %}
+        {% assign value_key = field_suffix %}
+      {% else %}
+        {% assign form_name_key = block_hash | append: '-dropoff_location' %}
+        {% assign value_key = form_name_key %}
+      {% endif %}
+      <input type="text" 
+             name="{{ form_name_key }}"
+             value="{{ savedFormData[value_key] | escape }}"
+             placeholder="Enter drop-off address"
+             {% if form %}form="{{ form }}"{% endif %}
+             class="w-full p-2 border border-gray-300 rounded">
+    </div>
+  </div>
+
+  <!-- Accommodation Information -->
+  {% if tokens.accommodation_title %}
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold mb-3">{{ tokens.accommodation_title | default: "Accommodation" }}</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.checkin_date_label | default: "Check-in Date" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-checkin_date" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-checkin_date" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-checkin_date' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="date" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">{{ tokens.checkout_date_label | default: "Check-out Date" }}</label>
+        {% if is_admin_form %}
+          {% if block_id %}
+            {% assign field_suffix = "rsvp-pickup-" | append: block_id | append: "-checkout_date" %}
+          {% else %}
+            {% assign field_suffix = "rsvp-pickup-checkout_date" %}
+          {% endif %}
+          {% assign form_name_key = admin_prefix | append: field_suffix %}
+          {% assign value_key = field_suffix %}
+        {% else %}
+          {% assign form_name_key = block_hash | append: '-checkout_date' %}
+          {% assign value_key = form_name_key %}
+        {% endif %}
+        <input type="date" 
+               name="{{ form_name_key }}"
+               value="{{ savedFormData[value_key] | escape }}"
+               {% if form %}form="{{ form }}"{% endif %}
+               class="w-full p-2 border border-gray-300 rounded">
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

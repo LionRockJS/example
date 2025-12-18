@@ -1,0 +1,14 @@
+<div class="panel-space for-admin">
+  <div class="my-4">
+    {% if section.settings.base_url contains "?" %}
+      {% assign separator = "&" %}
+    {% else %}
+      {% assign separator = "?" %}
+    {% endif %}
+    <a href="{{ section.settings.base_url }}{{ separator }}r={{ "now" | date: "%Y-%m-%d-%H-%M-%S" }}"
+       download="contact-export-{{ "now" | date: "%Y-%m-%d-%H-%M" }}.csv"
+       class="inline-block transition duration-500 rounded-lg px-4 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >Exported Contacts</a>
+  </div>
+
+</div>

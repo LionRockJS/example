@@ -1,0 +1,72 @@
+<div>
+  <input type="radio" name="toggle-import" class="peer hidden" id="toggle-create" aria-label="toggle import section">
+
+<div class="my-8 hidden peer-checked:block">
+  <div>
+    <div class="text-primary font-bold text-2xl mb-2">Add Guest</div>
+    <div>Manually input the guest to the list</div>
+  </div>
+
+  <form action="/admin/rsvp/{{ item.id }}/add" method="post" class="my-4">
+    <input type="hidden" name="destination" value="/admin/rsvp/{{ item.id }}">
+    <input type="hidden" name=":contact_type" value="email">
+    <input type="hidden" name=":language" value="{{ language | default: default_language }}">
+
+    <input type="text"
+           name=":name"
+           class="mb-3 text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+           placeholder="Display Name *" required>
+    <div class="grid grid-cols-2 gap-x-8 gap-y-3 mb-3">
+      <div>
+        <label for="prefix" class="block text-primary font-bold">Prefix</label>
+        <select id="prefix" name="@prefix" class="w-full border border-gray-300 px-2 py-1 rounded-md">
+          <option value="">Please Select</option>
+          <option value="dr">Dr.</option>
+          <option value="miss">Miss.</option>
+          <option value="mr">Mr.</option>
+          <option value="mrs">Mrs.</option>
+          <option value="ms">Ms.</option>
+          <option value="prof">Prof.</option>
+        </select>
+      </div>
+      <div>
+        <label for="company" class="block text-primary font-bold">Company</label>
+        <input id="company" class="w-full border border-gray-300 px-2 py-1 rounded-md" type="text" name="@organization" placeholder="Company Name">
+      </div>
+      <div>
+        <label for="job-title" class="block text-primary font-bold">Job Title</label>
+        <input id="job-title" class="w-full border border-gray-300 px-2 py-1 rounded-md" type="text" name="@job_title" placeholder="Manager, Director, etc." autocomplete="no">
+      </div>
+      <div>
+        <label for="email" class="block text-primary font-bold">Email</label>
+        <input id="email" class="w-full border border-gray-300 px-2 py-1 rounded-md" type="email" name=":contact" placeholder="email@example.com" autocomplete="no">
+      </div>
+      <div>
+        <label for="cc" class="block text-primary font-bold">Email (cc)</label>
+        <input id="cc" 
+          class="w-full border border-gray-300 px-2 py-1 rounded-md" 
+          type="text" 
+          name="@cc" 
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+(\s*,\s*[^\s@]+@[^\s@]+\.[^\s@]+)*$"
+          placeholder="email@example.com,john@acme.com"
+        >
+      </div>
+      <div>
+        <label for="phone" class="block text-primary font-bold">Phone</label>
+        <input id="phone" class="w-full border border-gray-300 px-2 py-1 rounded-md" type="text" name="@phone" placeholder="+85290001000" autocomplete="no">
+      </div>
+      <div>
+        <label for="wechat-id" class="block text-primary font-bold">WeChat ID</label>
+        <input id="wechat-id" class="w-full border border-gray-300 px-2 py-1 rounded-md" type="text" name="@wechat_id" placeholder="WeChat ID" autocomplete="no">
+      </div>
+    </div>
+
+    <button type="submit"
+            class="my-4 inline-block transition duration-500 rounded-lg px-6 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            value="Add Guest">
+      Add Guest
+    </button>
+  </form>
+</div>
+
+</div>

@@ -1,0 +1,112 @@
+{% liquid
+  assign style = "inline-flex justify-center items-center rounded-full"
+  assign done = "w-6 h-6 bg-gray-300 my-6"
+  assign icon_done = "check"
+  assign pending = "w-6 h-6 bg-white border border-gray-300 my-6"
+  assign icon_pending = "xmark"
+  assign current = "w-12 h-12 bg-primary my-3"
+  assign icon_current = "flag"
+  assign step = 1
+  if tokens.name == blank
+    assign step = 1
+  endif
+
+  assign mail_list_count = mail_list | size
+  if step == 1 and tokens.name != blank
+    assign step = 2
+  endif
+
+  assign edm_count = edm | size
+  if step == 2 and mail_list_count > 0
+    assign step = 3
+  endif
+
+  if step == 3 and responses_count > 0
+    assign step = 4
+  endif
+
+  if step == 4 and event_checked_in_total > 0
+    assign step = 5
+  endif
+%}
+
+<div class="mb-16 panel-space">
+<div class="steps flex justify-between w-full">
+  <div class="flex flex-col items-center">
+    {% if step == 1 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Event</span>
+    {% elsif step > 1 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Event</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Event</span>
+    {% endif %}
+
+  </div>
+
+  <div class="flex flex-col items-center">
+    {% if step == 2 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Guests</span>
+    {% elsif step > 2 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Guests</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Guests</span>
+    {% endif %}
+  </div>
+
+  <div class="flex flex-col items-center">
+    {% if step == 3 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Templates</span>
+    {% elsif step > 3 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Templates</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Templates</span>
+    {% endif %}
+  </div>
+
+  <div class="flex flex-col items-center">
+    {% if step == 4 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Response</span>
+    {% elsif step > 4 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Response</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Response</span>
+    {% endif %}
+  </div>
+  <a class="flex flex-col items-center" href="{{ checkin_url }}" target="_blank">
+    {% if step == 5 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Checkin</span>
+    {% elsif step > 5 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Checkin</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Checkin</span>
+    {% endif %}
+  </a>
+  <div class="flex flex-col items-center for-admin">
+    {% if step == 6 %}
+      <span class="{{ style  }} {{ current }}"><i class="fa-solid fa-flag text-white"></i></span>
+      <span class="text-primary font-bold">Archive</span>
+    {% elsif step > 6 %}
+      <span class="{{ style }} {{ done }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-primary font-bold">Archive</span>
+    {% else %}
+      <span class="{{ style  }} {{ pending }}"><i class="fa-solid fa-check text-white"></i></span>
+      <span class="text-gray-300 font-bold">Archive</span>
+    {% endif %}
+  </div>
+</div>
+</div>

@@ -1,0 +1,192 @@
+{% liquid
+assign confirm_message = 'confirm_message' | t
+%}
+<style>
+    p{
+        margin-bottom: 1rem;
+    }
+
+    table p{
+        margin-bottom: auto;
+    }
+</style>
+{% if preview != blank %}
+    <div class="w-full bg-orange-300 text-orange-800 text-center text-sm fixed top-0 py-1">Preview of RSVP form: {{ item.name }}</div>
+{% endif %}
+
+{% if item.print.tokens.subject != blank or item.print.tokens.body != blank%}
+<div class="container mx-auto max-w-[600px] mt-8">
+  {% if item.print.tokens.heading %}
+    <div class="text-3xl my-8 mt-12">{{ item.print.tokens.heading }}</div>
+  {% endif %}
+
+  {% if item.print.tokens.body %}
+    <div>{{ item.print.tokens.body }}</div>
+  {% endif %}
+</div>
+{% endif %}
+<form
+    id="main-form"
+    method="post"
+    {% if params.view_id != blank %}
+        action="/rsvp/{{ params.event_slug }}/{{ params.edm_id }}/{{ params.view_id | replace: "{{@view_id}}", "" | default: 'new' }}/{{ params.sign | default: '' }}"
+    {% else %}
+        action="/rsvp/{{ params.event_slug }}/{{ params.edm_id }}"
+    {% endif %}
+
+    class="container mx-auto max-w-[612px] px-4"
+    onsubmit="return (()=>confirm('{{ item.print.tokens.confirm_message | default: confirm_message }}'))();"
+>
+    {% for block in item.print.blocks %}
+        {% if block.tokens._type == "rsvp-public-form" %}
+            {% assign landing_form = block %}
+        {% else %}
+        {% liquid
+            assign section = "html/" | append: block.tokens._type
+        %}
+        {% render section, block_index : forloop.index0, tokens: block.tokens, item: item, prefix: '', savedFormData: savedFormData %}
+        {% endif %}
+    {% endfor %}
+
+    {% if item.mail.recipient == blank %}
+        <hr class="mb-4"/>
+        <div class="mb-3">
+            <label for="salutation">{{landing_form.tokens.label_salutation | default: "Salutation"}} *</label>
+            <select name="prefix" id="salutation" class="w-full p-2 border border-gray-300 rounded" required>
+                <option value="">{{landing_form.tokens.label_select | default: "Please Select"}}</option>
+                <option value="dr">Dr.</option>
+                <option value="miss">Miss.</option>
+                <option value="mr">Mr.</option>
+                <option value="mrs">Mrs.</option>
+                <option value="ms">Ms.</option>
+                <option value="prof">Prof.</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="first_name">{{landing_form.tokens.label_first_name | default: "First Name" }} *</label>
+            <input id="first_name" type="text" aria-label="first_name" name="first_name" placeholder="" class="w-full p-2 border border-gray-300 rounded" required>
+        </div>
+        <div class="mb-3">
+            <label for="last_name">{{landing_form.tokens.label_last_name | default: "Last Name" }} *</label>
+            <input id="last_name" type="text" aria-label="last_name" name="last_name" placeholder="" class="w-full p-2 border border-gray-300 rounded" required>
+        </div>
+        <div class="mb-3">
+            <label for="company">{{landing_form.tokens.label_organization | default: "Company / Organization" }}</label>
+            <input id="company" type="text" aria-label="company" name="company" placeholder="" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-3">
+            <label for="job_title">{{landing_form.tokens.label_job_title | default: "Position" }}</label>
+            <input id="job_title" type="text" aria-label="job_title" name="job_title" placeholder="" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-3">
+            <label for="email">{{landing_form.tokens.label_email | default: "Email" }} *</label>
+            <input id="email" type="email" aria-label="email" name="email" placeholder="" class="w-full p-2 border border-gray-300 rounded" required>
+        </div>
+
+  {% for input in landing_form.tokens.custom_input %}
+    {% if input.label != blank %}
+      {% assign field_name = input.label | downcase | replace: ' ', '-' | replace: '/', '-' | escape %}
+      {% assign form_key = input.name | prepend: '@' %}
+      {% assign saved_value = input.default_value %}
+      
+      {% if input.type == 'checkbox' %}
+      <div class="mb-3 flex flex-row items-center">
+        <input 
+          type="checkbox"
+          id="custom-{{ block_hash }}-{{ forloop.index0 }}"
+          name="{{ form_key }}"
+          value="{{ saved_value | escape }}"
+          class="mr-2"
+
+          {% if input.required == "yes" %}required{% endif %}
+        >
+        <label for="custom-{{ block_hash }}-{{ forloop.index0 }}">{{ input.label }}{% if input.required == "yes" %} *{% endif %}</label>
+      </div>
+      {% elsif input.type == 'radio' %}
+      {% elsif input.type == 'select' %}
+        <div class="mb-3">
+          <label for="custom-{{ block_hash }}-{{ forloop.index0 }}">{{ input.label }}{% if input.required == "yes" %} *{% endif %}</label>
+          <select 
+            id="custom-{{ block_hash }}-{{ forloop.index0 }}"
+            name="{{ form_key }}"
+            class="w-full p-2 border border-gray-300 rounded"
+            {% if input.required == "yes" %}required{% endif %}
+          >
+{% assign option_partss = input.default_value | split: '|' %}
+{% for option_part in option_partss %}
+  {% assign option = option_part | split: ':' %}
+  <option value="{{ option[0] | strip }}" {% if option[0] == saved_value %}selected{% endif %}>{{ option[1] | strip }}</option>
+{% endfor %}
+          </select>
+        </div>
+      {% elsif input.type == 'textarea' %}
+        <div class="mb-3">
+          <label for="custom-{{ block_hash }}-{{ forloop.index0 }}">{{ input.label }}{% if input.required == "yes" %} *{% endif %}</label>
+          <textarea
+            id="custom-{{ block_hash }}-{{ forloop.index0 }}"
+            name="{{ form_key }}"
+            placeholder="{{ input.description | escape }}"
+            class="w-full p-2 border border-gray-300 rounded"
+            {% if input.required == "yes" %}required{% endif %}
+          >{{ saved_value | escape }}</textarea>
+        </div>
+      {% elsif input.type == 'file' %}
+      {% else %}
+      <div class="mb-3">
+        <label for="custom-{{ block_hash }}-{{ forloop.index0 }}">{{ input.label }}{% if input.required == "yes" %} *{% endif %}</label>
+        <input 
+          type="{{ input.type | default: 'text' }}"
+          id="custom-{{ block_hash }}-{{ forloop.index0 }}"
+          name="{{ form_key }}"
+          value="{{ saved_value | escape }}"
+          placeholder="{{ input.description | escape }}"
+          class="w-full p-2 border border-gray-300 rounded"
+          {% if input.required == "yes" %}required{% endif %}
+        >
+      </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+        <div class="text-gray-500">* required</div>
+    {% endif %}
+
+    <div class="mt-6 mb-4">
+      <button
+          data-sitekey="6Lc6gvArAAAAAJBomwL5unzR2Rgai0w6gzTJEkr3"
+          data-callback='onConfirmed'
+          data-action='submit'
+          class="g-recaptcha bg-primary text-white px-4 py-2 rounded"
+      >{{ item.print.tokens.rsvp_form_button | default : item.print.tokens.rsvp_button | default : "Accept" }}</button>
+    </div>
+    {% if item.mail.recipient == blank %}
+    {% else %}
+    <div class="mb-6 mt-4">
+      <button
+          data-sitekey="6Lc6gvArAAAAAJBomwL5unzR2Rgai0w6gzTJEkr3"
+          data-callback='onDeclined'
+          data-action='submit'
+          class="g-recaptcha text-gray-500 py-2 underline cursor-pointer"
+      >Decline</button>
+    </div>
+    {% endif %}
+</form>
+<style>
+h1{
+    font-size:1.75rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+h2{
+    font-size:1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+h3{
+    font-size:1.15rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+</style>

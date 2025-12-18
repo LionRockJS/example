@@ -1,0 +1,68 @@
+<div class="mb-4">
+{% liquid
+
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+%}
+
+    <!-- name -->
+    <div class="min-h-8 mb-4">
+        <!-- checkbox -->
+        {% render "ui/toggle/checkbox", toggle_selector: "more-information" %}
+        <!-- off-label -->
+        {% render "ui/toggle/off/label", toggle_selector: "more-information", name: "More Information", icon: "circle-user"%}
+        <!-- on-icon_content -->
+
+        <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+            {% render "ui/toggle/icon", toggle_selector: "more-information", icon: "circle-user" %}
+
+            <div class="w-full me-[24px] md:me-[55px]">
+                <div>
+                    <input type="text" name=".full_name"
+                           id="field-{{ selector }}-2.5"
+                           class="text-base text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['full_name'] | escape }}"
+                           placeholder="{{ placeholders['full_name'] | strip_html | default: "Full Name" }}"
+                           form="{{ form }}"
+                    >
+                </div>
+
+                {% render "pagefield/richtext/md",
+                    selector: ".bio",
+                    label: "Bio",
+                    value: values['bio'],
+                    placeholder: placeholders["bio"] | default: "bio",
+                    form: form
+                %}
+
+                <div class="flex">
+                    <label class="font-bold text-nowrap">Referral By: </label>
+                    <input type="text" name="@referral_by"
+                           id="field-{{ selector }}-2.5"
+                           class="text-base text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['referral_by'] | escape }}"
+                           placeholder="{{ placeholders['referral_by'] | strip_html | default: "Referral By" }}"
+                           form="{{ form }}"
+                    >
+                </div>
+
+                <div class="flex">
+                    <label class="font-bold text-nowrap">Remarks: </label>
+                    <input type="text" name="@remarks"
+                           id="field-{{ selector }}-2.5"
+                           class="text-base text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['remarks'] | escape }}"
+                           placeholder="{{ placeholders['remarks'] | strip_html | default: "Remarks" }}"
+                           form="{{ form }}"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

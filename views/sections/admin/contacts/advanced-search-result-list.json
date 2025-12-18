@@ -1,0 +1,34 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "search":{
+      "type": "admin/contacts/advanced-search"
+    },
+    "export": {
+      "type": "admin/contacts/export",
+      "settings": {
+        "base_url": "/admin/contacts/advanced-search-export?{{ query }}",
+        "controller_slug": "contacts"
+      }
+    },
+    "main": {
+      "type": "admin/contacts/table",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+    "pagination": {
+      "type": "pagination",
+      "settings": {
+        "base_url": "/admin/contacts/advanced-search?{{ query }}",
+        "controller_slug": "contacts"
+      }
+    }
+  },
+  "order": [
+    "search",
+    "export",
+    "main",
+    "pagination"
+  ]
+}

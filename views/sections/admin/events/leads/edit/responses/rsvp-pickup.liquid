@@ -1,0 +1,68 @@
+{% if block_data != blank %}
+  {% for pickup in block_data %}
+    <div class="mt-4">
+      <div class="font-bold text-primary border-b border-b-gray-300 pb-2">
+        <i class="fa-light fa-car"></i> Transportation & Accommodation
+      </div>
+      
+      {% if pickup.title != blank %}
+        <div class="mt-2">
+          <span class="font-medium">Service:</span> {{ pickup.title }}
+        </div>
+      {% endif %}
+      
+      {% if pickup.pickup_date != blank or pickup.pickup_time != blank or pickup.pickup_location != blank %}
+        <div class="mt-3">
+          <div class="font-medium text-gray-700">Pick-up Details:</div>
+          <div class="grid grid-cols-6 gap-4 mt-1">
+            {% if pickup.pickup_date != blank %}
+              <div class="col-span-2"><span class="font-medium">Date:</span> {{ pickup.pickup_date }}</div>
+            {% endif %}
+            {% if pickup.pickup_time != blank %}
+              <div><span class="font-medium">Time:</span> {{ pickup.pickup_time }}</div>
+            {% endif %}
+            {% if pickup.pickup_location != blank %}
+              <div class="col-span-3"><span class="font-medium">Location:</span> {{ pickup.pickup_location }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      
+      {% if pickup.dropoff_date != blank or pickup.dropoff_time != blank or pickup.dropoff_location != blank %}
+        <div class="mt-3">
+          <div class="font-medium text-gray-700">Drop-off Details:</div>
+          <div class="grid grid-cols-6 gap-4 mt-1">
+            {% if pickup.dropoff_date != blank %}
+              <div class="col-span-2"><span class="font-medium">Date:</span> {{ pickup.dropoff_date }}</div>
+            {% endif %}
+            {% if pickup.dropoff_time != blank %}
+              <div><span class="font-medium">Time:</span> {{ pickup.dropoff_time }}</div>
+            {% endif %}
+            {% if pickup.dropoff_location != blank %}
+              <div class="col-span-3"><span class="font-medium">Location:</span> {{ pickup.dropoff_location }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      
+      {% if pickup.accommodation_title != blank %}
+        <div class="mt-3">
+          <div class="font-medium text-gray-700">Accommodation:</div>
+          <div class="mt-1">
+            <div><span class="font-medium">Hotel:</span> {{ pickup.accommodation_title }}</div>
+            {% if pickup.checkin_date != blank or pickup.checkout_date != blank %}
+              <div class="grid grid-cols-2 gap-4 mt-1">
+                {% if pickup.checkin_date != blank %}
+                  <div><span class="font-medium">Check-in:</span> {{ pickup.checkin_date }}</div>
+                {% endif %}
+                {% if pickup.checkout_date != blank %}
+                  <div><span class="font-medium">Check-out:</span> {{ pickup.checkout_date }}</div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}

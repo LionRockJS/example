@@ -1,0 +1,34 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "import": {
+      "type": "admin/contacts/import"
+    },
+    "export": {
+      "type": "admin/contacts/export",
+      "settings": {
+        "base_url": "/admin/contacts/search-export?search={{ search_text }}&path={{ search_path | url_encode }}&tag={{ search_tag | url_encode }}",
+        "controller_slug": "contacts"
+      }
+    },
+    "main": {
+      "type": "admin/contacts/table",
+      "settings": {
+        "controller_slug": "contacts"
+      }
+    },
+    "pagination": {
+      "type": "pagination",
+      "settings": {
+        "base_url": "/admin/contacts/search?search={{ search_text }}&path={{ search_path | url_encode }}&tag={{ search_tag | url_encode }}",
+        "controller_slug": "contacts"
+      }
+    }
+  },
+  "order": [
+    "import",
+    "export",
+    "main",
+    "pagination"
+  ]
+}

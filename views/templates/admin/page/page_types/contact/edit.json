@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "script": {
+      "type": "#external_scripts",
+      "settings": {
+        "value": [
+          "/media/vendors/intl-tel-input/intl-tel-input.min.js"
+        ]
+      }
+    },
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "vendors/turndown/turndown.js",
+          "vendors/marked/marked.min.js",
+          "admin/pages/edit.mjs",
+          "admin/pages/telphone-input.js",
+          "admin/pages/contact.js"
+        ]
+      }
+    },
+    "external_styles": {
+      "type": "#external_stylesheets",
+      "settings": {
+        "value": [
+          "/media/vendors/intl-tel-input/intl-tel-input.css"
+        ]
+      }
+    },
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/contacts/edit",
+        "title": "Contacts",
+        "controller_slug": "contacts",
+        "breadcrumb": "Home:/admin,Contacts:/admin/contacts,{{ item.name }}:/admin/contacts/{{ item.id }}",
+        "section_search": "admin/contacts/search",
+        "section_body": "admin/contacts/edit/content",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "script",
+    "defer_script",
+    "external_styles",
+    "workspace"
+  ]
+}

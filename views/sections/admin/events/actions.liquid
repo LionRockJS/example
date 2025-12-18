@@ -1,0 +1,17 @@
+<div class="order-last z-15 sticky bottom-4">
+    <div class="flex">
+        <div class="min-w-[24px] md:min-w-[55px] flex justify-center items-center">
+        </div>
+        <div class="w-full">
+            <button form="main-form" type="submit"
+                    class="cursor-pointer transition duration-500 w-full rounded-lg px-3 py-2 uppercase text-base leading-8 font-sans text-white {% if published %}bg-gray-700 hover:bg-gray-900{% else %}bg-primary hover:bg-highlight{% endif %} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >Save</button>
+        </div>
+        <div class="min-w-[55px]">
+
+        </div>
+    </div>
+    <div class="px-[24px] md:px-[55px]">
+        <a class="button-danger" href="/admin/events/delete/{{ item.id }}">Delete</a>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+{% liquid
+  assign prefix = section.settings.controller | default: 'pages'
+  assign suffix = section.settings.page_type
+  assign qs = ''
+  if request.query.pagesize
+    assign qs = qs | append: 'pagesize=' | append: request.query.pagesize
+  endif
+  if request.query.page
+    assign qs = qs | append: '&page=' | append: request.query.page
+  endif
+  if request.query.language
+    assign qs = qs | append: '&language=' | append: request.query.language
+  endif
+  if qs != blank
+    assign qs = '?' | append: qs
+  endif
+%}
+
+
+<div class="panel-space">
+  <table id="table" class="table-primary w-full">
+    <thead>
+      <tr class="text-left text-primary">
+        <th>Name / ID</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in added %}
+        {% if forloop.index0 == 0 %}
+          <tr>
+            <td class="sticky top-0 rounded-md bg-gray-500 text-white py-2 text-center" colspan="5">New Guests</td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td class="overflow-hidden leading-4 text-nowrap pe-4 pt-4 max-w-[15rem] text-ellipsis">
+            <span class="font-bold">
+              {{- item.first_name }}
+              {{ item.last_name -}}</span
+            ><br>
+            <span class="text-xs">{{ item.no }}({% if item.contact_id %}<a href="/admin/contacts/{{ item.contact_id }}" target="_blank">{{ item.contact_id }}</a>{% endif %})</span>
+          </td>
+          <td class="pe-4 overflow-hidden max-w-[15rem] text-ellipsis leading-[1]">
+            {{ item.primary_email -}}
+            <br>
+            <span class="text-xs">{{ item.cc_email }}</span>
+          </td>
+          <td class="pe-4 overflow-hidden max-w-[10rem] text-ellipsis">{{ item.phone }}</td>
+          <td class="pe-4 overflow-hidden max-w-[10rem] text-ellipsis">{{ item.guest_status }}</td>
+          <td class="pe-4 pt-4 align-top text-xs text-ellipsis overflow-hidden"></td>
+        </tr>
+      {% endfor %}
+
+      {% for item in duplicated %}
+        {% if forloop.index0 == 0 %}
+          <tr>
+            <td class="sticky top-0 rounded-md bg-gray-500 text-white py-2 text-center" colspan="5">Guest ID exists</td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td class="overflow-hidden leading-4 text-nowrap pe-4 pt-4 max-w-[15rem] text-ellipsis">
+            <a href="/admin/rsvp/{{ id }}/edit/{{ item.__record.id }}" class="font-bold underline" target="_blank">
+              {{- item.first_name }}
+              {{ item.last_name -}}</a
+            ><br>
+            <span class="text-xs">{{ item.no }}</span>
+          </td>
+          <td class="pe-4 overflow-hidden max-w-[15rem] text-ellipsis leading-[1]">
+            {{ item.primary_email -}}
+            <br>
+            <span class="text-xs">{{ item.cc_email }}</span>
+          </td>
+          <td class="pe-4 overflow-hidden max-w-[10rem] text-ellipsis">{{ item.phone }}</td>
+          <td class="pe-4 overflow-hidden max-w-[10rem] text-ellipsis">{{ item.guest_status }}</td>
+          <td class="pe-4 pt-4 align-top text-xs text-ellipsis overflow-hidden">{{ item.__updateSummary }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,22 @@
+<div class="panel-space{% if search_text != blank %} hidden{% endif %} mb-8 for-admin">
+  <!-- multipart form -->
+  <form method="post"
+        enctype="multipart/form-data"
+        action="/admin/contacts/import-v2"
+        id="import-form"
+        class="flex items-center place-content-between"
+  >
+    <div class="flex items-center">
+      <div class="font-bold me-4">Import</div>
+      <input id="page-import-file" type="file" name="file" accept=".csv, .xlsx, .xls" required>
+      <label for="page-import-file" class="me-4"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+      <button type="submit"
+              class="transition duration-500 rounded-lg px-3 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >Import...</button>
+    </div>
+  </form>
+  <div>
+    <i class="fa-light fa-arrow-down-to-line"></i>
+    <a href="/media/samples/contact-import-sample.xlsx" download="contact-import-sample.xlsx" class="underline">Download Contact Import Sample</a>
+  </div>
+</div>

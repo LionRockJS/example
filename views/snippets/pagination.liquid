@@ -1,9 +1,9 @@
 {% if maxPage > 0 %}
     {% assign url = current_url | default : "/admin/results" %}
-    <nav aria-label="Page navigation" class="d-flex justify-content-center">
-        <ul class="pagination">
-            <li class="page-item{% if page == 1 %} disabled{% endif %}"><a class="page-link" href="{{ url }}?page=1"><i class="far fa-chevron-double-left"></i></a></li>
-            <li class="page-item{% if page == 1 %} disabled{% endif %}"><a class="page-link" href="{{ url }}?page={{ page | minus : 1 }}">Prev</a></li>
+    <nav aria-label="Page navigation" class="text-sm mb-8">
+        <ul class="pagination flex w-full justify-center">
+            <li class="me-2 page-item{% if page == 1 %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}?page=1"><i class="far fa-chevron-double-left"></i></a></li>
+            <li class="page-item{% if page == 1 %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}?page={{ page | minus : 1 }}">Prev</a></li>
 
             {% assign rangeMin = page |  minus : 5 %}
             {% assign rangeMax = page | plus : 3 %}
@@ -23,10 +23,10 @@
 
             {% for i in (rangeMin..rangeMax) %}
                 {% assign pageIndex = page | minus : 1 %}
-                <li class="page-item{% if i == pageIndex %} active{% endif %}"><a class="page-link" href="{{url}}?page={{ i |  plus : 1 }}">{{ i |  plus : 1}}</a></li>
+                <li class="mx-2 page-item{% if i == pageIndex %} font-bold{% endif %}"><a class="page-link" href="{{url}}?page={{ i |  plus : 1 }}">{{ i |  plus : 1}}</a></li>
             {% endfor %}
-            <li class="page-item{% if pageIndex == rangeMax %} disabled{% endif %}"><a class="page-link disabled" href="{{ url }}?page={{ page | plus : 1 }}">Next</a></li>
-            <li class="page-item{% if pageIndex == rangeMax %} disabled{% endif %}"><a class="page-link" href="{{ url }}?page={{ maxPage }}"><i class="far fa-chevron-double-right"></i></a></li>
+            <li class="me-2 page-item{% if pageIndex == rangeMax %} opacity-20{% endif %}"><a class="page-link disabled" href="{{ url }}?page={{ page | plus : 1 }}">Next</a></li>
+            <li class="page-item{% if pageIndex == rangeMax %} opacity-20{% endif %}"><a class="page-link" href="{{ url }}?page={{ maxPage }}"><i class="far fa-chevron-double-right"></i></a></li>
         </ul>
     </nav>
 {% endif %}

@@ -1,0 +1,65 @@
+<div class="mb-4">
+{% liquid
+
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+%}
+
+    <!-- name -->
+
+    <div class="min-h-8 mb-4">
+        <!-- checkbox -->
+        {% render "ui/toggle/checkbox", toggle_selector: "name1" %}
+        <!-- off-label -->
+        {% render "ui/toggle/off/label", toggle_selector: "name1", name: "name", icon: "circle-user"%}
+        <!-- on-icon_content -->
+
+        <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+            {% render "ui/toggle/icon", toggle_selector: "name1", icon: "circle-user"%}
+
+            <div class="w-full me-[24px] md:me-[55px]">
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 text-4xl mb-3">
+                    <input type="text" name=".first_name"
+                           id="field-{{ selector }}-1"
+                           class=" text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['first_name'] | escape }}"
+                           placeholder="{% if language == "zh-hant" or language == "zh-hans" %}{{ placeholders['last_name'] | strip_html }}{% endif %}{{ placeholders['first_name'] | strip_html | default: "First Name" }}"
+                           form="{{ form }}"
+                           {% if language == "mis" or language == blank %}
+                           required
+                           data-either="person"
+                           {% endif %}
+                    >
+{% if language == "zh-hant" or language == "zh-hans" %}
+{% else %}
+                    <input type="text" name=".last_name"
+                           id="field-{{ selector }}-3"
+                           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['last_name'] | escape }}"
+                           placeholder="{{ placeholders['last_name'] | strip_html | default: "Last Name" }}"
+                           form="{{ form }}"
+                           {% if language == "mis" or language == blank %}
+                           required
+                           data-either="person"
+                           {% endif %}
+                    >
+
+                    <input type="text" name=".middle_name"
+                           id="field-{{ selector }}-2"
+                           class="text-2xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                           value="{{ values['middle_name'] | escape }}"
+                           placeholder="{{ placeholders['middle_name'] | strip_html | default: "( Middle Name )" }}"
+                           form="{{ form }}"
+                    >
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

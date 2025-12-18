@@ -1,0 +1,77 @@
+<div class="panel-space flex justify-between my-16">
+  <div class="w-full">
+    <div class="text-red-600 font-bold text-2xl mb-2">Remove guests from this list</div>
+    <div>Search for guests in this list and remove them. <br>You may also <label for="toggle-csv-remove" class="select-none underline cursor-pointer">remove guests by file upload</label> <span class="text-red-600 font-semibold">Warning: This action cannot be undone.</span></div>
+    <form class="my-4" id="form-remove-contact"
+          hx-get="/admin/hx/guests-in-list-search?mail_list_id={{ item.id }}"
+          hx-target="#remove-filtered-guests"
+    >
+      <input
+          id="contact-remove-search"
+          name="search"
+          type="text"
+          class="inline-block border border-gray-300 px-2 py-1 rounded-md text-md"
+          placeholder="Search"
+          aria-label="Search contacts"
+          required
+          >
+      <select name="path"
+              hx-get="/admin/hx/contacts-search?mail_list_id={{ item.id }}&action=remove"
+              hx-include="#contact-remove-search"
+              hx-target="#remove-filtered-guests"
+              class="px-2 py-1 border border-gray-300 rounded-md me-4 text-md">
+        <option value="">Filter by</option>
+{% render "contacts/options" %}
+      </select>
+      <span>or</span>
+      <select
+          name="tag_type_id"
+          hx-get="/admin/hx/tags"
+          hx-target="#tags-remove"
+          class="px-2 py-1 border border-gray-300 rounded-md ms-4 me-2 text-md"
+      >
+        <option>Select a tag type</option>
+        {% for tagtype in tag_types %}
+          <option value="{{ tagtype.id }}">{{ tagtype.name }}</option>
+        {% endfor %}
+      </select>
+      <select id="tags-remove"
+              name="tag_id"
+              hx-get="/admin/hx/contacts-by-tag?mail_list_id={{ item.id }}&action=remove"
+              hx-target="#remove-filtered-guests"
+              class="px-2 py-1 border border-gray-300 rounded-md me-4 text-md">
+        <option>---</option>
+      </select>
+
+    </form>
+    <div id="remove-filtered-guests" class="my-4"></div>
+
+    <!-- Bulk Removal by File Section (Toggleable) -->
+    <div>
+      <input type="radio" name="toggle-csv-remove" class="peer hidden" id="toggle-csv-remove" aria-label="toggle file remove section">
+      <div class="hidden peer-checked:flex justify-between my-8">
+        <div>
+          <div class="text-red-600 font-bold text-2xl mb-2">Remove from Excel / CSV</div>
+          <div>Upload a file (CSV or Excel) with <code class="bg-gray-100 px-1">contact_id</code> or <code class="bg-gray-100 px-1">id</code> (lead ID) column to bulk remove guests.</div>
+          <div class="text-red-600 font-semibold mt-1">Warning: This action cannot be undone.</div>
+        </div>
+        <div>
+          <form method="POST" action="/admin/rsvp/{{ item.id }}/remove-contacts-csv" enctype="multipart/form-data" id="csv-remove-form" class="flex items-center place-content-between">
+            <div class="flex items-center">
+              <input id="csv-remove-file" type="file" name="file" accept=".csv, .xlsx, .xls" required
+                class="w-[15rem]"
+              >
+              <label for="csv-remove-file" class="me-4"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+              <button type="submit"
+                      onclick="return confirm('Are you sure you want to remove all contacts listed in this file? This action cannot be undone.');"
+                      class="inline-block transition duration-500 rounded-lg px-6 py-2 uppercase text-base leading-8 font-sans text-white bg-red-600 hover:bg-red-800 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >Remove by List</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+  </div>
+</div>

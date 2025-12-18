@@ -1,0 +1,53 @@
+{% liquid
+  assign placeholders = placeholders.tokens
+  assign values = tokens
+  assign preview =  values['attachment']
+  assign preview2 = values['attachment2']
+%}
+<div class="panel-space page-field-upload">
+  <div class="w-full flex flex-row items-center">
+    <div class="me-2 preview"><img class="icon" src="{{ preview | escape }}" alt="" style="max-height:3rem;"></div>
+    <div class="w-full me-4">
+      <div class="relative w-full group">
+        <label for="field@attachment">Attachment</label>
+        <input type="text" name="@attachment"
+               id="field@attachment-text"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight page-field-upload-text mb-3"
+               value="{{ values['attachment'] }}"
+               placeholder="file"
+               form="main-form"
+        >
+      </div>
+    </div>
+
+    <div>
+      <label for="field@attachment-upload"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+      <input class="hidden" type="file" id="field@attachment-upload" name="field@attachment-file">
+    </div>
+
+  </div>
+</div>
+
+<div class="panel-space page-field-upload">
+  <div class="w-full flex flex-row items-center">
+    <div class="me-2 preview"><img class="icon" src="{{ preview2 | escape }}" alt="" style="max-height:3rem;"></div>
+    <div class="w-full me-4">
+      <div class="relative w-full group">
+        <label for="field@attachment2">Attachment 2</label>
+        <input type="text" name="@attachment2"
+               id="field@attachment2-text"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight page-field-upload-text mb-3"
+               value="{{ values['attachment2'] }}"
+               placeholder="file"
+               form="main-form"
+        >
+      </div>
+    </div>
+
+    <div>
+      <label for="field@attachment2-upload"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+      <input class="hidden" type="file" id="field@attachment2-upload" name="field@attachment2-file">
+    </div>
+
+  </div>
+</div>

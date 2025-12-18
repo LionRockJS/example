@@ -1,0 +1,113 @@
+<div class="panel-space">
+{% liquid
+
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+%}
+    <!-- name -->
+    <div class="min-h-8 mb-4">
+        {% if values['creator'] == blank %}
+            <input type="hidden" name="@creator" value="{{ user.id }}" form="main-form" aria-label="creator">
+        {% else %}
+        {% endif %}
+
+        <div class="w-full">
+            <div class="">
+                <input type="text" name=".name"
+                       id="field-{{ selector }}-1"
+                       class="text-4xl w-full text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                       value="{{ values['name'] | escape }}"
+                       placeholder="{{ placeholders['name'] | strip_html | default: "Event Name" }}"
+                       form="{{ form }}"
+
+                       {% if language == "mis" or language == blank %}
+                       required
+                       {% endif %}
+                >
+            </div>
+            {% if values['name'] == blank %}
+            {% else %}
+            <div class="flex text-gray-500">
+                <span>/</span>
+                <input type="text" name=":slug"
+                       id="field-{{ selector }}-1"
+                       class="w-full text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] bg-transparent grow p-0 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+                       value="{{ item.slug | escape }}"
+                       spellcheck="false"
+                       placeholder="URL slug"
+                       form="{{ form }}"
+                >
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <div class="w-full grid grid-cols-2 2xl:grid-cols-4 gap-4">
+            <div>
+                <label for="field-@start" class="text-white bg-primary text-xs px-2">Start Date time</label>
+                <div class="relative w-full group">
+                    <input
+                        type="date"
+                        id="field-@start"
+                        name="@start"
+                        form="main-form"
+                        value="{{ values['start'] }}"
+                        {% if language == "mis" or language == blank %}
+                            required
+                        {% endif %}
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label for="field-@end" class="text-white bg-primary text-xs px-2">End Date time</label>
+                <div class="relative w-full group">
+                    <input
+                        type="date"
+                        id="field-@end"
+                        name="@end"
+                        form="main-form"
+                        value="{{ values['end'] }}"/>
+                </div>
+            </div>
+
+            <div>
+                <label for="field-@timezone" class="text-white bg-primary text-xs px-2">Timezone</label>
+                <div class="relative w-full group">
+                    <input
+                        type="text"
+                        id="field-@timezone"
+                        name="@timezone"
+                        form="main-form"
+                        value="{{ values['timezone'] | default: "+08:00"}}"
+                        list="list-timezones"
+                    />
+                    {% assign timezones = "+08:00,+07:00,+06:00,+05:00,+04:00,+03:00,+02:00,+01:00,+00:00,-01:00,-02:00,-03:00,-04:00,-05:00,-06:00,-07:00,-08:00,-09:00,-10:00,-11:00,-12:00,+14:00,+13:00,+12:00,+11:00,+10:00,+09:00" |  split: "," %}
+                    <datalist id="list-timezones">
+                        {% for tz in timezones %}
+                            <option value="{{ tz }}">{{ tz }}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <a href="/admin/events/delete/{{ item.id }}"
+                        class="for-admin block text-center cursor-pointer transition duration-500 rounded-lg me-4 px-4 py-2 uppercase text-base leading-8 font-sans text-white bg-red-800 hover:bg-highlight focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >Delete</a>
+
+                <button form="main-form" type="submit"
+                        class="cursor-pointer transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white {% if published %}bg-gray-700 hover:bg-gray-900{% else %}bg-primary hover:bg-highlight{% endif %} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >Save</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

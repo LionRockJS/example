@@ -1,0 +1,51 @@
+{% comment %}
+RSVP QR Code Block - MJML Template
+This block will render a QR code for RSVP purposes in email templates.
+{% endcomment %}
+
+{% liquid
+    assign title = tokens.title | default: "QR Code"
+    assign message = tokens.message | default: "Scan the QR code to Checkin"
+    assign size = tokens.size | default: "200"
+%}
+
+<mj-section>
+  <mj-column>
+    {% if title != blank %}
+    <mj-text align="center" font-size="18px" font-weight="bold" padding-top="15px">
+      {{ title }}
+    </mj-text>
+    {% endif %}
+    
+    {% if message != blank %}
+    <mj-text align="center" padding-bottom="15px">
+      {{ message }}
+    </mj-text>
+    {% endif %}
+
+    <!-- RSVP QR Code - dynamically generated based on guest information -->
+    {% liquid
+      if guest and guest.id and rsvp_id
+        assign code = "qrcode"
+        assign qr_hash_full = code | append: rsvp_id | append: guest.id | blake3
+        assign qr_hash = qr_hash_full | slice: 0, 10
+        assign qr_src = server | append: "/qrcode/" | append: rsvp_id | append: "/" | append: guest.id | append: "/" | append: qr_hash | append: ".png"
+        assign qr_alt = "RSVP QR Code for " | append: guest.name | default: "Guest"
+        if guest.updated_at
+          assign ts = guest.updated_at | to_time
+          assign qr_src = qr_src | append: "?r=" | append: ts
+        endif
+      else
+        assign qr_src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIiBzdHJva2U9IiNjY2MiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0cHgiIGZpbGw9IiM2NjYiPlFSIENvZGU8L3RleHQ+Cjwvc3ZnPgo="
+        assign qr_alt = "RSVP QR Code (Preview)"
+      endif
+    %}
+    <mj-image
+      src="{{ qr_src }}"
+      alt="{{ qr_alt }}"
+      width="{{ size }}px"
+      align="center"
+      padding="10px"
+    />
+  </mj-column>
+</mj-section>

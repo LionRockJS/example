@@ -1,0 +1,11 @@
+<div class="w-full">
+  {% for event in events %}
+    <div class="mb-8">
+      <div class="panel-space">
+        <a href="/admin/events/{{ event.id }}" class="block text-2xl text-primary font-serif">{{ event.name }}</a>
+      </div>
+    {% assign responses_count = event.guest_stats.confirmed_count | plus: event.guest_stats.declined_count | plus: event.guest_stats.checked_in_count %}
+    {% render "admin/events/edit/steps", tokens:event.print.tokens, edm: event.edm, mail_list:event.mail_list, responses_count: responses_count, event_checked_in_total: event.guest_stats.checked_in_count %}
+    </div>
+  {% endfor %}
+</div>

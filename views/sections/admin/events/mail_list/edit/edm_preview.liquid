@@ -1,0 +1,6 @@
+<div class="panel-space">
+{% if item.print.tokens.edm.id %}
+  <div class="text-sm font-bold my-2">Email Preview: <a href="/admin/edm/{{ item.print.tokens.edm.id }}"><i class="fa-light fa-pen-to-square"></i> Edit</a></div>
+  <iframe src="/admin/edm/html/{{ item.print.tokens.edm.id }}?language={{ language }}" class="w-full border border-gray-300 aspect-square rounded-lg mb-16"></iframe>
+{% endif %}
+</div>

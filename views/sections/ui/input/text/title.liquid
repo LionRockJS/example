@@ -1,0 +1,19 @@
+{% liquid
+    assign selector = section.settings.selector | default: selector
+    assign label_text = section.settings.label | default: label | strip_html
+    assign value_attribute = section.settings.value | default: value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder = section.settings.placeholder | default: placeholder | default: label_text | strip_html | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign class_name = section.settings.class_name | default: class_name
+    assign form = section.settings.form | default: form
+%}
+
+<div class="relative w-full group">
+    <label for="field-{{ selector }}"></label>
+    <input type="text" name="{{ selector }}"
+           id="field-{{ selector }}"
+           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] text-3xl text-primary w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+           value="{{ value_attribute }}"
+           placeholder="{{ placeholder }}"
+           {% if form != blank %}form="{{ form }}"{% endif %}
+    >
+</div>

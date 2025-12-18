@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "page/edit/index",
+        "title": "contact",
+        "controller_slug": "contacts",
+        "breadcrumb": "Home:/admin,Contacts:/admin/contacts",
+        "section_header": "{{ title }}",
+        "section_body": "admin/contacts/import-post",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

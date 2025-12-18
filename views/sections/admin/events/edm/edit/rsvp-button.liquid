@@ -1,0 +1,140 @@
+{% liquid
+
+    assign key = section.settings.key
+    assign prefix = prefix
+    assign inputs = inputs
+    assign placeholders = placeholders.tokens
+    assign values = tokens
+    assign expandable = true
+    assign form = "main-form"
+    assign section = section
+    assign selector = section.settings.selector | default: "edm"
+%}
+<div class="panel-space max-w-[800px]">
+        <div class="mb-3 w-full relative">
+            <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500">RSVP Button Text</div>
+            {% assign key = 'rsvp_button' %}
+            <input type="text" name=".{{ key }}"
+                   aria-label="RSVP button label"
+                   id="field-{{ selector }}-2"
+                   class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+                   value="{{ values[key] | escape }}"
+                   placeholder="{{ placeholders[key] | strip_html | default: "RSVP button label" }}"
+                   form="{{ form }}"
+            >
+        </div>
+
+        <div class="mb-3 w-full relative">
+            <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500">RSVP Form Button Text</div>
+            {% assign key = 'rsvp_form_button' %}
+            <input type="text" name=".{{ key }}"
+                   aria-label="RSVP button label"
+                   id="field-{{ selector }}-2"
+                   class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+                   value="{{ values[key] | escape }}"
+                   placeholder="{{ placeholders[key] | strip_html | default: "RSVP button label" }}"
+                   form="{{ form }}"
+            >
+        </div>
+</div>
+<div class="panel-space max-w-[800px] border-t pt-4 mb-4 border-gray-200">
+        <div class="mb-3 w-full">
+        <div class="text-sm text-gray-700 mb-2">Enable cc emails to guest's assistants and spouse</div>
+        <div class="flex items-center gap-4">
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="@cc_enable" value="yes"
+                       class="mr-1 h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                       form="main-form"
+                       {% if values['cc_enable'] == 'yes' %}checked{% endif %}
+                >
+                <span class="text-sm text-gray-700">Yes</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="@cc_enable" value="no"
+                       class="mr-1 h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                       form="main-form"
+                       {% if values['cc_enable'] == 'no' or values['cc_enable'] == blank %}checked{% endif %}
+                >
+                <span class="text-sm text-gray-700">No</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="panel-space max-w-[800px] border-t border-b pt-4 mb-4 border-gray-200">
+
+    <!-- Thank You Section -->
+
+    <div class="mb-3 w-full">
+        <div class="text-sm text-gray-700 mb-2">Enable Quick Confirm RSVP</div>
+        <div class="flex items-center gap-4">
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="@quick_confirm" value="yes"
+                       class="mr-1 h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                       form="main-form"
+                       {% if values['quick_confirm'] == 'yes' %}checked{% endif %}
+                >
+                <span class="text-sm text-gray-700">Yes</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="radio" name="@quick_confirm" value="no"
+                       class="mr-1 h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                       form="main-form"
+                       {% if values['quick_confirm'] == 'no' or values['quick_confirm'] == blank %}checked{% endif %}
+                >
+                <span class="text-sm text-gray-700">No</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Thank You Picture -->
+    <div class="mb-3 w-full page-field-upload">
+        <div class="w-full flex flex-row items-center">
+            <div class="me-2 preview"><img class="icon" src="{{ values['thankyou_picture'] | escape }}" alt="" style="max-height:3rem;"></div>
+            <div class="w-full me-4">
+                <div class="relative w-full group">
+                    <label for="field@thankyou_picture" class="text-xs text-gray-500">Thank You Picture</label>
+                    <input type="text" name="@thankyou_picture"
+                           id="field@thankyou_picture-text"
+                           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight page-field-upload-text mb-3"
+                           value="{{ values['thankyou_picture'] }}"
+                           placeholder="Upload thank you picture"
+                           form="main-form"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <label for="field@thankyou_picture-upload"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i></label>
+                <input class="hidden" type="file" id="field@thankyou_picture-upload" name="field@thankyou_picture-file">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 w-full relative">
+        <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500">Thank You Heading</div>
+        {% assign key = 'thankyou_heading' %}
+        <input type="text" name=".{{ key }}"
+            aria-label="Thank you {{ key }}"
+            id="field-{{ key }}"
+            class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+            value="{{ values[key] | escape }}"
+            placeholder="{{ placeholders[key] | strip_html | default: "Thank You Heading" }}"
+            form="{{ form }}"
+        >
+    </div>
+
+    <div class="mb-3 w-full relative">
+        <div class="absolute text-xs bg-gray-50 -top-2 left-2 text-gray-500 z-10">Thank You Body</div>
+
+        {% assign key = 'thankyou_body' %}
+        <input type="text" name=".{{ key }}"
+            aria-label="Thank you {{ key }}"
+            id="field-{{ key }}"
+            class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full ps-2 py-2 bg-white border-1 border-gray-300 rounded grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+            value="{{ values[key] | escape }}"
+            placeholder="{{ placeholders[key] | strip_html | default: "Thank You Body" }}"
+            form="{{ form }}"
+        >
+    </div>
+</div>

@@ -1,0 +1,5 @@
+{%- for block in section.blocks -%}
+    <form id="{{ block.settings.id }}" action="{{ block.settings.action }}" method="{{ block.settings.method | default: "post"}}" {% if block.settings.confirm == true %}onsubmit="return (()=>confirm('{{ 'confirm_message' | t }}'))();"{% endif %}>
+        <button type="submit" class="hidden">Default Submit</button>
+    </form>
+{% endfor -%}

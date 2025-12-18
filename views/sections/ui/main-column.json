@@ -1,0 +1,24 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "{{section.settings.title | default: \"Dashboard\"}}"
+      }
+    },
+    "main": {
+      "type": "ui/toggle",
+      "settings": {
+        "toggle_selector": "main-toggle",
+        "name": "{{ section.settings.title }}",
+        "hint": "{{ section.settings.hint }}",
+        "content": "{{section.settings.section}}"
+      }
+    }
+  },
+  "order": [
+    "title",
+    "main"
+  ]
+}

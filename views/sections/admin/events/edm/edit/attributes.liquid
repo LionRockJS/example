@@ -1,0 +1,57 @@
+<div class="w-full panel-space border-b border-gray-300 pb-8 mb-8">
+    <div class="w-full mb-3">
+      <label class="text-white bg-primary text-xs px-2">sender</label>
+      <input type="text" name="@sender" aria-label="sender"
+             class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+             value="{{ tokens.sender }}"
+             placeholder="{{ placeholders.tokens.sender | strip_html }}"
+             form="main-form"
+             required
+      >
+    </div>
+    <div class="w-full mb-3">
+      <label class="text-white bg-primary text-xs px-2">reply to</label>
+      <input type="email" name="@reply_to" aria-label="reply to"
+             class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+             value="{{ tokens.reply_to }}"
+             placeholder="{{ placeholders.tokens.reply_to | strip_html }}"
+             form="main-form"
+      >
+    </div>
+    <div class="grid grid-cols-4 gap3">
+      <div>
+        <label class="text-white bg-primary text-xs px-2">Text Color</label>
+        <input type="color" name="@text_color" aria-label="text color"
+               class="block"
+               value="{{ tokens.text_color | default: "#555555" }}"
+               form="main-form"
+        >
+      </div>
+      <div>
+        <label class="text-white bg-primary text-xs px-2">Button Color</label>
+        <input type="color" name="@button_color" aria-label="button color"
+               class="block"
+               value="{{ tokens.button_color | default: "#333333" }}"
+               form="main-form"
+        >
+      </div>
+
+      <div>
+        <label class="text-white bg-primary text-xs px-2">Button Text</label>
+        <input type="color" name="@button_text_color" aria-label="button color"
+               class="block"
+               value="{{ tokens.button_text_color | default: "#FFFFFF" }}"
+               form="main-form"
+        >
+      </div>
+
+      <div>
+        <label class="text-white bg-primary text-xs px-2">Line Height</label>
+        <input type="text" name="@line_height" aria-label="line height"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight "
+               value="{{ tokens.line_height | default: "1.5" }}"
+               form="main-form"
+        >
+      </div>
+    </div>
+</div>

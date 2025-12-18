@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "form-advanced-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-advanced-search",
+            "action": "/admin/contacts/advanced-search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "form-advanced-search"
+      ]
+    },
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/contacts/index",
+        "title": "contact",
+        "controller_slug": "contacts",
+        "breadcrumb": "Home:/admin,Contacts:/admin/contacts,Advanced Search:",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "admin/contacts/advanced-search-result-list",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "forms",
+    "main"
+  ]
+}

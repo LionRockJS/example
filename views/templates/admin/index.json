@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "admin/dashboard",
+        "title": "dashboard",
+        "breadcrumb": "Home:/admin,Dashboard:",
+        "section_header": "orm-header",
+        "section_body": "admin/home",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

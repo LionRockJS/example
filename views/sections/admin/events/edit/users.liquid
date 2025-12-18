@@ -1,0 +1,14 @@
+<div class="panel-space mb-4">
+  <div class="text-primary font-bold mb-2">Event Access Users</div>
+  <div><input type="text" id="input_user" list="user-list" name="access_user" form="main-form" placeholder="add user" aria-label="add user" class="border border-gray-300 rounded-lg px-2 py-1 mb-2"/></div>
+  <datalist id="user-list">
+    {% for admin_user in users %}
+      {% if admin_user.id == user.id %}
+      {% else %}
+        <option value="{{ admin_user.id }}">{{ admin_user.person.first_name }} {{ admin_user.person.last_name }}</option>
+      {% endif %}
+    {% endfor %}
+  </datalist>
+  <div id="panel-user-list"></div>
+  <input type="hidden" id="input_users" name="@users" value="{{ tokens.users }}" aria-label="users" form="main-form"/>
+</div>

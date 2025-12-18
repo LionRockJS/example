@@ -1,0 +1,37 @@
+{% if block_data != blank %}
+  {% for custom in block_data %}
+    <div class="mt-4">
+      <div class="font-bold text-primary border-b border-b-gray-300 pb-2">
+        <i class="fa-light fa-input-text"></i> Custom Information
+      </div>
+      
+      {% assign has_data = false %}
+      {% for item in custom %}
+        {% if item[1] != blank %}
+          {% assign has_data = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      
+      {% if has_data %}
+        <div class="mt-3">
+          <div class="grid grid-cols-1 gap-3">
+            {% for item in custom %}
+              {% assign key = item[0] %}
+              {% assign value = item[1] %}
+              {% if value != blank %}
+                {% assign display_label = key | replace: '-', ' ' | capitalize %}
+                <div class="border-b border-gray-100 pb-2">
+                  <span class="font-medium text-gray-700">{{ display_label }}:</span>
+                  <div class="mt-1 text-gray-900">{{ value }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <div class="mt-3 text-gray-400 italic">No custom information provided</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}

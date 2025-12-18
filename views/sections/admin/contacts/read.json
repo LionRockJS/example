@@ -1,0 +1,56 @@
+{
+  "wrapper": "div.panel-main.relative",
+  "sections": {
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/contacts/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "form-search"
+      ]
+    },
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Contacts",
+        "note": "ID: {{ tokens.id | default : item.id }}{%if tokens._modified_by %}, modified by {{ tokens._modified_by }} at {{item.updated_at | to_time | date: \"%Y-%m-%d %H:%M\"}}{%endif%} {%if tokens.source != blank %}, source: {{ tokens.source }}{% endif %}"
+      }
+    },
+    "actions": {
+      "type": "admin/contacts/read/actions"
+    },
+    "attributes": {
+      "type": "admin/contacts/read/attributes",
+      "settings": {
+        "name": "Settings",
+        "icon": "gear",
+        "toggle_selector": "attributes",
+        "content": "admin/pages/default/attributes-grid",
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "tags": {
+      "type": "admin/contacts/read/tags"
+    },
+    "picture": {
+      "type": "admin/contacts/read/picture"
+    }
+  },
+  "order": [
+    "forms",
+    "title",
+    "attributes",
+    "tags",
+    "picture",
+    "actions"
+  ]
+}

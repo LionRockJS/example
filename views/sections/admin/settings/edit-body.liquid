@@ -1,0 +1,16 @@
+<div class="w-full panel-space">
+  {% for item in items %}
+  <div>
+    <div class="font-bold">
+      {{ item._type }}
+    </div>
+    <div>
+      {% for key in item.blueprint %}
+        <div>
+          {{ key | json }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>

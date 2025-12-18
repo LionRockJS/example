@@ -1,0 +1,91 @@
+{% liquid
+
+    assign prefix = section.settings.controller | default: "pages"
+assign suffix = section.settings.page_type
+assign qs = ""
+if request.query.pagesize
+    assign qs = qs | append: "pagesize=" | append: request.query.pagesize
+endif
+if request.query.page
+    assign qs = qs | append: "&page=" | append: request.query.page
+endif
+if request.query.language
+    assign qs = qs | append: "&language=" | append: request.query.language
+endif
+if qs != blank
+    assign qs = '?' | append: qs
+endif
+
+assign sort = request.query.sort
+assign order = "asc"
+if request.query.order contains "asc"
+    assign order = "desc"
+endif
+
+if request.query.search
+    assign base_path = '/admin/contacts/search?' | append: qs | append: '&search=' | append: request.query.search | append: '&path=' | append: request.query.path | append: '&tag=' | append: request.query.tag
+else
+    assign base_path = '/admin/contacts?'
+endif
+
+%}
+<form id="form-list" action="/admin/contacts{{ qs }}" method="post"></form>
+
+<div class="panel-space">
+    <input form="form-list" type="hidden" name="destination" value="/admin/contacts{{ qs }}">
+    <table id="table" class="table-primary w-full">
+        <thead>
+        <tr class="text-left text-primary border-b border-b-gray-300">
+            <th class="pe-2 for-admin">
+                <input type="checkbox"
+                       onclick="tableBulkSelect(this)"
+                       aria-label="Checkbox Action"
+                       class="checkbox-bulk-select h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                >
+            </th>
+            <th class="pe-2 text-nowrap">
+                <a href="{{ base_path }}&sort=original:$.values.mis.first_name,original:$.values.mis.last_name&order={{ order }},{{ order }}">
+                    Name
+                    {%- if sort == "original:$.values.mis.first_name,original:$.values.mis.last_name" %} <i class="fa-solid fa-caret-{% if order == 'asc' %}down{% else %}up{% endif %}"></i>{% endif -%}
+                </a>
+            </th>
+            <th class="pe-2 text-nowrap">
+                <a href="{{ base_path }}&sort=original:$.items.position[0].values.mis.organization_name&order={{ order }}">
+                    Company / Organization
+                    {%- if sort == "original:$.items.position[0].values.mis.organization_name" %} <i class="fa-solid fa-caret-{% if order == 'asc' %}down{% else %}up{% endif %}"></i>{% endif -%}
+                </a>
+            </th>
+            <th class="pe-2 text-nowrap">Email / Phone</th>
+            <th class="w-full"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr class="leading-5">
+                <td class="align-top w-6 min-w-6 py-2.5 for-admin">
+                    <input type="checkbox"
+                           aria-label="Select item"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                           name="selected_items[]"
+                           value="{{ item.id }}"
+                           form="bulk-action"
+                    >
+                </td>
+                <td class="align-top max-w-[10rem] xl:max-w-none text-ellipsis overflow-hidden text-nowrap pe-4 py-2">
+                    <a href="/admin/contacts/{{item.id}}" class="font-bold"><span class="hidden">{{item.print.tokens.prefix }}. </span>{{item.print.tokens.first_name }} {{ item.print.tokens.last_name }}</a><br>
+                    <span class="text-xs hidden">{% if item.print.tokens.suffix != blank %}{{ item.print.tokens.suffix }}{% endif %} / {{ item.slug | truncate: 100 }}</span></td>
+                <td class="align-top pe-4 whitespace-nowrap max-w-[15rem] xl:max-w-none py-2">
+                    <div class="overflow-hidden text-ellipsis">{{ item.print.tokens.position[0].organization_name }}</div>
+                </td>
+                <td class="align-top pe-4 py-2 max-w-[15rem] xl:max-w-none">
+                    <div class="overflow-hidden text-ellipsis text-nowrap">{{ item.print.tokens.email[0].email | default: item.print.tokens.position[0].email | default: item.print.tokens.position[0].general_email | default : "-" }}</div>
+                    <div class="text-xs">{{ item.print.tokens.phone[0].phone | default: item.print.tokens.position[0].direct_phone | default: item.print.tokens.position[0].general_phone | default : "-" }}</div>
+                </td>
+                <td class="align-top text-end py-2">{% if section.settings.allow_view != false %}<a class="underline" href="/admin/contacts/{{item.id}}">View</a>{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% if count != blank %}<div class="mt-4 text-sm">Total contacts : {{ count }}</div>{% endif %}
+</div>

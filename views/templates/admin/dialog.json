@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "title",
+        "title": "Delete",
+        "controller_slug": "{{controller_slug}}",
+        "breadcrumb": "Home:/admin,Dashboard:",
+        "section_search": "empty",
+        "section_header": "empty",
+        "section_body": "admin/dialog",
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

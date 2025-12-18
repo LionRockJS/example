@@ -1,0 +1,99 @@
+{% liquid
+  assign block_name = "rsvp-plus-one"
+  
+  # Check if this is for admin form (field_name_prefix is provided)
+  assign admin_prefix = field_name_prefix | default: ''
+  assign is_admin_form = false
+  if admin_prefix != ''
+    assign is_admin_form = true
+  endif
+  
+  # For public forms: use block hashing
+  if is_admin_form == false
+    #prefix can be plus one prefix or blank
+    assign block_source_id = tokens._id | default: tokens._index | default: tokens._weight
+    assign block_id = prefix | append: block_name | title |  append : '-' | append: block_source_id
+    assign block_hash = block_id | md5
+    assign block_hash = "x" | append : block_hash | truncate: 16, ""
+  endif
+
+  assign max_guests = tokens.max_guests
+%}
+
+<div class="my-8">
+  <div class="mb-3">
+    {% if tokens.body %}<div>{{ tokens.body | default: "Will you be joining us with a guest? Please provide their name below." }}</div>{% endif %}
+  </div>
+  {% for i in (1..tokens.max_guests) %}
+    {% if is_admin_form %}
+      {% if block_id %}
+        {% assign guest_prefix = "rsvp-plus-one-" | append: block_id | append: "-" | append: i | append: "-" %}
+      {% else %}
+        {% assign guest_prefix = "rsvp-plus-one-" | append: i | append: "-" %}
+      {% endif %}
+      {% assign form_name_prefix_name = admin_prefix | append: guest_prefix | append: "name" %}
+      {% assign form_name_prefix_org = admin_prefix | append: guest_prefix | append: "organization" %}
+      {% assign value_key_name = guest_prefix | append: "name" %}
+      {% assign value_key_org = guest_prefix | append: "organization" %}
+    {% else %}
+      {% assign prefix = block_name | append: "-" | append: i | append: ":" %}
+      {% assign form_name_prefix_name = prefix | append: 'name' %}
+      {% assign form_name_prefix_org = prefix | append: 'organization' %}
+      {% assign value_key_name = form_name_prefix_name %}
+      {% assign value_key_org = form_name_prefix_org %}
+    {% endif %}
+    
+    <div class="mb-8">
+      <input type="checkbox"
+             id="toggle-plus-one-{{ i }}"
+             class="hidden peer"
+             >
+      <div class="mb-3 {% if i == 1 or savedFormData[value_key_name] != blank %}block{% else %}peer-checked:block hidden{% endif %}">
+        <div class="flex items-center gap-2">
+          <div>{{ i }}.</div>
+          <div class="w-full">
+            <input type="text"
+                   aria-label="Name"
+                   name="{{ form_name_prefix_name }}"
+                   value="{{ savedFormData[value_key_name] | escape }}"
+                   placeholder="Name"
+                   class="w-full p-2 border border-gray-300 rounded"
+                   {% if form %}form="{{ form }}"{% endif %}
+            >
+          </div>
+          <div class="w-full">
+            <input type="text"
+                   aria-label="Organization"
+                   name="{{ form_name_prefix_org }}"
+                   value="{{ savedFormData[value_key_org] | escape }}"
+                   placeholder="Organization"
+                   class="w-full p-2 border border-gray-300 rounded"
+                   {% if form %}form="{{ form }}"{% endif %}
+            >
+          </div>
+          <div>
+            <div>
+              <label for="toggle-plus-one-{{ i | plus : 1}}"
+                     class="{% if forloop.last == false %}cursor-pointer{% endif %} select-none flex items-center gap-2">
+                <i class="fa-solid fa-circle-plus {% if forloop.last == true %}opacity-0{% endif %}"></i>
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- additional blocks for plus one guests -->
+{% unless is_admin_form %}
+  {% for block in item.print.blocks %}
+    {% if block.tokens._type == "rsvp-meal-preferences" %}
+      <div class="ps-6 pt-4">
+        {% include "html/rsvp-meal-preferences", tokens: block.tokens, item: item, prefix: prefix, show_title: false, for_guest: true, savedFormData: savedFormData %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endunless %}
+      </div>
+    </div>
+  {% endfor %}
+  {% if tokens.notes %}
+    <div>{{ tokens.notes }}</div>
+  {% endif %}
+</div>

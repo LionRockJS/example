@@ -1,0 +1,29 @@
+<div class="my-4 panel-space">
+    {% if tokens['full_name'] != blank %}
+        <div class="mb-4">
+            <div class="font-bold me-2 text-nowrap text-primary">Full Name:</div>
+            <div>{{ tokens['full_name'] }}</div>
+        </div>
+    {% endif %}
+    {% if tokens['bio'] != blank %}
+      <div class="mb-4">
+            <div class="font-bold me-2 text-nowrap text-primary">Bio:</div>
+            <div>{{ tokens['bio'] }}</div>
+        </div>
+    {% endif %}
+
+  {% if tokens['referral_by'] != blank %}
+    <div class="mb-4">
+      <div class="font-bold me-2 text-nowrap text-primary">Referral By:</div>
+      <div>{{ tokens['referral_by'] }}</div>
+    </div>
+  {% endif %}
+
+  {% if tokens['remarks'] != blank %}
+    <div class="mb-4">
+      <div class="font-bold me-2 text-nowrap text-primary">Remarks:</div>
+      <div>{{ tokens['remarks'] }}</div>
+    </div>
+  {% endif %}
+
+</div>

@@ -1,0 +1,12 @@
+{%- liquid
+  if section.settings.controller_route != blank
+    assign controller_route = section.settings.controller_route
+  else
+    assign controller_route = "/admin/" | append: type.tableName
+  endif
+-%}
+
+<form method="get" action="{{ controller_route }}/export.csv" class="bg-gray-500 text-white rounded px-4 py-2">
+  <label>Export {{ type.tableName }}</label>
+  <button type="submit" class="rounded-md px-3 py-2 text-sm border border-gray-200 shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-200">Export</button>
+</form>

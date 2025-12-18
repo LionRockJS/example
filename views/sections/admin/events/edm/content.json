@@ -1,0 +1,61 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "head": {
+      "type": "admin/events/edm/edit/header",
+      "settings": {
+          "value": "{{item.name}}",
+          "class_name": "font-serif",
+          "form": "main-form",
+          "selector": ":name"
+      }
+    },
+
+    "debug": {
+      "type": "page/edit/debug"
+    },
+    "languages": {
+      "type": "admin/events/edm/edit/languages",
+      "settings": {
+        "controller_slug": "edm"
+      }
+    },
+    "fields": {
+      "type": "admin/events/edm/edit/inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "blocks": {
+      "type": "admin/events/edm/edit/blocks",
+      "settings": {
+        "controller_slug": "edm",
+        "block_types": "{{ config.cms.blockList.edm | json }}",
+        "block_templates": {
+          "rsvp-plus-one": "admin/events/edm/blocks/plus-one",
+          "rsvp-meal-preferences":  "admin/events/edm/blocks/meal-preference",
+          "rsvp-qrcode": "admin/events/edm/blocks/rsvp-qrcode"
+        }
+      }
+    },
+    "rsvp-button": {
+      "type": "admin/events/edm/edit/rsvp-button"
+    },
+    "actions": {
+      "type": "admin/events/edm/edit/actions"
+    },
+    "variables": {
+      "type": "admin/events/edm/edit/variables"
+    }
+  },
+  "order": [
+    "head",
+    "languages",
+    "fields",
+    "blocks",
+    "rsvp-button",
+    "actions"
+  ]
+}

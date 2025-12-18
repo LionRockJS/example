@@ -1,0 +1,18 @@
+<div class="panel-space">
+  <div class="text-3xl text-primary font-serif">{{ item.name }}</div>
+  <div><i class="fa-light fa-envelope"></i> {{ item.contact_type | capitalize }}: {{ item.contact }}</div>
+  <div class="mb-4"><i class="fa-light fa-clock"></i> {{ item.created_at | to_time | date }}</div>
+
+  <div class="mb-4 text-xs text-wrap"><strong>Browser Information:</strong>
+    <span>IP: <a href="https://iplocation.io/ip/{{ item.ip }}" target="_blank" class="underline">{{ item.ip }}</a></span>
+    <span>Browser: {{ item.user_agent }}</span>
+    <span>Email ID :{{ view_id }}</span>
+  </div>
+  <div class="font-bold"><a href="/admin/events/{{ event.id }}" class="underline">{{ event.name }}</a></div>
+  <div class="mb-4"><strong>Status:</strong> {{ item.status | capitalize }}</div>
+  <div>
+    {% for payload in item.payloads %}
+      <div><strong>{{ payload[0] }}:</strong> {{ payload[1] | default: "N/A" }}</div>
+    {% endfor %}
+  </div>
+</div>

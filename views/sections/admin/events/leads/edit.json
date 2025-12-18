@@ -1,0 +1,47 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Guest"
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/rsvp/{{rsvp_id}}/update/{{ item.id }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/lead/search",
+            "method": "POST"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+    "editor": {
+      "type": "admin/events/leads/edit/form"
+    },
+    "checkin": {
+      "type": "admin/events/leads/edit/checkin"
+    }
+  },
+  "order": [
+    "title",
+    "forms",
+    "checkin"
+  ]
+}

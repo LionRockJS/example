@@ -1,0 +1,7 @@
+<div class="flex flex-row">
+    <div>
+        {% if language == "en"      %}<span class="font-bold text-indigo-600">EN</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/tags/{{ item.id }}?language=en">EN</button>{% endif %}
+        {% if language == "zh-hant" %}<span class="font-bold text-indigo-600">繁</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/tags/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
+        {% if language == "zh-hans" %}<span class="font-bold text-indigo-600">简</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/tags/{{ item.id }}?language=zh-hans">简</button>{% endif %}
+    </div>
+</div>

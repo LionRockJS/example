@@ -1,0 +1,60 @@
+{
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/guests/list.js"
+        ]
+      }
+    },
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "text": "{{ item.title }}"
+      },
+      "blocks": {
+        "link1": {
+          "type": "link",
+          "settings": {
+            "text": "Home",
+            "url": "/admin"
+          }
+        },
+        "link2": {
+          "type": "link",
+          "settings": {
+            "text": "{{event}}",
+            "url": "/admin/rsvp/{{event}}"
+          }
+        }},
+      "block_order": [
+        "link1",
+        "link2"
+      ]
+    },
+    "header": {
+      "type": "admin/export-csv",
+      "settings": {
+        "controller_route": "/admin/rsvp/{{event}}"
+      }
+    },
+    "main": {
+      "type": "admin/guests/list",
+      "settings": {
+      }
+    },
+    "pagination": {
+      "type": "admin/guest/pagination",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "defer_script",
+    "breadcrumb",
+    "header",
+    "main",
+    "pagination"
+  ]
+}

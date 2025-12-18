@@ -1,0 +1,70 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/edm/{{ item.id }}?language={{ language | default: 'mis' }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/pages/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+
+    "tabs":{
+      "type": "admin/events/edm/edit/tabs"
+    },
+
+
+    "attributes": {
+      "type": "admin/events/edm/edit/attributes"
+    },
+
+
+
+    "items": {
+      "type": "admin/contacts/edit/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+
+    "preview": {
+        "type": "admin/events/edm/edit/email-preview"
+    },
+
+    "test-mail": {
+      "type": "admin/events/edm/edit/send-test"
+    }
+  },
+
+  "order": [
+    "forms",
+    "tabs",
+    "attributes",
+
+
+    "blocks",
+
+
+    "preview",
+    "test-mail"
+  ]
+}

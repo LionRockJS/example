@@ -1,0 +1,46 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "defer_script": {
+      "type": "#defer_scripts",
+      "settings": {
+        "value": [
+          "admin/events/mail-list-name.js",
+          "admin/events/mail-list-table.js"
+        ]
+      }
+    },
+    "head": {
+      "type": "admin/events/mail_list/edit/name"
+    },
+    "main": {
+      "type": "admin/events/mail_list/table"
+    },
+    "pagination": {
+      "type": "admin/events/mail_list/pagination"
+    },
+    "filter": {
+      "type": "admin/events/mail_list/contact-filter"
+    },
+    "import": {
+      "type": "admin/events/mail_list/contact-import"
+    },
+    "contact-add": {
+      "type": "admin/events/mail_list/contact-add"
+    },
+    "contact-remove": {
+      "type": "admin/events/mail_list/contact-remove"
+    },
+    "debug": {
+      "type": "admin/pages/debug"
+    }
+  },
+  "order": [
+    "defer_script",
+    "head",
+    "main",
+    "pagination",
+    "filter",
+    "contact-remove"
+  ]
+}

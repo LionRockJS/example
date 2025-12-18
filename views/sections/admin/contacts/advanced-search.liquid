@@ -1,0 +1,396 @@
+<div class="panel-space border-b border-gray-200 py-6 text-sm w-full">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-semibold">Advanced Search</h3>
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-medium">Match:</label>
+      <select name="operator" 
+              class="border-1 border-gray-300 rounded-lg px-2 py-1 text-sm px-3 py-2"
+              form="form-advanced-search">
+        <option value="AND" {% if operator == "AND" %}selected{% endif %}>All Criteria (AND)</option>
+        <option value="OR" {% if operator == "OR" %}selected{% endif %}>Any Criteria (OR)</option>
+        <option value="NOT" {% if operator == "NOT" %}selected{% endif %}>Exclude Criteria (NOT)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Search Criteria Container -->
+  <div id="search-criteria-container">
+    {% if searches and searches.size > 0 %}
+      {% for search in searches %}
+        {% assign searchIdx = forloop.index %}
+        <div class="search-criteria-row p-3 mb-3" data-index="{{ searchIdx }}">
+          <div class="flex gap-2 items-center">
+            <input name="search{{ searchIdx }}" 
+                   type="text"
+                   class="flex-1 border-1 border-gray-300 rounded-lg px-3 py-2"
+                   placeholder="Search term"
+                   form="form-advanced-search"
+                   value="{{ search.term | escape }}"
+            >
+            <select name="path{{ searchIdx }}"
+                    class="border-1 border-gray-300 rounded-lg text-sm min-w-[15rem] px-3 py-2"
+                    form="form-advanced-search">
+              {% render "contacts/options-with-selection", search_path: search.path %}
+            </select>
+            <button type="button" 
+                    class="text-sm cursor-pointer {% if search.tags and search.tags.size > 0 %}text-primary{% else %}text-gray-600 hover:text-primary{% endif %} px-2"
+                    onclick="toggleTags({{ searchIdx }})"
+                    title="Filter by tags">
+              <i class="fa-solid fa-tags"></i>
+              {% if search.tags and search.tags.size > 0 %}<span class="text-xs">{{ search.tags.size }}</span>{% endif %}
+            </button>
+            <button type="button" 
+                    class="remove-criteria text-red-600 hover:text-red-800 px-2"
+                    onclick="removeCriteria(this)">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div id="tags-section-{{ searchIdx }}" class="tags-for-criterion-{{ searchIdx }} {% unless search.tags and search.tags.size > 0 %}hidden{% endunless %} mt-2 pt-2 border-t border-gray-100">
+            <div class="flex flex-wrap gap-2">
+              {% for tagtype in search_tag_types %}
+                <div class="tag-group-criterion-{{ searchIdx }}" data-tagtype-id="{{ tagtype.id }}">
+                  <div class="text-xs text-gray-500 mb-1 font-bold">{{ tagtype.name }}</div>
+                  <div class="flex flex-wrap gap-1">
+                    {% for tag in tagtype.tags %}
+                      {% assign tagId = tag.id | append: "" %}
+                      {% assign isSelected = false %}
+                      {% if search.tags %}
+                        {% for selectedTag in search.tags %}
+                          {% if selectedTag == tagId %}
+                            {% assign isSelected = true %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" 
+                               name="tag_checkbox_c{{ searchIdx }}_{{ tag.id }}"
+                               value="{{ tag.id }}"
+                               class="tag-checkbox-c{{ searchIdx }} hidden"
+                               {% if isSelected %}checked{% endif %}
+                               onchange="updateCriterionTags({{ searchIdx }})"
+                               data-tagtype-id="{{ tagtype.id }}"
+                        >
+                        <span class="text-xs px-2 py-0.5 rounded {% if isSelected %}bg-primary text-white{% else %}bg-gray-100 text-gray-600{% endif %}">
+                          {{ tag.name }}
+                        </span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <input type="hidden" name="tags{{ searchIdx }}" id="tags-input-{{ searchIdx }}" form="form-advanced-search" value="{% if search.tags %}{{ search.tags | join: ',' }}{% endif %}">
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="search-criteria-row p-3 mb-3" data-index="1">
+        <div class="flex gap-2 items-center">
+          <input name="search1" 
+                 type="text"
+                 class="flex-1 border-1 border-gray-300 rounded-lg px-3 py-2"
+                 placeholder="Search term"
+                 form="form-advanced-search"
+          >
+          <select name="path1"
+                  class="border-1 border-gray-300 rounded-lg text-sm min-w-[15rem] px-3 py-2"
+                  form="form-advanced-search">
+            {% render "contacts/options" %}
+          </select>
+          <button type="button" 
+                  class="text-sm cursor-pointer text-gray-600 hover:text-primary px-2"
+                  onclick="toggleTags(1)"
+                  title="Filter by tags">
+            <i class="fa-solid fa-tags"></i>
+          </button>
+          <button type="button" 
+                  class="remove-criteria text-red-600 hover:text-red-800 px-2"
+                  onclick="removeCriteria(this)">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div id="tags-section-1" class="tags-for-criterion-1 hidden mt-2 pt-2 border-t border-gray-100">
+          <div class="flex flex-wrap gap-2">
+            {% for tagtype in search_tag_types %}
+              <div class="tag-group-criterion-1" data-tagtype-id="{{ tagtype.id }}">
+                <div class="text-xs text-gray-500 mb-1 font-bold">{{ tagtype.name }}</div>
+                <div class="flex flex-wrap gap-1">
+                  {% for tag in tagtype.tags %}
+                    <label class="inline-flex items-center cursor-pointer">
+                      <input type="checkbox" 
+                             name="tag_checkbox_c1_{{ tag.id }}"
+                             value="{{ tag.id }}"
+                             class="tag-checkbox-c1 hidden"
+                             onchange="updateCriterionTags(1)"
+                             data-tagtype-id="{{ tagtype.id }}"
+                      >
+                      <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">
+                        {{ tag.name }}
+                      </span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <input type="hidden" name="tags1" id="tags-input-1" form="form-advanced-search" value="">
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Add Criteria Button -->
+  <div class="flex gap-2 mb-4">
+    <button type="button" 
+            onclick="addSearchCriteria()"
+            class="text-sm text-primary hover:text-gray-900 font-medium">
+      <i class="fa-solid fa-plus"></i> Add Search Criteria
+    </button>
+  </div>
+
+  <!-- Search Button -->
+  <div class="flex justify-end mt-4 gap-2">
+    <a href="/admin/contacts" 
+       class="transition duration-500 rounded-lg px-4 py-2 text-base leading-8 font-sans text-gray-700 bg-gray-200 hover:bg-gray-300">
+      Clear
+    </a>
+    <button type="submit" 
+            form="form-advanced-search" 
+            class="transition duration-500 rounded-lg px-4 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900">
+      <i class="fa-light fa-magnifying-glass"></i> Search
+    </button>
+  </div>
+</div>
+
+<script>
+// Count actual number of existing rows in the DOM to ensure correct indexing
+let criteriaIndex = document.querySelectorAll('.search-criteria-row').length || 1;
+
+// Get tag data for dynamic row creation
+const tagTypes = {{ search_tag_types | json }};
+
+function addSearchCriteria() {
+  criteriaIndex++;
+  const container = document.getElementById('search-criteria-container');
+  const newRow = document.createElement('div');
+  newRow.className = 'search-criteria-row p-3 mb-3';
+  newRow.setAttribute('data-index', criteriaIndex);
+  
+  // Build tags HTML with tag type grouping
+  let tagsHtml = '<span class="text-xs text-gray-600 w-full mb-1">Tags for this criterion:</span>';
+  tagTypes.forEach(tagtype => {
+    tagsHtml += `<div class="tag-group-criterion-${criteriaIndex}" data-tagtype-id="${tagtype.id}">`;
+    tagsHtml += `<div class="text-xs text-gray-500 mb-1 font-bold">${tagtype.name}</div>`;
+    tagsHtml += `<div class="flex flex-wrap gap-1">`;
+    
+    tagtype.tags.forEach(tag => {
+      tagsHtml += `
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" 
+                 name="tag_checkbox_c${criteriaIndex}_${tag.id}"
+                 value="${tag.id}"
+                 class="tag-checkbox-c${criteriaIndex} hidden"
+                 onchange="updateCriterionTags(${criteriaIndex})"
+                 data-tagtype-id="${tagtype.id}"
+          >
+          <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">
+            ${tag.name}
+          </span>
+        </label>
+      `;
+    });
+    
+    tagsHtml += `</div></div>`;
+  });
+  
+  newRow.innerHTML = `
+    <div class="flex gap-2 items-center">
+      <input name="search${criteriaIndex}" 
+             type="text"
+             class="flex-1 border-1 border-gray-300 rounded-lg px-3 py-2"
+             placeholder="Search term"
+             form="form-advanced-search"
+      >
+      <select name="path${criteriaIndex}"
+              class="border-1 border-gray-300 rounded-lg text-sm min-w-[15rem] px-3 py-2"
+              form="form-advanced-search">
+        {% render "contacts/options" | escape %}
+      </select>
+      <button type="button" 
+              class="text-sm cursor-pointer text-gray-600 hover:text-primary px-2"
+              onclick="toggleTags(${criteriaIndex})"
+              title="Filter by tags">
+        <i class="fa-solid fa-tags"></i>
+      </button>
+      <button type="button" 
+              class="remove-criteria text-red-600 hover:text-red-800 px-2"
+              onclick="removeCriteria(this)">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+    <div id="tags-section-${criteriaIndex}" class="tags-for-criterion-${criteriaIndex} hidden mt-2 pt-2 border-t border-gray-100">
+      <div class="flex flex-wrap gap-2">
+        ${tagsHtml}
+      </div>
+      <input type="hidden" name="tags${criteriaIndex}" id="tags-input-${criteriaIndex}" form="form-advanced-search" value="">
+    </div>
+  `;
+  
+  container.appendChild(newRow);
+}
+
+function removeCriteria(button) {
+  const row = button.closest('.search-criteria-row');
+  const container = document.getElementById('search-criteria-container');
+  
+  // Keep at least one criteria row
+  if (container.children.length > 1) {
+    row.remove();
+    // Renumber remaining rows
+    renumberCriteria();
+  } else {
+    // Clear the input values instead of removing
+    row.querySelector('input[type="text"]').value = '';
+    row.querySelector('select').selectedIndex = 0;
+    // Uncheck all tags
+    row.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      const span = cb.nextElementSibling;
+      span.classList.remove('bg-primary', 'text-white');
+      span.classList.add('bg-gray-100', 'text-gray-600');
+    });
+    row.querySelector('input[type="hidden"]').value = '';
+    // Reset tags button
+    const tagButton = row.querySelector('button[onclick*="toggleTags"]');
+    if (tagButton) {
+      tagButton.className = 'text-sm text-gray-600 hover:text-primary px-2';
+      tagButton.innerHTML = '<i class="fa-solid fa-tags"></i>';
+    }
+    // Hide tags section
+    const tagsSection = row.querySelector('[id*="tags-section-"]');
+    if (tagsSection) {
+      tagsSection.classList.add('hidden');
+    }
+  }
+}
+
+function renumberCriteria() {
+  const rows = document.querySelectorAll('.search-criteria-row');
+  rows.forEach((row, index) => {
+    const newIndex = index + 1;
+    row.setAttribute('data-index', newIndex);
+    
+    // Update search input
+    const input = row.querySelector('input[type="text"]');
+    if (input) {
+      input.setAttribute('name', `search${newIndex}`);
+    }
+    
+    // Update path select
+    const select = row.querySelector('select');
+    if (select) {
+      select.setAttribute('name', `path${newIndex}`);
+    }
+    
+    // Update tags hidden input
+    const tagsInput = row.querySelector('input[type="hidden"]');
+    if (tagsInput) {
+      tagsInput.setAttribute('name', `tags${newIndex}`);
+      tagsInput.setAttribute('id', `tags-input-${newIndex}`);
+    }
+    
+    // Update tag checkboxes
+    const checkboxes = row.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+      const tagId = cb.value;
+      cb.setAttribute('name', `tag_checkbox_c${newIndex}_${tagId}`);
+      cb.setAttribute('class', `tag-checkbox-c${newIndex} hidden`);
+      cb.setAttribute('onchange', `updateCriterionTags(${newIndex})`);
+    });
+    
+    // Update tags section ID
+    const tagsSection = row.querySelector('[id*="tags-section-"]');
+    if (tagsSection) {
+      tagsSection.id = `tags-section-${newIndex}`;
+    }
+    
+    // Update tags container class
+    const tagsContainer = row.querySelector('[class*="tags-for-criterion-"]');
+    if (tagsContainer) {
+      tagsContainer.className = tagsContainer.className.replace(/tags-for-criterion-\d+/, `tags-for-criterion-${newIndex}`);
+    }
+    
+    // Update tag group classes
+    const tagGroups = row.querySelectorAll('[class*="tag-group-criterion-"]');
+    tagGroups.forEach(group => {
+      group.className = group.className.replace(/tag-group-criterion-\d+/, `tag-group-criterion-${newIndex}`);
+    });
+  });
+  
+  criteriaIndex = rows.length;
+}
+
+function updateCriterionTags(criterionIndex) {
+  const checkboxes = document.querySelectorAll(`.tag-checkbox-c${criterionIndex}:checked`);
+  const tagIds = Array.from(checkboxes).map(cb => cb.value);
+  document.getElementById(`tags-input-${criterionIndex}`).value = tagIds.join(',');
+  
+  // Update visual styling for this criterion's tags
+  document.querySelectorAll(`.tag-checkbox-c${criterionIndex}`).forEach(cb => {
+    const span = cb.nextElementSibling;
+    if (cb.checked) {
+      span.classList.remove('bg-gray-100', 'text-gray-600');
+      span.classList.add('bg-primary', 'text-white');
+    } else {
+      span.classList.remove('bg-primary', 'text-white');
+      span.classList.add('bg-gray-100', 'text-gray-600');
+    }
+  });
+  
+  // Update tags button visual indicator
+  const row = document.querySelector(`.search-criteria-row[data-index="${criterionIndex}"]`);
+  if (row) {
+    const tagButton = row.querySelector('button[onclick*="toggleTags"]');
+    if (tagButton) {
+      const count = tagIds.length;
+      if (count > 0) {
+        tagButton.className = 'text-sm text-primary px-2';
+        const existingBadge = tagButton.querySelector('span.text-xs');
+        if (existingBadge) {
+          existingBadge.textContent = count;
+        } else {
+          tagButton.innerHTML = '<i class="fa-solid fa-tags"></i><span class="text-xs">' + count + '</span>';
+        }
+      } else {
+        tagButton.className = 'text-sm text-gray-600 hover:text-primary px-2';
+        tagButton.innerHTML = '<i class="fa-solid fa-tags"></i>';
+      }
+    }
+  }
+}
+
+function toggleTags(criterionIndex) {
+  const tagsSection = document.getElementById(`tags-section-${criterionIndex}`);
+  if (tagsSection) {
+    tagsSection.classList.toggle('hidden');
+  }
+}
+
+// Select all tags in a specific tag type group
+function selectAllTagsInGroup(criterionIndex, tagTypeId) {
+  const checkboxes = document.querySelectorAll(`.tag-checkbox-c${criterionIndex}[data-tagtype-id="${tagTypeId}"]`);
+  checkboxes.forEach(cb => {
+    cb.checked = true;
+  });
+  updateCriterionTags(criterionIndex);
+}
+
+// Clear all tags in a specific tag type group
+function clearAllTagsInGroup(criterionIndex, tagTypeId) {
+  const checkboxes = document.querySelectorAll(`.tag-checkbox-c${criterionIndex}[data-tagtype-id="${tagTypeId}"]`);
+  checkboxes.forEach(cb => {
+    cb.checked = false;
+  });
+  updateCriterionTags(criterionIndex);
+}
+</script>

@@ -1,0 +1,44 @@
+<div class="panel-space border-b border-gray-200 py-6 text-sm w-full">
+  <div class="flex justify-between items-center mb-3">
+    <h3 class="text-base font-semibold">Quick Search</h3>
+    <a href="/admin/contacts/advanced-search" 
+       class="text-sm text-primary hover:text-gray-900 font-medium">
+      <i class="fa-solid fa-sliders"></i> Advanced Search
+    </a>
+  </div>
+  <div class="flex">
+    <input name="search" type="text"
+           class="w-full bg-transparent !border-0 focus:outline-none"
+           placeholder="Search contacts by fields"
+           form="form-search"
+           value="{{ search_text }}"
+           required
+           data-either="search"
+    >
+    <select name="path"
+            class="border-1 border-gray-300 rounded-lg me-4 text-md min-w-[15rem]"
+            form="form-search">
+      {% render "contacts/options" %}
+    </select>
+    <button type="submit" form="form-search" class="transition duration-500 rounded-lg px-3 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"><i class="fa-light fa-magnifying-glass"></i></button>
+  </div>
+<div class="flex justify-end mt-2">
+  <select name="tag"
+          class="border-1 !border-gray-300 !border-solid rounded-lg me-4 text-md max-w-[15rem]"
+          form="form-search"
+          required
+          data-either="search"
+
+  ><option value="">Search by tags</option>
+    {% for tagtype in search_tag_types %}
+      <optgroup label="{{ tagtype.name }}">
+        {% for tag in tagtype.tags %}
+          {% assign tagId = tag.id | append: "" %}
+          <option value="{{ tag.id }}" {% if search_tag == tagId %}selected{% endif %}>{{ tag.name }}</option>
+        {% endfor %}
+      </optgroup>
+    {% endfor %}
+  </select>
+  <button type="submit" form="form-search" class="transition duration-500 rounded-lg px-3 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"><i class="fa-light fa-magnifying-glass"></i></button>
+  </div>
+</div>

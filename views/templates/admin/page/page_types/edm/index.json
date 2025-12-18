@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "workspace": {
+      "type": "ui/workspace",
+      "settings": {
+        "section_main": "page/edit/index",
+        "section_body": "admin/events/list",
+        "section_menu": "admin/navigation",
+        "title": "eDM",
+        "controller_slug": "pages",
+        "breadcrumb": "Home:/admin,Events:/admin/events",
+        "section_navigation": "admin/navigation-icon"
+      }
+    }
+  },
+  "order": [
+    "workspace"
+  ]
+}
