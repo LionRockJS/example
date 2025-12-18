@@ -1,4 +1,4 @@
-import {Controller} from '@lionrockjs/mvc';
+import {Controller, ControllerState} from '@lionrockjs/mvc';
 import {ControllerMixinView, Central} from '@lionrockjs/central';
 import fs from 'node:fs';
 
@@ -7,7 +7,7 @@ export default class ControllerHome extends Controller{
   static mixins = [ControllerMixinView];
 
   async action_index() {
-    const request = this.state.get(Controller.STATE_REQUEST);
+    const request = this.state.get(ControllerState.REQUEST);
     ControllerMixinView.setTemplate(this.state, 'templates/page', {
       ipcountry: request.headers['cf-ipcountry'] || 'HK'
     });
