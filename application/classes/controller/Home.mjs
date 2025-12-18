@@ -1,4 +1,4 @@
-import {Controller} from '@lionrockjs/mvc';
+import {Controller, ControllerState} from '@lionrockjs/mvc';
 import {ControllerMixinView} from '@lionrockjs/central';
 import {ControllerMixinMultipartForm} from '@lionrockjs/mixin-form';
 
@@ -6,14 +6,14 @@ export default class ControllerHome extends Controller{
   static mixins = [ControllerMixinMultipartForm, ControllerMixinView];
 
   async action_index() {
-    const request = this.state.get(Controller.STATE_REQUEST);
+    const request = this.state.get(ControllerState.REQUEST);
     ControllerMixinView.setTemplate(this.state, 'templates/home', {
       ipcountry: request.headers['cf-ipcountry'] || 'HK'
     });
   }
 
   async action_page(){
-    this.state.set(Controller.STATE_BODY, '');
+    this.state.set(ControllerState.BODY, '');
   }
 
   async action_form_post(){
