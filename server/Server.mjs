@@ -19,9 +19,9 @@ export default class Server {
     });
     Central.port = this.port;
 
-    await import('../application/import.mjs');
+    await import('../application/import');
     await Central.reloadModuleInit(true);
-    await import('../application/routes.mjs');
+    await import('../application/routes');
 
     this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
