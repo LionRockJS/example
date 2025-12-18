@@ -1,6 +1,6 @@
-import {Central} from '@lionrockjs/central';
+import {Central, CentralEnv} from '@lionrockjs/central';
 
 export default {
-  debug: (Central.ENV !== Central.ENV_PROD),
+  debug: (Central.ENV !== CentralEnv.PRODUCTION),
   serve_static_file: false,
 }
