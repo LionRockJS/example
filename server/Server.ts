@@ -2,10 +2,15 @@ import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
 import path from 'node:path';
-import {Central} from '@lionrockjs/central';
+import {Central, CentralAdapterBun} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
+Central.adapter = CentralAdapterBun;
 
 export default class Server {
+  port: number;
+  adapter: any;
+  app: any;
+
   constructor(port = 8001) {
     this.port = port;
   }
@@ -17,11 +22,11 @@ export default class Server {
       APP_PATH:  path.normalize(`${__dirname}/../application`),
       VIEW_PATH: path.normalize(`${__dirname}/../views`),
     });
-    Central.port = this.port;
 
-    await import('../application/import.mjs');
+
+    await import('../application/import');
     await Central.reloadModuleInit(true);
-    await import('../application/routes.mjs');
+    await import('../application/routes');
 
     this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
