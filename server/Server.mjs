@@ -3,7 +3,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/
 
 import path from 'node:path';
 import {Central} from '@lionrockjs/central';
-import {RouteList} from "@lionrockjs/router";
+import {RouteList} from '@lionrockjs/router';
 
 export default class Server {
   constructor(port = 8001) {
@@ -17,12 +17,13 @@ export default class Server {
       APP_PATH:  path.normalize(`${__dirname}/../application`),
       VIEW_PATH: path.normalize(`${__dirname}/../views`),
     });
+    Central.port = this.port;
 
     await import('../application/import.mjs');
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
-    this.adapter = Central.config.site?.platform?.adapter || {setup: async ()=>({listen: port => console.log(`app listening at ${port}`)})};
+    this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
   }
 
