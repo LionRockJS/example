@@ -7,12 +7,12 @@ await Central.addModules([
   await import('@lionrockjs/adapter-view-liquidjs'),
   await import('@lionrockjs/adapter-database-bun-postgres'),
   await import('@lionrockjs/adapter-auth-password'),
-//  await import('@lionrockjs/adapter-session-jwt'),
-/*
+  await import('@lionrockjs/adapter-session-jwt'),
+
   await import('@lionrockjs/mod-auth'),
   await import('@lionrockjs/mod-admin'),
 
   await import('@lionrockjs/view-admin'),
   await import('@lionrockjs/mod-admin-cms'),
-  await import('@lionrockjs/view-admin-cms-compact'),*/
+  await import('@lionrockjs/view-admin-cms-compact'),
 ]);

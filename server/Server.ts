@@ -24,12 +24,12 @@ export default class Server {
     });
 
 
-      await import('../application/import.mjs');
-//    await Central.reloadModuleInit(true);
-//    await import('../application/routes.mjs');
+      await import('../application/import');
+    await Central.reloadModuleInit(true);
+    await import('../application/routes');
 
-//    this.adapter = Central.config.system.platform.adapter;
-//    this.app = await this.adapter.setup();
+    this.adapter = Central.config.system.platform.adapter;
+    this.app = await this.adapter.setup();
   }
 
   async listen() {
