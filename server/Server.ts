@@ -2,9 +2,9 @@ import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
 import path from 'node:path';
-import {Central, CentralAdapterBun} from '@lionrockjs/central';
+import {Central, CentralAdapterWorker} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
-Central.adapter = CentralAdapterBun;
+Central.adapter = CentralAdapterWorker;
 
 export default class Server {
   port: number;

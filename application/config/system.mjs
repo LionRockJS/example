@@ -1,10 +1,10 @@
-import {ServerAdapterNodeHTTP} from "@lionrockjs/platform-web-node-http";
+import {ServerAdapter} from "@lionrockjs/platform-cloudflare-workers";
 
 export default {
   debug: process.env.DEBUG === "true",
   serve_static_file: process.env.SERVE_STATIC === "true",
 
   platform:{
-    adapter: ServerAdapterNodeHTTP
+    adapter: ServerAdapter
   }
 }
