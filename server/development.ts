@@ -1,11 +1,10 @@
 import 'dotenv/config';
 import {Central, CentralEnv} from '@lionrockjs/central';
-import Server from './Server.ts';
 
-Central.ENV = CentralEnv.DEV;
+Central.ENV = CentralEnv.DEVELOPMENT;
+
+import worker from './production.ts';
 
 (async () => {
-  const s = new Server(parseInt(process.env.PORT ?? '8000')+9);
-  await s.setup();
-  await s.listen();
+  worker.fetch(new Request('http://localhost/'))
 })();
