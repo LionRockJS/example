@@ -3,7 +3,7 @@ import { View } from '@lionrockjs/mvc';
 import AdapterViewLiquid, { LiquidView } from '@lionrockjs/adapter-view-liquidjs';
 import { ORMAdapterSQLite, DatabaseAdapterBetterSQLite3 } from "@lionrockjs/adapter-database-better-sqlite3";
 import MixinSession, {ControllerMixinSession} from '@lionrockjs/mixin-session';
-import AdapterSessionDatabase from "@lionrockjs/adapter-session-database";
+import { SessionAdapterDatabase as AdapterSessionDatabase } from "@lionrockjs/adapter-session-database";
 
 View.DefaultViewClass = LiquidView;
 Model.defaultAdapter = ORMAdapterSQLite;
