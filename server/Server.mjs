@@ -21,7 +21,7 @@ export default class Server {
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
-    this.adapter = Central.config.site?.platform?.adapter || {setup: async ()=>({listen: port => console.log(`app listening at ${port}`)})};
+    this.adapter = Central.config.system?.platform?.adapter || {setup: async ()=>({listen: port => console.log(`app listening at ${port}`)})};
     this.app = await this.adapter.setup();
   }
 
