@@ -29,10 +29,10 @@
     "@lionrockjs/mod-admin-cms": "^2.0.0",
     "@lionrockjs/view-admin": "^2.0.0",
     "@lionrockjs/view-admin-cms-compact": "^2.0.0",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^2.2.0"
+    "serve-static": "^2.2.1"
   }
 }
