@@ -6,5 +6,6 @@ Central.ENV = CentralEnv.DEVELOPMENT;
 import worker from './production.ts';
 
 (async () => {
-  worker.fetch(new Request('http://localhost/'))
+  const result = await worker.fetch(new Request('http://localhost/pages/hello'));
+  console.log(result);
 })();

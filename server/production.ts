@@ -56,7 +56,11 @@ export default {
 
     console.log(Central.ENV, Central.config);
     console.log(Array.from(RouteList.routeMap.values()).map(route => route.path + " " + route.method + ' => '+ route.controller + '::action_' + route.action).sort());
-
-    console.log(await app.listen(request));
+    const response = await app.listen(request);
+    if (response.status >= 400) {
+      const errorText = await response.text();
+      return htmlResponse(`Error ${response.status}`, `<h1 class="error">Error ${response.status}</h1><pre>${escapeHtml(errorText)}</pre>`, response.status);
+    }
+    return await response.text();
   }
 }
