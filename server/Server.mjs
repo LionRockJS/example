@@ -22,7 +22,7 @@ export default class Server {
     await Central.reloadModuleInit(true);
     await import('../application/routes.mjs');
 
-    this.adapter = Central.config.site?.platform?.adapter || ServerAdapterNodeHTTP;
+    this.adapter = Central.config.system?.platform?.adapter || ServerAdapterNodeHTTP;
     this.app = await this.adapter.setup();
   }
 
