@@ -15,7 +15,7 @@
   "dependencies": {
     "@lionrockjs/central": "^2.0.0",
     "@lionrockjs/mvc": "^2.0.0",
-    "@lionrockjs/platform-web-express": "^2.0.0",
+    "@lionrockjs/platform-web-fastify": "^2.0.0",
     "@lionrockjs/router": "^2.0.0",
     "dotenv": "^17.4.2"
   },
