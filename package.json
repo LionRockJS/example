@@ -20,6 +20,7 @@
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
-    "serve-static": "^2.2.1"
+    "serve-static": "^2.2.1",
+    "@types/node": "^25.6.2"
   }
 }
