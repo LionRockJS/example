@@ -12,26 +12,26 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-session-jwt": "^0.0.6",
-    "@lionrockjs/adapter-auth-password": "^0.0.7",
-    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.5",
-    "@lionrockjs/adapter-mail-aws": "^0.0.2",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.13",
-    "@lionrockjs/central": "^0.0.33",
-    "@lionrockjs/mixin-form": "^0.0.7",
-    "@lionrockjs/mixin-orm": "^0.0.11",
+    "@lionrockjs/adapter-auth-password": "^0.0.8",
+    "@lionrockjs/adapter-database-better-sqlite3": "^0.0.10",
+    "@lionrockjs/adapter-mail-aws": "^0.0.6",
+    "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
+    "@lionrockjs/central": "^0.0.55",
+    "@lionrockjs/mixin-form": "^0.0.9",
+    "@lionrockjs/mixin-orm": "^0.0.16",
     "@lionrockjs/mixin-session": "^0.0.12",
-    "@lionrockjs/mod-admin": "^0.0.26",
-    "@lionrockjs/mod-auth": "^0.0.11",
-    "@lionrockjs/mod-cold-leads": "^0.0.10",
-    "@lionrockjs/mod-mail": "^0.0.8",
-    "@lionrockjs/mvc": "^0.0.6",
+    "@lionrockjs/mod-admin": "^0.0.61",
+    "@lionrockjs/mod-auth": "^0.0.13",
+    "@lionrockjs/mod-cold-leads": "^0.0.15",
+    "@lionrockjs/mod-mail": "^0.0.17",
+    "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "@lionrockjs/router": "^0.0.1",
-    "dotenv": "^16.4.5",
+    "@lionrockjs/router": "^0.0.2",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "@lionrockjs/start": "^0.0.2",
-    "serve-static": "^1.16.2"
+    "@lionrockjs/start": "^0.0.3",
+    "serve-static": "^2.2.1"
   }
 }
