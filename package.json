@@ -13,11 +13,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.45",
-    "@lionrockjs/mvc": "^0.0.9",
+    "@lionrockjs/central": "^0.0.55",
+    "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/platform-web-express": "^0.0.3",
     "@lionrockjs/router": "^0.0.2",
-    "dotenv": "^16.5.0",
-    "mime": "^4.0.7"
+    "dotenv": "^17.4.2",
+    "mime": "^4.1.0"
   }
 }
