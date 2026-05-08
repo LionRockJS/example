@@ -22,12 +22,12 @@
     "@lionrockjs/adapter-auth-password": "^0.0.8",
     "@lionrockjs/mixin-orm": "^0.0.16",
     "@lionrockjs/mod-admin": "^0.0.61",
-    "@lionrockjs/mod-admin-cms": "^0.0.81",
+    "@lionrockjs/mod-admin-cms": "^0.0.84",
     "@lionrockjs/view-admin-cms": "^0.0.35",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^2.2.0"
+    "serve-static": "^2.2.1"
   }
 }
