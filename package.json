@@ -17,7 +17,7 @@
     "@lionrockjs/mvc": "^2.0.0",
     "@lionrockjs/platform-cloudflare-workers": "^2.0.0",
     "@lionrockjs/router": "^2.0.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "serve-static": "^2.2.1"
