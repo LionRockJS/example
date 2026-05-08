@@ -1,11 +1,11 @@
 import 'dotenv/config';
-import {Central, CentralEnv, CentralAdapterWorker} from '@lionrockjs/central';
+import {Central, CentralEnv, RuntimeAdapterWorker} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
 
 import {ServerAdapter} from "@lionrockjs/platform-cloudflare-workers";
 
 Central.ENV = CentralEnv.PRODUCTION;
-Central.adapter = new CentralAdapterWorker();
+Central.runtime = new RuntimeAdapterWorker();
 
 function escapeHtml(str: string) {
   return String(str)
@@ -57,6 +57,6 @@ export default {
     console.log(Central.ENV, Central.config);
     console.log(Array.from(RouteList.routeMap.values()).map(route => route.path + " " + route.method + ' => '+ route.controller + '::action_' + route.action).sort());
 
-    console.log(app);
+    console.log(await app.listen(request));
   }
 }
