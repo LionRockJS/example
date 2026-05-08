@@ -1,4 +1,4 @@
-import {ServerAdapter} from "@lionrockjs/platform-web-node-http";
+import {ServerAdapter} from "@lionrockjs/platform-web-express";
 
 export default {
   debug: process.env.DEBUG === "true",
