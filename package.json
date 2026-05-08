@@ -19,7 +19,7 @@
     "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
     "@lionrockjs/mixin-form": "^2.0.0",
     "@lionrockjs/router": "^2.0.0",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
