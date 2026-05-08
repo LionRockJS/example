@@ -13,25 +13,25 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@prisma/client": "7.0.0",
+    "@prisma/client": "7.8.0",
     "@lionrockjs/mvc": "^0.0.13",
     "@lionrockjs/router": "^0.0.2",
     "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
     "@lionrockjs/adapter-database-bun-postgresql": "^0.0.1",
     "@lionrockjs/adapter-auth-password": "^0.0.8",
     "@lionrockjs/adapter-session-jwt": "^0.0.6",
-    "@lionrockjs/central": "^0.0.54",
+    "@lionrockjs/central": "^0.0.55",
     "@lionrockjs/mixin-orm": "^0.0.16",
     "@lionrockjs/mixin-form": "^0.0.9",
     "@lionrockjs/mixin-session": "^0.0.12",
-    "@lionrockjs/mod-auth": "^0.0.12",
-    "@lionrockjs/mod-admin": "^0.0.60",
+    "@lionrockjs/mod-auth": "^0.0.13",
+    "@lionrockjs/mod-admin": "^0.0.61",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "prisma": "7.0.0",
-    "serve-static": "^2.2.0"
+    "prisma": "7.8.0",
+    "serve-static": "^2.2.1"
   }
 }
