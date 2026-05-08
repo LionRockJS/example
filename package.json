@@ -26,7 +26,7 @@
     "@lionrockjs/mod-auth": "^0.0.13",
     "@lionrockjs/mod-admin": "^0.0.61",
     "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
