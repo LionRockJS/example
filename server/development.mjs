@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import {Central, CentralEnv} from '@lionrockjs/central';
+import {Central} from '@lionrockjs/central';
 import Server from './Server.mjs';
 
-Central.ENV = CentralEnv.DEVELOPMENT;
+Central.ENV = Central.ENV_DEV;
 
 (async () => {
   const s = new Server(parseInt(process.env.PORT ?? '8000'));
