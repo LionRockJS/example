@@ -15,7 +15,8 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/mvc": "^2.0.0",
-    "@lionrockjs/router": "^2.0.0"
+    "@lionrockjs/router": "^2.0.0",
+    "@lionrockjs/mixin-form": "^2.0.0"
   },
   "devDependencies": {
     "dotenv": "^17.4.2",

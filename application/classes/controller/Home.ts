@@ -4,14 +4,13 @@ import {ControllerMixinMultipartForm} from '@lionrockjs/mixin-form';
 
 export default class ControllerHome extends Controller{
   static mixins = [
-  //  ControllerMixinMultipartForm, 
+    ControllerMixinMultipartForm, 
     ControllerMixinView
   ];
 
   async action_index() {
     const request = this.state.get(ControllerState.REQUEST);
     const headers = this.state.get(ControllerState.REQUEST_HEADERS);
-    console.log('headers', headers);
 
     ControllerMixinView.setTemplate(this.state, 'templates/home', {
       ipcountry: headers['cf-ipcountry'] || 'HK'
