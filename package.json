@@ -3,11 +3,12 @@
   "name": "lionrock-sample",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server/development.js",
-    "start": "node server/production.js"
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
   },
   "author": "",
   "license": "ISC",
