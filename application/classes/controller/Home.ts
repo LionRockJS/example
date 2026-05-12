@@ -11,6 +11,7 @@ export default class ControllerHome extends Controller{
   }
 
   async action_page(){
+    console.log('params', this.state.get(ControllerState.PARAMS));
     this.state.set(ControllerState.BODY, 'This is the page action');
   }
 }
