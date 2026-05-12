@@ -1,14 +1,12 @@
 import { Hono } from 'hono'
 import { RouteList } from '@lionrockjs/router';
-
-RouteList.add('/', 'controller/Home');
-RouteList.add('/pages/:slug', 'controller/Home', 'page');
+await import('../application/bootstrap.mts');
+await import('../application/import.mts');
+await import('../application/routes.mts');
 
 const app = new Hono();
 const routes = Array.from(RouteList.routeMap.values());
 routes.forEach((route: any) => {
-console.log(route);
-
   app.on(route.method, route.path, async c => {
     const Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
     const controller = new Controller(
@@ -19,8 +17,4 @@ console.log(route);
   });
 });
 
-export default {
-  async fetch(request: Request) {
-    return await app.fetch(request);
-  }
-};
+export default app;
