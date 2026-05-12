@@ -1,41 +1,20 @@
-import * as url from 'node:url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
+import { Hono } from 'hono'
+import { RouteList } from '@lionrockjs/router';
+await import('../application/bootstrap.mts');
+await import('../application/import.mts');
+await import('../application/routes.mts');
 
-import path from 'node:path';
-import {Central, RuntimeAdapterBun} from '@lionrockjs/central';
-import {RouteList} from '@lionrockjs/router';
-Central.runtime = new RuntimeAdapterBun();
+const app = new Hono();
+const routes = Array.from(RouteList.routeMap.values());
+routes.forEach((route: any) => {
+  app.on(route.method, route.path, async c => {
+    const Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
+    const controller = new Controller(
+      {...c.req, params: c.req.param()}
+    );
+    const result = await controller.execute(route.action);
+    return c.text(result.body, result.status);
+  });
+});
 
-export default class Server {
-  port: number;
-  adapter: any;
-  app: any;
-
-  constructor(port = 8001) {
-    this.port = port;
-  }
-
-  async setup() {
-    // setup LionRockJS path constants
-    await Central.init({
-      EXE_PATH:  path.normalize(__dirname),
-      APP_PATH:  path.normalize(`${__dirname}/../application`),
-      VIEW_PATH: path.normalize(`${__dirname}/../views`),
-    });
-
-
-      await import('../application/import.mjs');
-    await Central.reloadModuleInit(true);
-    await import('../application/routes.mjs');
-
-    this.adapter = Central.config.system.platform.adapter;
-    this.app = await this.adapter.setup();
-  }
-
-  async listen() {
-    console.log(Central.ENV, Central.config);
-    console.log(Array.from(RouteList.routeMap.values()).map(route => route.path + " " + route.method + ' => '+ route.controller + '::action_' + route.action).sort());
-    await this.app.listen(this.port);
-    console.log(`app listening at ${this.port}`);
-  }
-}
+export default app;

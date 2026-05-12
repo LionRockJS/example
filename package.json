@@ -16,12 +16,10 @@
     "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
     "@lionrockjs/central": "^0.0.55",
     "@lionrockjs/mvc": "^0.0.13",
-    "@lionrockjs/platform-web-node-http": "^0.0.9",
     "@lionrockjs/router": "^0.0.2",
     "dotenv": "^17.4.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^2.2.1"
   }
 }
