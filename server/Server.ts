@@ -4,7 +4,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/
 import path from 'node:path';
 import {Central, RuntimeAdapterBun} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
-Central.runtime = RuntimeAdapterBun;
+Central.runtime = new RuntimeAdapterBun();
 
 export default class Server {
   port: number;
