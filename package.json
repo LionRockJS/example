@@ -3,26 +3,26 @@
   "name": "lionrock-sample",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server/development.js",
-    "start": "node server/production.js"
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/central": "^0.0.55",
-    "@lionrockjs/mvc": "^0.0.13",
-    "@lionrockjs/platform-web-node-http": "^0.0.9",
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
-    "@lionrockjs/mixin-form": "^0.0.9",
-    "@lionrockjs/router": "^0.0.2",
-    "dotenv": "^17.4.2",
-    "pluralize": "^8.0.0"
+    "@lionrockjs/mvc": "^2.0.0",
+    "@lionrockjs/router": "^2.0.0"
   },
   "devDependencies": {
-    "serve-static": "^2.2.1"
+    "dotenv": "^17.4.2",
+    "@cloudflare/vitest-pool-workers": "^0.12.4",
+    "@types/node": "^25.6.2",
+    "typescript": "^5.5.2",
+    "vitest": "~3.2.0",
+    "wrangler": "^4.90.0"
   }
 }
