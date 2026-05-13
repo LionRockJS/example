@@ -1,7 +1,5 @@
 import {Controller, ControllerState} from '@lionrockjs/mvc';
 import {ControllerMixinView, Central} from '@lionrockjs/central';
-import fs from 'node:fs';
-
 
 export default class ControllerHome extends Controller{
   static mixins = [ControllerMixinView];
@@ -15,10 +13,8 @@ export default class ControllerHome extends Controller{
   }
 
   async action_page(){
-    const data = await import('../../../views/templates/page.json');
-
     ControllerMixinView.setTemplate(this.state, 'templates/page', {
-      data
+      data: 'This is a page.'
     });
   }
 }

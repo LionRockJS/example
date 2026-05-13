@@ -13,13 +13,13 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/adapter-view-liquidjs": "^0.0.40",
-    "@lionrockjs/central": "^0.0.55",
-    "@lionrockjs/mvc": "^0.0.13",
-    "@lionrockjs/router": "^0.0.2",
-    "dotenv": "^17.4.2",
-    "pluralize": "^8.0.0"
+    "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
+    "@lionrockjs/central": "^2.0.0",
+    "@lionrockjs/mvc": "^2.0.0",
+    "@lionrockjs/router": "^2.0.0"
   },
   "devDependencies": {
+    "dotenv": "^17.4.2",
+    "pluralize": "^8.0.0"
   }
 }
