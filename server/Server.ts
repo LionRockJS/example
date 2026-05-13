@@ -10,7 +10,10 @@ routes.forEach((route: any) => {
   app.on(route.method, route.path, async c => {
     const Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
     const controller = new Controller(
-      {...c.req, params: c.req.param()}
+      {...c.req, 
+        params: c.req.param(),
+        headers: c.req.header(),
+      }
     );
     const result = await controller.execute(route.action);
     return c.text(result.body, result.status);

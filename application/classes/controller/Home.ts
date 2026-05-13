@@ -7,9 +7,10 @@ export default class ControllerHome extends Controller{
   static mixins = [ControllerMixinView];
 
   async action_index() {
-    const request = this.state.get(ControllerState.REQUEST);
+    const headers = this.state.get(ControllerState.REQUEST_HEADERS);
+
     ControllerMixinView.setTemplate(this.state, 'templates/page', {
-      ipcountry: request.headers['cf-ipcountry'] || 'HK'
+      ipcountry: headers['cf-ipcountry'] || 'HK'
     });
   }
 
