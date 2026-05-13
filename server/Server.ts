@@ -1,8 +1,17 @@
 import { Hono } from 'hono'
 import { RouteList } from '@lionrockjs/router';
-await import('../application/bootstrap.mts');
-await import('../application/import.mts');
-await import('../application/routes.mts');
+import {Central} from '@lionrockjs/central';
+
+await import('../application/bootstrap.mts'),
+await import('../application/import.mts'),
+await import('../application/routes.mts')
+
+const views = await import('../views/index.ts');
+views.default.forEach((value: any, key: string) => {
+  Central.viewFiles.set(key, value);
+});
+
+console.log(Central.config);
 
 const app = new Hono();
 const routes = Array.from(RouteList.routeMap.values());
@@ -16,7 +25,7 @@ routes.forEach((route: any) => {
       }
     );
     const result = await controller.execute(route.action);
-    return c.text(result.body, result.status);
+    return c.html(result.body, result.status);
   });
 });
 
