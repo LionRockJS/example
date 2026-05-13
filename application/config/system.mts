@@ -1,4 +1,4 @@
-import {ServerAdapter} from "@lionrockjs/platform-web-node-http";
+import {ServerAdapter} from "@lionrockjs/platform-cloudflare-workers";
 
 export default {
   debug: process.env.DEBUG === "true",

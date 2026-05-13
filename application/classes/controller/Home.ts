@@ -15,7 +15,7 @@ export default class ControllerHome extends Controller{
   }
 
   async action_page(){
-    const data = fs.readFileSync(Central.VIEW_PATH + '/templates/page.json', 'utf8');
+    const data = await import('../../../views/templates/page.json');
 
     ControllerMixinView.setTemplate(this.state, 'templates/page', {
       data

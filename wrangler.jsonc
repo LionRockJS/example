@@ -19,9 +19,18 @@
       "type": "ESModule",
       "globs": [
 				"application/**/*.ts",
-				"application/**/*.mts"
+				"application/**/*.mts",
+				"views/index.ts",
+				"views/**/*.json"
 			],
       "fallthrough": true
-    }
+    },
+		{
+			"type": "Text",
+			"globs": [
+				"*.liquid"
+			],
+			"fallthrough": true
+		}
   ]
 }
