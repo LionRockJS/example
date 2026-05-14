@@ -3,9 +3,9 @@ import { View } from '@lionrockjs/mvc';
 import AdapterViewLiquid, { LiquidView } from '@lionrockjs/adapter-view-liquidjs';
 View.DefaultViewClass = LiquidView;
 
-import { ORMAdapterSQLite, DatabaseAdapterBetterSQLite3 } from "@lionrockjs/adapter-database-better-sqlite3";
+import { ORMAdapterSQLite, DatabaseAdapterBunSqlite } from "@lionrockjs/adapter-database-bun-sqlite";
 Model.defaultAdapter = ORMAdapterSQLite;
-ControllerMixinDatabase.defaultAdapter = DatabaseAdapterBetterSQLite3;
+ControllerMixinDatabase.defaultAdapter = DatabaseAdapterBunSqlite;
 
 import MixinSession, {ControllerMixinSession} from '@lionrockjs/mixin-session';
 import {SessionJWT} from '@lionrockjs/adapter-session-jwt';
