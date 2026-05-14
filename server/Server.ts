@@ -7,39 +7,10 @@ import {Central, RuntimeAdapterBun} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
 import packageJson from '../package.json'
 
-Central.runtime = new RuntimeAdapterBun();
-const controllerDir = path.join(__dirname, '../application/classes/controller');
-for (const file of fs.readdirSync(controllerDir).filter(f => f.endsWith('.mjs') || f.endsWith('.ts') || f.endsWith('.js'))) {
-  const mod = await import(`../application/classes/controller/${file}`);
-  Central.controllerFiles.set(
-    `controller/${path.basename(file, path.extname(file))}`, 
-    mod.default
-  );
-}
-
-// Auto-register all views from the views directory
-async function registerViews(dir: string, baseKey = '') {
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    const key = baseKey ? `${baseKey}/${entry.name}` : entry.name;
-    
-    if (entry.isDirectory()) {
-      await registerViews(fullPath, key);
-    } else if (entry.name.endsWith('.liquid') || entry.name.endsWith('.json')) {
-      const ext = path.extname(entry.name);
-      const viewKey = key.substring(0, key.length - ext.length);
-      const payload = await import(fullPath, { with: { type: ext === '.json' ? 'json' : 'text' } });
-       Central.viewFiles.set(viewKey, {
-        package: packageJson.name,
-        payload,
-      });
-    }
-  }
-}
-
-const viewsDir = path.join(__dirname, '../views');
-await registerViews(viewsDir);
+const runtimeAdapterBun = new RuntimeAdapterBun();
+Central.runtime = runtimeAdapterBun;
+await runtimeAdapterBun.registerControllers(path.join(__dirname, '../application/classes/controller'));
+await runtimeAdapterBun.registerViews({ package: packageJson.name, path: path.join(__dirname, '../views') });
 
 export default class Server {
   port: number;
