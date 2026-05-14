@@ -19,9 +19,23 @@
       "type": "ESModule",
       "globs": [
 				"application/**/*.ts",
-				"application/**/*.mts"
+				"application/**/*.mts",
+				"*.json"
 			],
       "fallthrough": true
+    },
+    {
+      "type": "Text",
+      "globs": [
+				"*.liquid"
+			],
+      "fallthrough": true
+    }
+  ],
+	"r2_buckets": [
+    {
+      "binding": "FORM_UPLOADS",
+      "bucket_name": "lionrockjs-form-uploads"
     }
   ]
 }

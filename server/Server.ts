@@ -2,6 +2,9 @@ import { Hono } from 'hono'
 import { RouteList } from '@lionrockjs/router';
 import {Central} from '@lionrockjs/central';
 
+import { ControllerMixinMultipartForm, MultipartParserR2 } from '@lionrockjs/mixin-form';
+ControllerMixinMultipartForm.fileAdapter = MultipartParserR2;
+
 await import('../application/bootstrap.mts'),
 await import('../application/import.mts'),
 await import('../application/routes.mts')
@@ -22,6 +25,7 @@ routes.forEach((route: any) => {
       {...c.req, 
         params: c.req.param(),
         headers: c.req.header(),
+        env: c.env,
       }
     );
     const result = await controller.execute(route.action);

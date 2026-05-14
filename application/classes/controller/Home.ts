@@ -22,7 +22,7 @@ export default class ControllerHome extends Controller{
   }
 
   async action_form_post(){
-    const $_POST = this.state.get(ControllerMixinMultipartForm.POST_DATA);
+    const $_POST = this.state.get(ControllerMixinMultipartForm.POST_DATA) ?? {};
     ControllerMixinView.setTemplate(this.state, 'templates/submit', {post: $_POST, keys: Object.keys($_POST)});
   }
 }
