@@ -1,5 +1,5 @@
 import { Central } from '@lionrockjs/central';
 
-await Central.initConfig(new Map([
+await Central.addConfig(new Map([
   ['system', await import('./config/system.mjs')],
 ]));
