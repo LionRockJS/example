@@ -8,15 +8,50 @@ import {RouteList} from '@lionrockjs/router';
 
 Central.runtime = new RuntimeAdapterBun();
 const controllerDir = path.join(__dirname, '../application/classes/controller');
-for (const file of fs.readdirSync(controllerDir).filter(f => f.endsWith('.ts'))) {
-  const key = `controller/${path.basename(file, '.ts')}`;
+for (const file of fs.readdirSync(controllerDir).filter(f => f.endsWith('.mjs') || f.endsWith('.ts') || f.endsWith('.js'))) {
+  const ext = path.extname(file);
+  const key = `controller/${path.basename(file, ext)}`;
   const mod = await import(`../application/classes/controller/${file}`);
   Central.controllerFiles.set(key, mod.default);
 }
-import ControllerHome from '../application/classes/controller/Home.mjs';
-Central.controllerFiles.set('controller/Home', ControllerHome);
 
-Central.viewFiles.set('layout/default', await import('../views/layout/default.liquid', {with: {type: 'text'}}));
+import packageJson from '../package.json'
+const views = new Map(
+  [
+    ['layout/default', {
+      package: packageJson.name,
+      payload: await import('../views/layout/default.liquid'),
+    }],
+    ['sections/dev-footer', {
+      package: packageJson.name,
+      payload: await import('../views/sections/dev-footer.liquid'),
+    }],
+    ['sections/footnote', {
+      package: packageJson.name,
+      payload: await import('../views/sections/footnote.liquid'),
+    }],
+    ['sections/header', {
+      package: packageJson.name,
+      payload: await import('../views/sections/header.liquid'),
+    }],
+    ['sections/hero', {
+      package: packageJson.name,
+      payload: await import('../views/sections/hero.liquid'),
+    }],
+    ['sections/paragraphs', {
+      package: packageJson.name,
+      payload: await import('../views/sections/paragraphs.liquid'),
+    }],
+    ['templates/error', {
+      package: packageJson.name,
+      payload: await import('../views/templates/error.liquid'),
+    }],
+    ['templates/page', {
+      package: packageJson.name,
+      payload: await import('../views/templates/page.json'),
+    }],
+  ]
+).forEach((value, key) => Central.viewFiles.set(key, value));
 
 export default class Server {
   port: number;
