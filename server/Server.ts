@@ -6,13 +6,10 @@ import fs from 'node:fs';
 import {Central, RuntimeAdapterBun} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
 
-Central.runtime = new RuntimeAdapterBun();
-const controllerDir = path.join(__dirname, '../application/classes/controller');
-for (const file of fs.readdirSync(controllerDir).filter(f => f.endsWith('.ts'))) {
-  const key = `controller/${path.basename(file, '.ts')}`;
-  const mod = await import(`../application/classes/controller/${file}`);
-  Central.controllerFiles.set(key, mod.default);
-}
+const runtimeAdapterBun = new RuntimeAdapterBun();
+Central.runtime = runtimeAdapterBun;
+await runtimeAdapterBun.registerControllers(path.join(__dirname, '../application/classes/controller'));
+//await runtimeAdapterBun.registerViews(path.join(__dirname, '../views'));
 
 export default class Server {
   port: number;
