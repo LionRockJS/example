@@ -5,17 +5,20 @@
     "moduleResolution": "bundler",
     "declaration": true,
     "types":["node"],
-    "rootDir": "server",
     "outDir": "dist",
     "declarationDir": "types",
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.mts"
+    "server/**/*.ts",
+    "server/**/*.mts",
+    "application/**/*.ts",
+    "application/**/*.mts",
   ],
   "exclude": [
     "node_modules",
