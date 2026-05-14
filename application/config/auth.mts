@@ -4,14 +4,15 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/
 import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
 
 const databaseMapName = 'admin';
+const databasePath = `${__dirname}/../../database`;
 const userDatabase = 'admin.sqlite';
 
 export default {
-  databasePath: `${__dirname}/../../database`,
+  databasePath,
   userDatabase,
   databaseMapName,
   databaseMap: new Map([
-    [databaseMapName, userDatabase],
+    [databaseMapName, `${databasePath}/${userDatabase}`],
   ]),
 
   identifiers: [IdentifierPassword],
