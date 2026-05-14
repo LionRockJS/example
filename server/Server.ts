@@ -2,9 +2,15 @@ import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
 import path from 'node:path';
+import fs from 'node:fs';
 import {Central, RuntimeAdapterBun} from '@lionrockjs/central';
 import {RouteList} from '@lionrockjs/router';
-Central.runtime = new RuntimeAdapterBun();
+import packageJson from '../package.json'
+
+const runtimeAdapterBun = new RuntimeAdapterBun();
+Central.runtime = runtimeAdapterBun;
+await runtimeAdapterBun.registerControllers(path.join(__dirname, '../application/classes/controller'));
+await runtimeAdapterBun.registerViews({ package: packageJson.name, path: path.join(__dirname, '../views') });
 
 export default class Server {
   port: number;
@@ -16,13 +22,9 @@ export default class Server {
   }
 
   async setup() {
-    // setup LionRockJS path constants
-    await Central.init({
-      EXE_PATH:  path.normalize(__dirname),
-      APP_PATH:  path.normalize(`${__dirname}/../application`),
-      VIEW_PATH: path.normalize(`${__dirname}/../views`),
-    });
-
+    await import('../application/bootstrap.ts');
+    await import('../application/import.ts');
+    await import('../application/routes.ts');
     this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
   }
