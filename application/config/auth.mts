@@ -1,16 +1,17 @@
-import path from 'node:path';
-import {Central} from '@lionrockjs/central';
+import * as url from 'node:url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
+
 import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
 
 const databaseMapName = 'admin';
 const userDatabase = 'admin.sqlite';
 
 export default {
-  databasePath: path.normalize(Central.EXE_PATH + '/../database'),
+  databasePath: `${__dirname}/../../database`,
   userDatabase,
   databaseMapName,
   databaseMap: new Map([
-    [databaseMapName, `${Central.EXE_PATH}/../database/${userDatabase}`],
+    [databaseMapName, userDatabase],
   ]),
 
   identifiers: [IdentifierPassword],

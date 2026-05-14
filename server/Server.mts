@@ -12,6 +12,8 @@ Central.runtime = runtimeAdapterBun;
 await runtimeAdapterBun.registerControllers(path.join(__dirname, '../application/classes/controller'));
 await runtimeAdapterBun.registerViews({ package: packageJson.name, path: path.join(__dirname, '../views') });
 
+console.log(Central.viewFiles.keys());
+
 export default class Server {
   port: number;
   adapter: any;
@@ -22,8 +24,8 @@ export default class Server {
   }
 
   async setup() {
-    await import('../application/bootstrap.mts');
     await import('../application/import.mts');
+    await import('../application/bootstrap.mts');
     await import('../application/routes.mts');
     this.adapter = Central.config.system.platform.adapter;
     this.app = await this.adapter.setup();
