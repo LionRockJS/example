@@ -13,6 +13,7 @@ await runtimeAdapterBun.registerControllers(path.join(__dirname, '../application
 await runtimeAdapterBun.registerViews({ package: packageJson.name, path: path.join(__dirname, '../views') });
 
 console.log(Central.viewFiles.keys());
+console.log(Central.viewFiles.get('templates/home'));
 
 export default class Server {
   port: number;
