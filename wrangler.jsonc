@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "worker-example",
+	"name": "example-form",
 	"main": "server/Server.ts",
 	"compatibility_date": "2026-05-08",
 	"observability": {
