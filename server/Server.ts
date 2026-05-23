@@ -14,8 +14,6 @@ views.default.forEach((value: any, key: string) => {
   Central.viewFiles.set(key, value);
 });
 
-console.log(Central.config);
-
 const app = new Hono();
 const routes = Array.from(RouteList.routeMap.values());
 routes.forEach((route: any) => {
