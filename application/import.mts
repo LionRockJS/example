@@ -1,8 +1,12 @@
 import { Central } from '@lionrockjs/central';
+import { ControllerMixinDatabase, Model } from '@lionrockjs/central';
+import AdapterDatabaseCloudflareD1, { DatabaseAdapterCloudflareD1, ORMAdapterSQLite } from '@lionrockjs/adapter-database-cloudflare-d1';
 
 import MixinSession, { ControllerMixinSession } from '@lionrockjs/mixin-session';
 import { SessionJWT } from '@lionrockjs/adapter-session-jwt';
 ControllerMixinSession.defaultAdapter = SessionJWT;
+Model.defaultAdapter = ORMAdapterSQLite;
+ControllerMixinDatabase.defaultAdapter = DatabaseAdapterCloudflareD1;
 
 const AdapterViewLiquid = await import('@lionrockjs/adapter-view-liquidjs');
 import { View } from '@lionrockjs/mvc';
@@ -10,7 +14,7 @@ View.DefaultViewClass = AdapterViewLiquid.LiquidView;
 
 await Central.addModules([
   AdapterViewLiquid,
-  await import('@lionrockjs/adapter-database-cloudflare-d1'),
+  AdapterDatabaseCloudflareD1,
   await import('@lionrockjs/mixin-form'),
   MixinSession,
   await import('@lionrockjs/mod-auth'),

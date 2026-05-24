@@ -37,5 +37,12 @@
       "binding": "FORM_UPLOADS",
       "bucket_name": "lionrockjs-form-uploads"
     }
+  ],
+	"d1_databases": [
+    {
+      "binding": "ADMIN_DB",
+      "database_name": "admin",
+      "database_id": "0913de69-6114-48fe-afba-14a12d539d38"
+    }
   ]
 }

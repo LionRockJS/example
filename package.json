@@ -4,6 +4,13 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
+    "dev:remote": "wrangler dev --remote",
+    "d1:schema:local": "wrangler d1 execute ADMIN_DB --local --file=../modules/auth/schema/exports/admin.sql",
+    "d1:schema:remote": "wrangler d1 execute ADMIN_DB --remote --file=../modules/auth/schema/exports/admin.sql",
+    "d1:seed:local": "wrangler d1 execute ADMIN_DB --local --file=sql/d1-admin-seed.sql",
+    "d1:seed:remote": "wrangler d1 execute ADMIN_DB --remote --file=sql/d1-admin-seed.sql",
+    "d1:init:local": "npm run d1:schema:local && npm run d1:seed:local",
+    "d1:init:remote": "npm run d1:schema:remote && npm run d1:seed:remote",
     "start": "wrangler dev",
     "test": "vitest",
     "cf-typegen": "wrangler types"

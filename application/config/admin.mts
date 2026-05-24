@@ -1,5 +1,5 @@
 export default {
   databaseMap: new Map([
-    ['admin', 'admin.sqlite'],
+    ['admin', 'ADMIN_DB'],
   ])
 };

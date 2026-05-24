@@ -6,8 +6,8 @@ import {Central} from '@lionrockjs/central';
 import { ControllerMixinMultipartForm, MultipartParserR2 } from '@lionrockjs/mixin-form';
 ControllerMixinMultipartForm.fileAdapter = MultipartParserR2;
 
-await import('../application/bootstrap.mts'),
 await import('../application/import.mts'),
+await import('../application/bootstrap.mts'),
 await import('../application/routes.mts')
 
 const views = await import('../views/index.ts');
