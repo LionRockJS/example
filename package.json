@@ -1,35 +1,36 @@
 {
   "private": true,
-  "name": "lionrock-sample",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "example-admin",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server/development.js",
-    "start": "node server/production.js"
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
   },
-  "author": "",
-  "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@lionrockjs/mvc": "^2.0.0",
     "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
-    "@lionrockjs/adapter-database-better-sqlite3": "^2.0.0",
     "@lionrockjs/adapter-auth-password": "^2.0.0",
     "@lionrockjs/adapter-session-jwt": "^2.0.0",
+    "@lionrockjs/adapter-database-better-sqlite3": "^2.0.0",
     "@lionrockjs/central": "^2.0.0",
     "@lionrockjs/mixin-orm": "^2.0.0",
     "@lionrockjs/mixin-form": "^2.0.0",
     "@lionrockjs/mixin-session": "^2.0.0",
     "@lionrockjs/mod-auth": "^2.0.0",
     "@lionrockjs/mod-admin": "^2.0.0",
-    "@lionrockjs/platform-web-node-http": "^2.0.0",
+    "@lionrockjs/mvc": "^2.0.0",
     "@lionrockjs/router": "^2.0.0",
-    "dotenv": "^17.4.2",
+    "hono": "^4.12.22",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "serve-static": "^2.2.1"
+    "@cloudflare/vitest-pool-workers": "^0.12.4",
+    "@types/node": "^25.6.2",
+    "dotenv": "^17.4.2",
+    "typescript": "^5.5.2",
+    "vitest": "~3.2.0",
+    "wrangler": "^4.90.0"
   }
 }
