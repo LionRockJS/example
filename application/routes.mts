@@ -7,3 +7,5 @@ import { routes as ModAuthRoutes } from '@lionrockjs/mod-auth';
 ModAuthRoutes();
 import { routes as ModAdminRoutes } from '@lionrockjs/mod-admin';
 ModAdminRoutes();
+
+export default{}
