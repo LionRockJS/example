@@ -10,6 +10,7 @@ View.DefaultViewClass = AdapterViewLiquid.LiquidView;
 
 await Central.addModules([
   AdapterViewLiquid,
+  await import('@lionrockjs/adapter-database-cloudflare-d1'),
   await import('@lionrockjs/mixin-form'),
   MixinSession,
   await import('@lionrockjs/mod-auth'),
