@@ -1,15 +1,11 @@
 import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
 
-const databaseMapName = 'admin';
-const databasePath = `database`;
-const userDatabase = 'admin.sqlite';
-
 export default {
-  databasePath,
-  userDatabase,
-  databaseMapName,
+  databasePath: 'database',
+  userDatabase : 'admin.sqlite',
+  databaseMapName : 'admin',
   databaseMap: new Map([
-    [databaseMapName, `${databasePath}/${userDatabase}`],
+    ['admin', `database/admin.sqlite`],
   ]),
 
   identifiers: [IdentifierPassword],
