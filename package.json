@@ -22,6 +22,7 @@
     "@lionrockjs/mod-admin": "^2.0.0",
     "@lionrockjs/mvc": "^2.0.0",
     "@lionrockjs/router": "^2.0.0",
+    "@lionrockjs/view-admin": "^2.0.0",
     "hono": "^4.12.22",
     "pluralize": "^8.0.0"
   },

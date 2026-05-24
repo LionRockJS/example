@@ -1,13 +1,41 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "example-admin",
-  "main": "server/Server.ts",
-  "compatibility_date": "2026-05-08",
-  "observability": { "enabled": true },
-  "upload_source_maps": true,
-  "compatibility_flags": ["nodejs_compat"],
-  "rules": [
-    { "type": "ESModule", "globs": ["application/**/*.ts", "application/**/*.mts", "*.json"], "fallthrough": true },
-    { "type": "Text", "globs": ["*.liquid"], "fallthrough": true }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "example-admin",
+	"main": "server/Server.ts",
+	"compatibility_date": "2026-05-08",
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"rules": [
+    {
+      "type": "ESModule",
+      "globs": [
+				"application/**/*.ts",
+				"application/**/*.mts",
+				"*.json"
+			],
+      "fallthrough": true
+    },
+    {
+      "type": "Text",
+      "globs": [
+				"*.liquid"
+			],
+      "fallthrough": true
+    }
+  ],
+	"r2_buckets": [
+    {
+      "binding": "FORM_UPLOADS",
+      "bucket_name": "lionrockjs-form-uploads"
+    }
   ]
 }
