@@ -28,19 +28,127 @@ const requiredBindings = new Map([
   ],
 ]);
 
+function describeBinding(env: Record<string, any>, binding: string) {
+  const value = env?.[binding];
+
+  return {
+    present: value !== undefined && value !== null,
+    type: value === null ? 'null' : typeof value,
+    constructor: value?.constructor?.name ?? null,
+    hasD1Prepare: typeof value?.prepare === 'function',
+    hasD1Exec: typeof value?.exec === 'function',
+    hasR2Put: typeof value?.put === 'function',
+  };
+}
+
+function getEnvKeys(env: Record<string, any>) {
+  try {
+    return Object.keys(env ?? {}).sort();
+  } catch (e) {
+    return [`Unable to enumerate env keys: ${(e as Error).message}`];
+  }
+}
+
+function buildBindingDebug(c: any, route: any = null, controller: any = null, error: any = null) {
+  const env = c.env ?? {};
+  const controllerRequest = controller?.state?.get?.('request');
+  const controllerEnv = controllerRequest?.env ?? {};
+
+  return {
+    timestamp: new Date().toISOString(),
+    method: c.req.method,
+    url: c.req.url,
+    route: route ? {
+      method: route.method,
+      path: route.path,
+      controller: route.controller,
+      action: route.action,
+    } : null,
+    error: error ? {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    } : null,
+    workerEnv: {
+      hasEnv: !!c.env,
+      keys: getEnvKeys(env),
+      requiredBindings: Object.fromEntries(
+        Array.from(requiredBindings.keys()).map(binding => [binding, describeBinding(env, binding)])
+      ),
+    },
+    controllerRequestEnv: {
+      keys: getEnvKeys(controllerEnv),
+      requiredBindings: Object.fromEntries(
+        Array.from(requiredBindings.keys()).map(binding => [binding, describeBinding(controllerEnv, binding)])
+      ),
+    },
+    requestHeaders: {
+      host: c.req.header('host') ?? null,
+      cfRay: c.req.header('cf-ray') ?? null,
+      userAgent: c.req.header('user-agent') ?? null,
+    },
+  };
+}
+
+function wantsBindingDebug(c: any) {
+  return c.req.query('__debug_bindings') === '1' || c.req.header('x-lionrock-debug-bindings') === '1';
+}
+
+function isBindingError(error: any) {
+  return /D1 database binding not found/i.test(error?.message ?? '');
+}
+
+function formatBindingDebug(debug: any) {
+  return [
+    'LionRockJS Worker binding debug',
+    `time: ${debug.timestamp}`,
+    `url: ${debug.method} ${debug.url}`,
+    `route: ${debug.route ? `${debug.route.method} ${debug.route.path} -> ${debug.route.controller}.${debug.route.action}` : 'n/a'}`,
+    `error: ${debug.error ? `${debug.error.name}: ${debug.error.message}` : 'n/a'}`,
+    `worker env keys: ${debug.workerEnv.keys.length ? debug.workerEnv.keys.join(', ') : '(none)'}`,
+    `worker ADMIN_DB: ${JSON.stringify(debug.workerEnv.requiredBindings.ADMIN_DB)}`,
+    `worker FORM_UPLOADS: ${JSON.stringify(debug.workerEnv.requiredBindings.FORM_UPLOADS)}`,
+    `controller request env keys: ${debug.controllerRequestEnv.keys.length ? debug.controllerRequestEnv.keys.join(', ') : '(none)'}`,
+    `controller request ADMIN_DB: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.ADMIN_DB)}`,
+    `controller request FORM_UPLOADS: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.FORM_UPLOADS)}`,
+    `cf-ray: ${debug.requestHeaders.cfRay ?? 'n/a'}`,
+  ].join('\n');
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function logBindingDebug(debug: any) {
+  console.error('[lionrockjs-worker-binding-debug]', JSON.stringify(debug, null, 2));
+}
+
 app.use('*', async (c, next) => {
   const env = c.env ?? {};
   const missing = Array.from(requiredBindings.keys()).filter(binding => !env[binding]);
 
   if (missing.length > 0) {
+    const debug = buildBindingDebug(c);
+    logBindingDebug(debug);
+
     const details = missing
       .map(binding => `${binding}: ${requiredBindings.get(binding)}`)
       .join('\n');
 
     return c.text(
-      `Cloudflare Worker binding configuration is incomplete.\nMissing binding(s): ${missing.join(', ')}\n\n${details}`,
+      `Cloudflare Worker binding configuration is incomplete.\nMissing binding(s): ${missing.join(', ')}\n\n${details}\n\n${formatBindingDebug(debug)}`,
       500
     );
+  }
+
+  if (wantsBindingDebug(c)) {
+    const debug = buildBindingDebug(c);
+    logBindingDebug(debug);
   }
 
   await next();
@@ -49,27 +157,51 @@ app.use('*', async (c, next) => {
 const routes = Array.from(RouteList.routeMap.values());
 routes.forEach((route: any) => {
   app.on(route.method, route.path, async c => {
-    console.log(route.controller);
-    let Controller;
     try {
-      Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
-    } catch (e) {
-      Controller = Central.resolveController(route.controller);
-      if (!Controller) throw e;
-    }
-    const controller = new Controller(
-      {...c.req, 
-        params: c.req.param(),
-        query: c.req.query(),
-        headers: c.req.header(),
-        cookies: getCookie(c),
-        env: c.env,
+      console.log(route.controller);
+      let Controller;
+      try {
+        Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
+      } catch (e) {
+        Controller = Central.resolveController(route.controller);
+        if (!Controller) throw e;
       }
-    );
-    const result = await controller.execute(route.action);
-    Object.entries(result.headers).forEach(([key, value]) => c.header(key, String(value)));
-    result.cookies.forEach(cookie => setCookie(c, cookie.name, cookie.value, cookie.options));
-    return c.html(result.body, result.status as any);
+      const controller = new Controller(
+        {...c.req,
+          params: c.req.param(),
+          query: c.req.query(),
+          headers: c.req.header(),
+          cookies: getCookie(c),
+          env: c.env,
+        }
+      );
+      const result = await controller.execute(route.action, true);
+      const controllerError = controller.error;
+
+      if (controllerError) {
+        const debug = buildBindingDebug(c, route, controller, controllerError);
+        logBindingDebug(debug);
+
+        if (isBindingError(controllerError) || wantsBindingDebug(c)) {
+          result.body += `\n<pre>${escapeHtml(formatBindingDebug(debug))}</pre>`;
+        }
+      }
+
+      controller.state.clear();
+
+      Object.entries(result.headers).forEach(([key, value]) => c.header(key, String(value)));
+      result.cookies.forEach(cookie => setCookie(c, cookie.name, cookie.value, cookie.options));
+      return c.html(result.body, result.status as any);
+    } catch (error) {
+      const debug = buildBindingDebug(c, route, null, error);
+      logBindingDebug(debug);
+
+      if (wantsBindingDebug(c) || isBindingError(error)) {
+        return c.text(formatBindingDebug(debug), 500);
+      }
+
+      throw error;
+    }
   });
 });
 

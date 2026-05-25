@@ -51,6 +51,18 @@ npm run deploy
 
 If you import this monorepo through Cloudflare Workers Builds, set the build root directory to `release/example`, keep the Worker name as `example-admin`, and use the deploy command `npm run deploy`. If you deploy from the Cloudflare dashboard without Wrangler, add the same bindings manually in the Worker settings: D1 binding `ADMIN_DB` and R2 binding `FORM_UPLOADS`.
 
+## Binding debug
+
+When a controller error happens, the Worker logs safe binding diagnostics to Cloudflare logs with the prefix `[lionrockjs-worker-binding-debug]`. It prints binding names and object capabilities, never binding values.
+
+To force the same diagnostics for a request, add this query string:
+
+```text
+?__debug_bindings=1
+```
+
+For the specific `D1 database binding not found: ADMIN_DB` error, the page also appends a `<pre>` block showing whether `ADMIN_DB` exists in `c.env` and whether it was passed into the LionRockJS controller request.
+
 ## Framework notes
 
 LionRockJS is a MVC framework inspired by Kohana PHP Framework, CodeIgniter and Laravel.
