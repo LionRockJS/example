@@ -43,13 +43,25 @@ npm run r2:create
 npm run d1:init:remote
 ```
 
-5. Deploy the Worker.
+5. Set the JWT session secret for the deployed Worker.
+
+```bash
+wrangler secret put SESSION_SECRET
+```
+
+For local `wrangler dev`, put the same key in `.dev.vars`:
+
+```text
+SESSION_SECRET=replace-with-a-long-random-value
+```
+
+6. Deploy the Worker.
 
 ```bash
 npm run deploy
 ```
 
-If you import this monorepo through Cloudflare Workers Builds, set the build root directory to `release/example`, keep the Worker name as `example-admin`, and use the deploy command `npm run deploy`. If you deploy from the Cloudflare dashboard without Wrangler, add the same bindings manually in the Worker settings: D1 binding `ADMIN_DB` and R2 binding `FORM_UPLOADS`.
+If you import this monorepo through Cloudflare Workers Builds, set the build root directory to `release/example`, keep the Worker name as `example-admin`, and use the deploy command `npm run deploy`. If you deploy from the Cloudflare dashboard without Wrangler, add the same bindings manually in the Worker settings: D1 binding `ADMIN_DB`, R2 binding `FORM_UPLOADS`, and secret `SESSION_SECRET`.
 
 ## Binding debug
 

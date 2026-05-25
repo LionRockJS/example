@@ -3,7 +3,7 @@ import { ControllerMixinDatabase, Model } from '@lionrockjs/central';
 import AdapterDatabaseCloudflareD1, { DatabaseAdapterCloudflareD1, ORMAdapterSQLite } from '@lionrockjs/adapter-database-cloudflare-d1';
 
 import MixinSession, { ControllerMixinSession } from '@lionrockjs/mixin-session';
-import { SessionJWT } from '@lionrockjs/adapter-session-jwt';
+import SessionJWT from './classes/session/JWT.ts';
 ControllerMixinSession.defaultAdapter = SessionJWT;
 Model.defaultAdapter = ORMAdapterSQLite;
 ControllerMixinDatabase.defaultAdapter = DatabaseAdapterCloudflareD1;
@@ -22,5 +22,7 @@ await Central.addModules([
   await import('@lionrockjs/mod-admin'),
   await import('@lionrockjs/view-admin'),
 ]);
+
+ControllerMixinSession.defaultAdapter = SessionJWT;
 
 export default {}

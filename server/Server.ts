@@ -26,6 +26,10 @@ const requiredBindings = new Map([
     'FORM_UPLOADS',
     'R2 bucket binding. Create the lionrockjs-form-uploads bucket or bind an existing bucket as FORM_UPLOADS.',
   ],
+  [
+    'SESSION_SECRET',
+    'JWT session signing secret. Set it with `wrangler secret put SESSION_SECRET` for deployed Workers, and put SESSION_SECRET=... in .dev.vars for local Wrangler dev.',
+  ],
 ]);
 
 function describeBinding(env: Record<string, any>, binding: string) {
@@ -138,6 +142,10 @@ function isBindingError(error: any) {
   return /D1 database binding not found/i.test(error?.message ?? '');
 }
 
+function isSessionSecretError(error: any) {
+  return /SESSION_SECRET|secretOrPrivateKey must have a value/i.test(error?.message ?? '');
+}
+
 function formatBindingDebug(debug: any) {
   return [
     'LionRockJS Worker binding debug',
@@ -148,9 +156,11 @@ function formatBindingDebug(debug: any) {
     `worker env keys: ${debug.workerEnv.keys.length ? debug.workerEnv.keys.join(', ') : '(none)'}`,
     `worker ADMIN_DB: ${JSON.stringify(debug.workerEnv.requiredBindings.ADMIN_DB)}`,
     `worker FORM_UPLOADS: ${JSON.stringify(debug.workerEnv.requiredBindings.FORM_UPLOADS)}`,
+    `worker SESSION_SECRET: ${JSON.stringify(debug.workerEnv.requiredBindings.SESSION_SECRET)}`,
     `controller request env keys: ${debug.controllerRequestEnv.keys.length ? debug.controllerRequestEnv.keys.join(', ') : '(none)'}`,
     `controller request ADMIN_DB: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.ADMIN_DB)}`,
     `controller request FORM_UPLOADS: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.FORM_UPLOADS)}`,
+    `controller request SESSION_SECRET: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.SESSION_SECRET)}`,
     `controller database map: ${JSON.stringify(debug.controllerDatabaseMap)}`,
     `cf-ray: ${debug.requestHeaders.cfRay ?? 'n/a'}`,
   ].join('\n');
@@ -228,7 +238,7 @@ routes.forEach((route: any) => {
         const debug = buildBindingDebug(c, route, controller, controllerError);
         logBindingDebug(debug);
 
-        if (isBindingError(controllerError) || wantsBindingDebug(c)) {
+        if (isBindingError(controllerError) || isSessionSecretError(controllerError) || wantsBindingDebug(c)) {
           result.body += `\n<pre>${escapeHtml(formatBindingDebug(debug))}</pre>`;
         }
       }
@@ -242,7 +252,7 @@ routes.forEach((route: any) => {
       const debug = buildBindingDebug(c, route, null, error);
       logBindingDebug(debug);
 
-      if (wantsBindingDebug(c) || isBindingError(error)) {
+      if (wantsBindingDebug(c) || isBindingError(error) || isSessionSecretError(error)) {
         return c.text(formatBindingDebug(debug), 500);
       }
 

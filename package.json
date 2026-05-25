@@ -37,10 +37,12 @@
     "@lionrockjs/router": "^2.0.1",
     "@lionrockjs/view-admin": "^2.0.0",
     "hono": "^4.12.22",
+    "jsonwebtoken": "^9.0.3",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.16.9",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.1",
     "dotenv": "^17.4.2",
     "typescript": "^6.0.3",
