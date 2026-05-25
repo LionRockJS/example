@@ -1,4 +1,4 @@
-import {IdentifierPassword} from '@lionrockjs/adapter-auth-password';
+import IdentifierPassword from '../classes/identifier/Password.ts';
 
 export default {
   databasePath: 'ADMIN_DB',

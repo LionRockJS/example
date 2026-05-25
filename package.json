@@ -14,6 +14,8 @@
     "d1:seed:remote": "wrangler d1 execute ADMIN_DB --remote --file=sql/d1-admin-seed.sql",
     "d1:init:local": "npm run d1:schema:local && npm run d1:seed:local",
     "d1:init:remote": "npm run d1:schema:remote && npm run d1:seed:remote",
+    "d1:password:local": "node scripts/reset-d1-password.mjs --local",
+    "d1:password:remote": "node scripts/reset-d1-password.mjs --remote",
     "r2:create": "wrangler r2 bucket create lionrockjs-form-uploads",
     "start": "wrangler dev",
     "test": "vitest",

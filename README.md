@@ -63,6 +63,26 @@ To force the same diagnostics for a request, add this query string:
 
 For the specific `D1 database binding not found: ADMIN_DB` error, the page also appends a `<pre>` block showing whether `ADMIN_DB` exists in `c.env` and whether it was passed into the LionRockJS controller request.
 
+## Password Hashes On Workers
+
+Cloudflare Workers can return Error 1102 when pure JavaScript password hashing exceeds CPU or memory limits. This example uses a local Worker-safe password identifier at `application/classes/identifier/Password.ts`, backed by WebCrypto PBKDF2.
+
+Deploy this code, then reset any existing account that still has an old `$argon2id$...` hash:
+
+```bash
+npm run d1:password:remote -- root "new-password"
+```
+
+The generated hash includes `AUTH_SALT` when that variable is configured. If the deployed Worker has `AUTH_SALT` set, run the reset command with the same local value:
+
+```bash
+AUTH_SALT="same-worker-value" npm run d1:password:remote -- root "new-password"
+```
+
+`PASSWORD_PBKDF2_ITERATIONS` is optional and controls the cost for newly generated hashes; the default is `20000`.
+
+Then log in with that new password.
+
 ## Framework notes
 
 LionRockJS is a MVC framework inspired by Kohana PHP Framework, CodeIgniter and Laravel.
