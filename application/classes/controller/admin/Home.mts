@@ -1,5 +1,5 @@
 import {Controller} from "@lionrockjs/mvc";
-import {Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView} from "@lionrockjs/central";
+import {ControllerMixinDatabase, ControllerMixinView, ControllerMixinViewState} from "@lionrockjs/central";
 import {ControllerMixinLoginRequire} from "@lionrockjs/mod-auth";
 import {ControllerMixinSession} from "@lionrockjs/mixin-session";
 
@@ -11,10 +11,10 @@ export default class ControllerAdminHome extends Controller {
     ControllerMixinView]
 
   constructor(request){
-    super(request, new Map([
+    super(request, new Map<any, any>([
       [ControllerMixinLoginRequire.REJECT_LANDING, '/login'],
       [ControllerMixinLoginRequire.ALLOW_ROLES, new Set(['admin', 'staff'])],
-      [ControllerMixinView.LAYOUT_FILE, 'layout/admin/default'],
+      [ControllerMixinViewState.LAYOUT_FILE, 'layout/admin/default'],
     ]));
   }
 

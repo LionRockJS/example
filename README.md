@@ -1,3 +1,58 @@
+# LionRockJS Cloudflare Worker example
+
+This example runs on Cloudflare Workers and uses these bindings:
+
+- `ADMIN_DB`: Cloudflare D1 database for admin/auth data
+- `FORM_UPLOADS`: Cloudflare R2 bucket for uploaded files
+
+Local `npm run dev` can use Wrangler's local D1 state. A deployed Worker cannot read that local database; it must have a production D1 binding named exactly `ADMIN_DB`.
+
+For a fresh local database, run:
+
+```bash
+npm run d1:init:local
+```
+
+## Cloudflare deploy checklist
+
+Run these commands from `release/example`.
+
+1. Install dependencies.
+
+```bash
+npm install
+```
+
+2. Create the remote D1 database and copy the generated `database_id` into `wrangler.jsonc`.
+
+```bash
+npm run d1:create
+```
+
+Keep the binding name as `ADMIN_DB`.
+
+3. Create the R2 bucket, unless you already have one and update `wrangler.jsonc` to use it.
+
+```bash
+npm run r2:create
+```
+
+4. Initialize the remote D1 schema and seed login data.
+
+```bash
+npm run d1:init:remote
+```
+
+5. Deploy the Worker.
+
+```bash
+npm run deploy
+```
+
+If you import this monorepo through Cloudflare Workers Builds, set the build root directory to `release/example`, keep the Worker name as `example-admin`, and use the deploy command `npm run deploy`. If you deploy from the Cloudflare dashboard without Wrangler, add the same bindings manually in the Worker settings: D1 binding `ADMIN_DB` and R2 binding `FORM_UPLOADS`.
+
+## Framework notes
+
 LionRockJS is a MVC framework inspired by Kohana PHP Framework, CodeIgniter and Laravel.
 
 It's designed to use adapters to adopt different frameworks. 

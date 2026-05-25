@@ -16,6 +16,36 @@ views.default.forEach((value: any, key: string) => {
 });
 
 const app = new Hono();
+
+const requiredBindings = new Map([
+  [
+    'ADMIN_DB',
+    'D1 database binding. Create a D1 database, update wrangler.jsonc with its database_id, and keep the binding name ADMIN_DB.',
+  ],
+  [
+    'FORM_UPLOADS',
+    'R2 bucket binding. Create the lionrockjs-form-uploads bucket or bind an existing bucket as FORM_UPLOADS.',
+  ],
+]);
+
+app.use('*', async (c, next) => {
+  const env = c.env ?? {};
+  const missing = Array.from(requiredBindings.keys()).filter(binding => !env[binding]);
+
+  if (missing.length > 0) {
+    const details = missing
+      .map(binding => `${binding}: ${requiredBindings.get(binding)}`)
+      .join('\n');
+
+    return c.text(
+      `Cloudflare Worker binding configuration is incomplete.\nMissing binding(s): ${missing.join(', ')}\n\n${details}`,
+      500
+    );
+  }
+
+  await next();
+});
+
 const routes = Array.from(RouteList.routeMap.values());
 routes.forEach((route: any) => {
   app.on(route.method, route.path, async c => {
@@ -37,7 +67,7 @@ routes.forEach((route: any) => {
       }
     );
     const result = await controller.execute(route.action);
-    Object.entries(result.headers).forEach(([key, value]) => c.header(key, value));
+    Object.entries(result.headers).forEach(([key, value]) => c.header(key, String(value)));
     result.cookies.forEach(cookie => setCookie(c, cookie.name, cookie.value, cookie.options));
     return c.html(result.body, result.status as any);
   });
