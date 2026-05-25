@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { getCookie, setCookie } from 'hono/cookie';
 import { RouteList } from '@lionrockjs/router';
-import {Central} from '@lionrockjs/central';
+import { Central, ControllerMixinDatabase } from '@lionrockjs/central';
 
 import { ControllerMixinMultipartForm, MultipartParserR2 } from '@lionrockjs/mixin-form';
 ControllerMixinMultipartForm.fileAdapter = MultipartParserR2;
@@ -53,6 +53,7 @@ function buildBindingDebug(c: any, route: any = null, controller: any = null, er
   const env = c.env ?? {};
   const controllerRequest = controller?.state?.get?.('request');
   const controllerEnv = controllerRequest?.env ?? {};
+  const databaseMap = controller?.state?.get?.(ControllerMixinDatabase.DATABASE_MAP);
 
   return {
     timestamp: new Date().toISOString(),
@@ -82,12 +83,51 @@ function buildBindingDebug(c: any, route: any = null, controller: any = null, er
         Array.from(requiredBindings.keys()).map(binding => [binding, describeBinding(controllerEnv, binding)])
       ),
     },
+    controllerDatabaseMap: databaseMap instanceof Map
+      ? Array.from(databaseMap.entries()).map(([name, datasource]) => ({
+        name,
+        datasource: describeDatasource(datasource),
+      }))
+      : null,
     requestHeaders: {
       host: c.req.header('host') ?? null,
       cfRay: c.req.header('cf-ray') ?? null,
       userAgent: c.req.header('user-agent') ?? null,
     },
   };
+}
+
+function describeDatasource(datasource: any) {
+  if (typeof datasource === 'string') {
+    return {
+      type: 'binding-name',
+      value: datasource,
+    };
+  }
+
+  return {
+    type: datasource === null ? 'null' : typeof datasource,
+    constructor: datasource?.constructor?.name ?? null,
+    hasD1Prepare: typeof datasource?.prepare === 'function',
+    hasD1Exec: typeof datasource?.exec === 'function',
+  };
+}
+
+function hydrateDatabaseMapBindings(controller: any, env: Record<string, any>) {
+  const databaseMap = controller?.state?.get?.(ControllerMixinDatabase.DATABASE_MAP);
+  if (!(databaseMap instanceof Map)) return [];
+
+  const hydrated: Array<{ name: string, binding: string }> = [];
+  databaseMap.forEach((datasource, name) => {
+    if (typeof datasource !== 'string') return;
+    const binding = env?.[datasource];
+    if (!binding) return;
+
+    databaseMap.set(name, binding);
+    hydrated.push({ name, binding: datasource });
+  });
+
+  return hydrated;
 }
 
 function wantsBindingDebug(c: any) {
@@ -111,6 +151,7 @@ function formatBindingDebug(debug: any) {
     `controller request env keys: ${debug.controllerRequestEnv.keys.length ? debug.controllerRequestEnv.keys.join(', ') : '(none)'}`,
     `controller request ADMIN_DB: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.ADMIN_DB)}`,
     `controller request FORM_UPLOADS: ${JSON.stringify(debug.controllerRequestEnv.requiredBindings.FORM_UPLOADS)}`,
+    `controller database map: ${JSON.stringify(debug.controllerDatabaseMap)}`,
     `cf-ray: ${debug.requestHeaders.cfRay ?? 'n/a'}`,
   ].join('\n');
 }
@@ -175,6 +216,11 @@ routes.forEach((route: any) => {
           env: c.env,
         }
       );
+      const hydratedBindings = hydrateDatabaseMapBindings(controller, c.env ?? {});
+      if (hydratedBindings.length > 0 && wantsBindingDebug(c)) {
+        console.log('[lionrockjs-worker-binding-debug] hydrated database map', JSON.stringify(hydratedBindings));
+      }
+
       const result = await controller.execute(route.action, true);
       const controllerError = controller.error;
 
