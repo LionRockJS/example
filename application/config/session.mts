@@ -23,21 +23,6 @@ export default {
     enabled: true,
     tokenUse: 'refresh',
     require: true,
-    async persist({ jti, session, exp, options }: { jti: string; session: any; exp: number; options: any }) {
-      const db = options?.state?.get?.('request')?.env?.ADMIN_DB as D1Database | undefined;
-      if (!db) return;
-      await db.prepare(
-        'INSERT INTO refresh_token_jti (sid, jti, exp) VALUES (?1, ?2, ?3) ON CONFLICT (sid) DO UPDATE SET jti = excluded.jti, exp = excluded.exp'
-      ).bind(session.sid, jti, exp).run();
-    },
-    async verify({ jti, session, options }: { jti: string; session: any; options: any }) {
-      const db = options?.state?.get?.('request')?.env?.ADMIN_DB as D1Database | undefined;
-      if (!db) return true;
-      const row = await db.prepare(
-        'SELECT jti FROM refresh_token_jti WHERE sid = ?1'
-      ).bind(session.sid).first<{ jti: string }>();
-      return row?.jti === jti;
-    },
   },
   clockTolerance: 60,
   issuer: 'example-admin',
