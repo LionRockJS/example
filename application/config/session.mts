@@ -19,29 +19,16 @@ export default {
     cookieMaxAge: REFRESH_TOKEN_TTL_SECONDS,
     rotate: true,
   },
+  // JTI validation is handled by the auth worker (ts/admin/workers).
+  // This CMS worker only verifies the JWT signature using SESSION_SECRET.
   jti: {
-    enabled: true,
-    tokenUse: 'refresh',
-    require: true,
-    async persist({ jti, session, exp, options }: { jti: string; session: any; exp: number; options: any }) {
-      const db = options?.state?.get?.('request')?.env?.ADMIN_DB as any;
-      if (!db) return;
-      await db.prepare(
-        'INSERT INTO refresh_token_jti (sid, jti, exp) VALUES (?1, ?2, ?3) ON CONFLICT (sid) DO UPDATE SET jti = excluded.jti, exp = excluded.exp'
-      ).bind(session.sid, jti, exp).run();
-    },
-    async verify({ jti, session, options }: { jti: string; session: any; options: any }) {
-      const db = options?.state?.get?.('request')?.env?.ADMIN_DB as any;
-      if (!db) return true;
-      const row = await db.prepare(
-        'SELECT jti FROM refresh_token_jti WHERE sid = ?1'
-      ).bind(session.sid).first();
-      return row?.jti === jti;
-    },
+    enabled: false,
   },
   clockTolerance: 60,
-  issuer: 'example-cms-workers',
-  audience: 'example-cms-workers',
+  // issuer/audience must match the auth worker's session config.
+  // Update these to match the ts/admin/workers deployment name.
+  issuer: 'example-admin',
+  audience: 'example-admin',
   authorizationHeader: true,
   minimumSecretLength: 32,
   maxTokenLength: 4096,

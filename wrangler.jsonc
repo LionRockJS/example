@@ -15,13 +15,16 @@
 		"nodejs_compat"
 	],
 	"vars": {
-		// Cross-domain session: set CORS_ORIGINS to allow the session worker origin.
-		// e.g. "https://example-session.workers.dev" or "*" for dev
+		// Cross-domain session: set CORS_ORIGINS to the auth worker origin.
+		// e.g. "https://v2-auth.eventuai.com" or "*" for dev
 		"CORS_ORIGINS": "",
 		// Cookie domain for cross-subdomain session sharing.
-		// e.g. ".example.com" to share cookies across subdomains.
+		// e.g. ".eventuai.com" to share cookies between auth and CMS workers.
 		// Leave empty for single-host deployments (keeps __Host- cookie security).
-		"COOKIE_DOMAIN": ""
+		"COOKIE_DOMAIN": "",
+		// URL of the auth worker login page. Unauthenticated requests are redirected here.
+		// e.g. "https://v2-auth.eventuai.com/login"
+		"AUTH_URL": "/login"
 	},
 	"rules": [
     {

@@ -19,7 +19,6 @@ await Central.addModules([
   MixinSession,
   await import('@lionrockjs/adapter-session-jwt'),
   await import('@lionrockjs/mod-auth'),
-  await import('@lionrockjs/adapter-auth-password'),
   await import('@lionrockjs/mod-admin'),
   await import('@lionrockjs/view-admin'),
 ]);

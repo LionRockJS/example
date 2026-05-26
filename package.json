@@ -19,8 +19,6 @@
     "d1:seed:remote": "wrangler d1 execute ADMIN_DB --remote --file=sql/d1-admin-seed.sql",
     "d1:init:local": "npm run d1:schema:local && npm run d1:jti:local && npm run d1:seed:local",
     "d1:init:remote": "npm run d1:schema:remote && npm run d1:jti:remote && npm run d1:seed:remote",
-    "d1:password:local": "node scripts/reset-d1-password.mjs --local",
-    "d1:password:remote": "node scripts/reset-d1-password.mjs --remote",
     "r2:create": "wrangler r2 bucket create lionrockjs-form-uploads",
     "start": "wrangler dev",
     "test": "vitest",
@@ -31,7 +29,6 @@
   "type": "module",
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
-    "@lionrockjs/adapter-auth-password": "^2.0.0",
     "@lionrockjs/adapter-session-jwt": "^2.0.4",
     "@lionrockjs/adapter-database-cloudflare-d1": "^2.0.0",
     "@lionrockjs/central": "^2.0.1",

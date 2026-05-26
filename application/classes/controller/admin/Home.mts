@@ -11,8 +11,11 @@ export default class ControllerAdminHome extends Controller {
     ControllerMixinView]
 
   constructor(request){
+    // AUTH_URL: set in wrangler.jsonc vars (or .dev.vars) to point to the external
+    // auth worker, e.g. https://v2-auth.eventuai.com/login
+    const authLoginURL = (request as any).env?.AUTH_URL ?? '/login';
     super(request, new Map<any, any>([
-      [ControllerMixinLoginRequire.REJECT_LANDING, '/login'],
+      [ControllerMixinLoginRequire.REJECT_LANDING, authLoginURL],
       [ControllerMixinLoginRequire.ALLOW_ROLES, new Set(['admin', 'staff'])],
       [ControllerMixinViewState.LAYOUT_FILE, 'layout/admin/default'],
     ]));
