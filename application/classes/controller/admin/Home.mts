@@ -19,7 +19,6 @@ export default class ControllerAdminHome extends Controller {
   }
 
   async action_index() {
-    console.log('Hello This is Admin');
     ControllerMixinView.setTemplate(this.state, 'templates/admin/index');
   }
 }
