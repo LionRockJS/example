@@ -27,7 +27,7 @@
   "dependencies": {
     "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
     "@lionrockjs/adapter-auth-password": "^2.0.0",
-    "@lionrockjs/adapter-session-jwt": "^2.0.2",
+    "@lionrockjs/adapter-session-jwt": "^2.0.3",
     "@lionrockjs/adapter-database-cloudflare-d1": "^2.0.0",
     "@lionrockjs/central": "^2.0.1",
     "@lionrockjs/mixin-orm": "^2.0.0",
