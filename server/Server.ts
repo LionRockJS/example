@@ -28,7 +28,7 @@ const requiredBindings = new Map([
   ],
   [
     'SESSION_SECRET',
-    'JWT session signing secret. Set it with `wrangler secret put SESSION_SECRET` for deployed Workers, and put SESSION_SECRET=... in .dev.vars for local Wrangler dev.',
+    'JWT session signing secret, at least 32 bytes. Set it with `wrangler secret put SESSION_SECRET` for deployed Workers, and put SESSION_SECRET=... in .dev.vars for local Wrangler dev.',
   ],
 ]);
 
@@ -134,7 +134,17 @@ function hydrateDatabaseMapBindings(controller: any, env: Record<string, any>) {
   return hydrated;
 }
 
+function isTruthyEnvFlag(value: any) {
+  return value === true || value === '1' || value === 'true';
+}
+
+function isBindingDebugEnabled(c: any) {
+  return isTruthyEnvFlag(c.env?.DEBUG_BINDINGS);
+}
+
 function wantsBindingDebug(c: any) {
+  if (!isBindingDebugEnabled(c)) return false;
+
   return c.req.query('__debug_bindings') === '1' || c.req.header('x-lionrock-debug-bindings') === '1';
 }
 
@@ -190,9 +200,10 @@ app.use('*', async (c, next) => {
     const details = missing
       .map(binding => `${binding}: ${requiredBindings.get(binding)}`)
       .join('\n');
+    const debugDetails = wantsBindingDebug(c) ? `\n\n${formatBindingDebug(debug)}` : '';
 
     return c.text(
-      `Cloudflare Worker binding configuration is incomplete.\nMissing binding(s): ${missing.join(', ')}\n\n${details}\n\n${formatBindingDebug(debug)}`,
+      `Cloudflare Worker binding configuration is incomplete.\nMissing binding(s): ${missing.join(', ')}\n\n${details}${debugDetails}`,
       500
     );
   }
@@ -238,7 +249,7 @@ routes.forEach((route: any) => {
         const debug = buildBindingDebug(c, route, controller, controllerError);
         logBindingDebug(debug);
 
-        if (isBindingError(controllerError) || isSessionSecretError(controllerError) || wantsBindingDebug(c)) {
+        if (wantsBindingDebug(c) || (isBindingDebugEnabled(c) && (isBindingError(controllerError) || isSessionSecretError(controllerError)))) {
           result.body += `\n<pre>${escapeHtml(formatBindingDebug(debug))}</pre>`;
         }
       }
@@ -252,7 +263,7 @@ routes.forEach((route: any) => {
       const debug = buildBindingDebug(c, route, null, error);
       logBindingDebug(debug);
 
-      if (wantsBindingDebug(c) || isBindingError(error) || isSessionSecretError(error)) {
+      if (wantsBindingDebug(c) || (isBindingDebugEnabled(c) && (isBindingError(error) || isSessionSecretError(error)))) {
         return c.text(formatBindingDebug(debug), 500);
       }
 

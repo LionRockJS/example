@@ -1,6 +1,16 @@
 const DEFAULT_PBKDF2_ITERATIONS = 20000;
 const PBKDF2_DIGEST_LENGTH_BITS = 256;
 const PBKDF2_VERSION = 1;
+const projectRoot = new URL('..', import.meta.url);
+
+const { existsSync } = await import('node:fs');
+const { fileURLToPath } = await import('node:url');
+const dotenv = await import('dotenv');
+
+for (const envFile of ['.dev.vars', '.env']) {
+  const envUrl = new URL(envFile, projectRoot);
+  if (existsSync(envUrl)) dotenv.config({ path: fileURLToPath(envUrl), override: false, quiet: true });
+}
 
 function usage() {
   console.error('Usage: node scripts/reset-d1-password.mjs [--remote|--local] <username> <new-password>');
@@ -66,7 +76,7 @@ function parseArgs(argv) {
 async function runWrangler(args) {
   const { spawnSync } = await import('node:child_process');
   const result = spawnSync('wrangler', args, {
-    cwd: new URL('..', import.meta.url),
+    cwd: projectRoot,
     encoding: 'utf8',
   });
 

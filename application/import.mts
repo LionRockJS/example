@@ -17,6 +17,7 @@ await Central.addModules([
   AdapterDatabaseCloudflareD1,
   await import('@lionrockjs/mixin-form'),
   MixinSession,
+  await import('@lionrockjs/adapter-session-jwt'),
   await import('@lionrockjs/mod-auth'),
   await import('@lionrockjs/adapter-auth-password'),
   await import('@lionrockjs/mod-admin'),

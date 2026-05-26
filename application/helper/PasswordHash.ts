@@ -133,7 +133,7 @@ export async function hashPassword(userId: string, identifierName: string, plain
 
 export async function verifyPassword(hash: string, userId: string, identifierName: string, plainTextPassword: string, state?: Map<string, any>) {
   if (hash.startsWith('$argon2id$')) {
-    throw new Error('Legacy Argon2id password hash exceeds Cloudflare Worker resource limits. Reset this password with npm run d1:password:remote -- <username> <new-password>.');
+    throw new Error('Legacy Argon2id password hash exceeds Cloudflare Worker resource limits. Reset this password with npm run d1:password:local -- <username> <new-password> for local dev, or npm run d1:password:remote -- <username> <new-password> for a deployed Worker.');
   }
 
   try {

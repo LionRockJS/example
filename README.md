@@ -4,6 +4,7 @@ This example runs on Cloudflare Workers and uses these bindings:
 
 - `ADMIN_DB`: Cloudflare D1 database for admin/auth data
 - `FORM_UPLOADS`: Cloudflare R2 bucket for uploaded files
+- `SESSION_SECRET`: HMAC secret for JWT sessions
 
 Local `npm run dev` can use Wrangler's local D1 state. A deployed Worker cannot read that local database; it must have a production D1 binding named exactly `ADMIN_DB`.
 
@@ -43,9 +44,10 @@ npm run r2:create
 npm run d1:init:remote
 ```
 
-5. Set the JWT session secret for the deployed Worker.
+5. Set the JWT session secret for the deployed Worker. Use at least 32 random bytes.
 
 ```bash
+openssl rand -base64 32
 wrangler secret put SESSION_SECRET
 ```
 
@@ -67,25 +69,50 @@ If you import this monorepo through Cloudflare Workers Builds, set the build roo
 
 When a controller error happens, the Worker logs safe binding diagnostics to Cloudflare logs with the prefix `[lionrockjs-worker-binding-debug]`. It prints binding names and object capabilities, never binding values.
 
-To force the same diagnostics for a request, add this query string:
+HTTP responses do not include these diagnostics unless you explicitly enable them with `DEBUG_BINDINGS=1`. To force the same diagnostics for a request while that flag is enabled, add this query string:
 
 ```text
 ?__debug_bindings=1
 ```
 
-For the specific `D1 database binding not found: ADMIN_DB` error, the page also appends a `<pre>` block showing whether `ADMIN_DB` exists in `c.env` and whether it was passed into the LionRockJS controller request.
+For the specific `D1 database binding not found: ADMIN_DB` error, the page appends a `<pre>` block showing whether `ADMIN_DB` exists in `c.env` and whether it was passed into the LionRockJS controller request only when `DEBUG_BINDINGS=1` is set.
+
+## Session security
+
+This branch uses `@lionrockjs/adapter-session-jwt` for sessions. It signs compact JWTs with Web Crypto HMAC, accepts only the configured algorithm (`HS256` by default), requires `exp`, validates `iss` and `aud`, and stores tokens in `HttpOnly`, `Secure`, `SameSite=Strict` `__Host-` cookies.
+
+The access-token cookie lasts 15 minutes. The refresh-token cookie lasts 7 days and is rotated whenever it is used to mint a new access token.
+
+To rotate a compromised or old secret without logging everyone out immediately:
+
+```text
+SESSION_SECRET=<new-random-secret>
+SESSION_SECRET_PREVIOUS=<old-random-secret>
+```
+
+Deploy with both values, wait longer than the session TTL, then remove `SESSION_SECRET_PREVIOUS`.
+
+JWT sessions are stateless, so logout cannot revoke an already issued token before `exp`. For a higher-risk admin deployment, prefer a D1-backed session or store a `jti` or session version in D1 and check it on each request. Also add per-form CSRF tokens for destructive POST actions; `SameSite=Strict` helps, but it should not be the only CSRF control for admin workflows.
 
 ## Password Hashes On Workers
 
 Cloudflare Workers can return Error 1102 when pure JavaScript password hashing exceeds CPU or memory limits. This example uses a local Worker-safe password identifier at `application/classes/identifier/Password.ts`, backed by WebCrypto PBKDF2.
 
-Deploy this code, then reset any existing account that still has an old `$argon2id$...` hash:
+Deploy this code, then reset any existing account that still has an old `$argon2id$...` hash.
+
+For local Wrangler/D1 dev:
+
+```bash
+npm run d1:password:local -- root "new-password"
+```
+
+For the deployed Worker:
 
 ```bash
 npm run d1:password:remote -- root "new-password"
 ```
 
-The generated hash includes `AUTH_SALT` when that variable is configured. If the deployed Worker has `AUTH_SALT` set, run the reset command with the same local value:
+The reset script loads `.dev.vars` and `.env` when present. The generated hash includes `AUTH_SALT` when that variable is configured. If the deployed Worker has `AUTH_SALT` set outside those files, run the reset command with the same local value:
 
 ```bash
 AUTH_SALT="same-worker-value" npm run d1:password:remote -- root "new-password"
