@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "example-admin",
+	"name": "example-session",
 	"main": "server/Server.ts",
 	"compatibility_date": "2026-05-08",
 	"observability": {
