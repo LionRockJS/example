@@ -248,7 +248,7 @@ routes.forEach((route: any) => {
       console.log(route.controller);
       let Controller;
       try {
-        Controller = (await import(`../application/classes/${route.controller}.ts`)).default;
+        Controller = (await import(`../application/classes/${route.controller}.mts`)).default;
       } catch (e) {
         Controller = Central.resolveController(route.controller);
         if (!Controller) throw e;

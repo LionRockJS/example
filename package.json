@@ -37,6 +37,7 @@
     "@lionrockjs/mixin-session": "^2.0.0",
     "@lionrockjs/mod-auth": "^2.0.0",
     "@lionrockjs/mod-admin": "^2.0.0",
+    "@lionrockjs/mod-admin-cms": "^2.0.0",
     "@lionrockjs/mvc": "^2.0.1",
     "@lionrockjs/router": "^2.0.1",
     "@lionrockjs/view-admin": "^2.0.0",

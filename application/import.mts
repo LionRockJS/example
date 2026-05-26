@@ -20,6 +20,7 @@ await Central.addModules([
   await import('@lionrockjs/adapter-session-jwt'),
   await import('@lionrockjs/mod-auth'),
   await import('@lionrockjs/mod-admin'),
+  await import('@lionrockjs/mod-admin-cms'),
   await import('@lionrockjs/view-admin'),
 ]);
 
