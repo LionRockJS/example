@@ -42,6 +42,7 @@ export default {
   clockTolerance: 60,
   issuer: 'example-admin',
   audience: 'example-admin',
+  authorizationHeader: true,
   minimumSecretLength: 32,
   maxTokenLength: 4096,
 };
