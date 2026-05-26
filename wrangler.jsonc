@@ -17,7 +17,11 @@
 	"vars": {
 		// Cross-domain session: set CORS_ORIGINS to allow the session worker origin.
 		// e.g. "https://example-session.workers.dev" or "*" for dev
-		"CORS_ORIGINS": ""
+		"CORS_ORIGINS": "",
+		// Cookie domain for cross-subdomain session sharing.
+		// e.g. ".example.com" to share cookies across subdomains.
+		// Leave empty for single-host deployments (keeps __Host- cookie security).
+		"COOKIE_DOMAIN": ""
 	},
 	"rules": [
     {
