@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors';
 import { getCookie, setCookie } from 'hono/cookie';
 import { RouteList } from '@lionrockjs/router';
 import { Central, ControllerMixinDatabase } from '@lionrockjs/central';
@@ -16,6 +17,30 @@ views.default.forEach((value: any, key: string) => {
 });
 
 const app = new Hono();
+
+// Cross-domain session access — configure CORS_ORIGINS in .dev.vars or wrangler.jsonc vars:
+//   CORS_ORIGINS=*                             allow all origins (development only)
+//   CORS_ORIGINS=https://a.com,https://b.com  specific origins (credentials enabled)
+app.use('*', async (c, next) => {
+  const corsOrigins = (c.env as any)?.CORS_ORIGINS as string | undefined;
+  if (!corsOrigins?.trim()) return next();
+
+  const origins = corsOrigins.split(',').map((s: string) => s.trim()).filter(Boolean);
+  if (origins[0] === '*') {
+    return cors({
+      origin: '*',
+      allowHeaders: ['Authorization', 'Content-Type'],
+      exposeHeaders: ['x-access-token', 'x-refresh-token'],
+    })(c, next);
+  }
+
+  return cors({
+    origin: origins,
+    allowHeaders: ['Authorization', 'Content-Type'],
+    exposeHeaders: ['x-access-token', 'x-refresh-token'],
+    credentials: true,
+  })(c, next);
+});
 
 const requiredBindings = new Map([
   [
