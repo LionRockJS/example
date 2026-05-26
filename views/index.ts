@@ -2,7 +2,6 @@ import packageJson from '../package.json'
 
 export default new Map<string, any>([
   ['layout/default',              { package: packageJson.name, payload: await import('./layout/default.liquid') }],
-  ['layout/admin/default',        { package: packageJson.name, payload: await import('./layout/admin/default.liquid') }],
   ['sections/dev-footer',         { package: packageJson.name, payload: await import('./sections/dev-footer.liquid') }],
   ['sections/footnote',           { package: packageJson.name, payload: await import('./sections/footnote.liquid') }],
   ['sections/header',             { package: packageJson.name, payload: await import('./sections/header.liquid') }],
@@ -16,6 +15,4 @@ export default new Map<string, any>([
   ['snippets/logo',               { package: packageJson.name, payload: await import('./snippets/logo.liquid') }],
   ['snippets/head/tailwindcss',   { package: packageJson.name, payload: await import('./snippets/head/tailwindcss.liquid') }],
   ['templates/error',             { package: packageJson.name, payload: await import('./templates/error.liquid') }],
-  ['templates/admin/dialog',      { package: packageJson.name, payload: await import('./templates/admin/dialog.liquid') }],
-  ['templates/admin/edit',        { package: packageJson.name, payload: await import('./templates/admin/edit.liquid') }],
 ])

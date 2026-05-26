@@ -8,8 +8,4 @@ export default class ControllerHome extends Controller {
     const request = this.state.get(ControllerState.REQUEST);
     this.state.set(ControllerState.BODY, JSON.stringify(request.session));
   }
-
-  async action_page() {
-    return this.action_index();
-  }
 }
