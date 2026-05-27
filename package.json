@@ -36,7 +36,7 @@
     "@lionrockjs/mixin-orm": "^2.0.0",
     "@lionrockjs/mixin-form": "^2.0.0",
     "@lionrockjs/mixin-session": "^2.0.0",
-    "@lionrockjs/mod-cms-read": "^2.0.0",
+    "@lionrockjs/mod-cms-read": "^2.0.1",
     "@lionrockjs/mod-auth": "^2.0.0",
     "@lionrockjs/mod-admin": "^2.0.0",
     "@lionrockjs/mod-admin-cms": "^2.0.0",
