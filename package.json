@@ -31,6 +31,7 @@
     "@lionrockjs/adapter-view-liquidjs": "^2.0.0",
     "@lionrockjs/adapter-session-jwt": "^2.0.4",
     "@lionrockjs/adapter-database-cloudflare-d1": "^2.0.0",
+    "@lionrockjs/adapter-auth-password": "^2.0.0",
     "@lionrockjs/central": "^2.0.1",
     "@lionrockjs/mixin-orm": "^2.0.0",
     "@lionrockjs/mixin-form": "^2.0.0",
@@ -45,11 +46,11 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.16.9",
+    "@cloudflare/vitest-pool-workers": "^0.16.10",
     "@types/node": "^25.9.1",
     "dotenv": "^17.4.2",
     "typescript": "^6.0.3",
     "vitest": "~4.1.7",
-    "wrangler": "^4.94.0"
+    "wrangler": "^4.95.0"
   }
 }
